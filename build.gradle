@@ -1,0 +1,132 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'eclipse-wtp'
+
+// buildDir = 'target/gradle-build'
+
+sourceCompatibility = 1.8
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+    // and optionally...
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.spring.io/libs-release-remote" }
+}
+
+ext.libraryVersions = [
+    spring_webmvc: '4.2.4.RELEASE',
+    spring_tx: '4.2.4.RELEASE',
+    jackson_databind: '2.6.4',
+    hibernate_entitymanager: '5.0.6.Final',
+    hibernate_validator: '5.2.2.Final',
+    spring_data_jpa: '1.9.2.RELEASE',
+    jta: '1.1',
+    postgresql: '9.4.1207.jre7',
+    log4j_api: '2.5',
+    log4j_core: '2.5',
+    junit: '4.+',
+    arquillian_junit_container: '1.1.10.Final',
+    arquillian_tomcat_embedded: '1.0.0.CR7',
+    arquillian_transaction_spring: '1.1.0.Alpha1',
+    arquillian_transaction_api: '1.0.3.Final'
+]
+
+dependencies {
+
+	// Servlet
+	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+	
+	// MVC/Rest
+	compile 'org.springframework:spring-webmvc:4.2.4.RELEASE'
+	compile 'org.springframework:spring-tx:4.2.4.RELEASE'
+	
+	// Rest
+	// compile 'org.springframework.data:spring-data-rest-webmvc:2.4.2.RELEASE'
+	
+	//JSON
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.6.4'
+	
+	// JPA
+	compile 'org.hibernate:hibernate-entitymanager:5.0.6.Final'
+	compile 'org.hibernate:hibernate-validator:5.2.2.Final'
+	compile 'org.springframework.data:spring-data-jpa:1.9.2.RELEASE'
+	
+	//JTA
+	compile 'javax.transaction:jta:1.1'
+	
+	// Databade JDBC Driver
+	providedCompile 'org.postgresql:postgresql:9.4.1207.jre7'
+    
+    // Logger
+    //compile 'org.apache.logging.log4j:log4j-api:2.5'
+  	//compile 'org.apache.logging.log4j:log4j-core:2.5'
+  	//compile 'org.slf4j:slf4j-api:1.7.13'
+  	
+  	// Data Structure 
+  	providedCompile 'org.projectlombok:lombok:1.16.8'
+    
+    // Testing
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.10.Final'
+    
+    // Tomcat 7
+    //testCompile 'org.jboss.arquillian.container:arquillian-tomcat-embedded-7:1.0.0.CR7'
+    //testCompile 'org.apache.tomcat.embed:tomcat-embed-core:7.0.67'
+    //testCompile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.67'
+    //testCompile 'org.apache.tomcat.embed:tomcat-embed-jasper:7.0.67'
+    //testCompile 'org.apache.tomcat.embed:tomcat-embed-logging-log4j:7.0.67'
+    //testCompile 'org.apache.tomcat:tomcat-dbcp:7.0.67'
+    
+    // Tomcat 8
+    testCompile 'org.jboss.arquillian.container:arquillian-tomcat-embedded-8:1.0.0.CR7'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-core:8.0.30'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.30'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-jasper:8.0.30'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-logging-log4j:8.0.30'
+    testCompile 'org.apache.tomcat:tomcat-dbcp:8.0.30'
+    
+    testCompile 'org.jboss.arquillian.extension:arquillian-transaction-spring:1.1.0.Alpha1'
+	testCompile 'org.jboss.arquillian.extension:arquillian-transaction-api:1.0.3.Final'
+	testCompile 'org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.10.Final'
+	testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api:2.2.0'
+	testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.0'
+	testCompile 'org.gradle:gradle-tooling-api:2.9'
+	testCompile 'org.slf4j:slf4j-api:1.7.13'
+}
+/*
+configurations {
+   compileOnly
+}
+
+sourceSets {
+   main {
+      compileClasspath = configurations.compile + configurations.compileOnly
+   }
+   test {
+      compileClasspath = compileClasspath + configurations.compileOnly
+      resources {
+         srcDir 'src/test/resources'
+      }
+   }
+}
+*/
+test {
+    systemProperties 'property': 'value'
+    
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
