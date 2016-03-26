@@ -17,12 +17,17 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
 	@NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name"),
 })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Company extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -48,50 +53,4 @@ public class Company extends Model {
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
 //	@JoinColumn(name="company_id")
 	private List<Shop> shops;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
-	public List<Shop> getShops() {
-		return shops;
-	}
-
-	public void setShops(List<Shop> shops) {
-		this.shops = shops;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Company@%d [id=%d, name=%s, address=%s]", hashCode(), id, name, address);
-	}
-
 }

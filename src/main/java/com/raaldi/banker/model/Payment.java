@@ -11,9 +11,14 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Payment.findAll", query = "SELECT c FROM Payment c"), })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Payment extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -30,34 +35,4 @@ public class Payment extends Model {
 	@NotNull
 	@Column(name = "active")
 	private boolean active = true;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("Payment@%d [id=%d, type=%s, active=%s]", hashCode(), id, type, active);
-	}
-
 }

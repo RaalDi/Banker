@@ -25,10 +25,15 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "person")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"), })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class User extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -96,113 +101,5 @@ public class User extends Model {
 	// @PrimaryKeyJoinColumn
 	@JoinColumn(name = "shop_id", nullable = false)
 	private Shop shop;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Date getLoggedinDate() {
-		return loggedinDate;
-	}
-
-	public void setLoggedinDate(Date loggedinDate) {
-		this.loggedinDate = loggedinDate;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
-	public Shop getShop() {
-		return shop;
-	}
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public Set<RolePermission> getRolePermissions() {
-		return rolePermissions;
-	}
-
-	public void setRolePermissions(Set<RolePermission> rolePermissions) {
-		this.rolePermissions = rolePermissions;
-	}
-
-	// @PreUpdate
-	// @PrePersist
-	public void onLoggedIn() {
-		this.setLoggedinDate(new Date());
-	}
-
-	@Override
-	public String toString() {
-		return String.format("User@%d [id=%d, firstName=%s, lastName=%s, userName=%s, phoneNumber=%s, active=%s, company=%s, shop=%s]",
-				hashCode(), id, firstName, lastName, userName, phoneNumber, active, company, shop);
-	}
 
 }

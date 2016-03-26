@@ -4,7 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Embeddable
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class PlayOrderLineNumber {
 /*	
 	@NotNull
@@ -24,11 +29,4 @@ public class PlayOrderLineNumber {
 		this.playOrder = playOrder;
 	}
 */
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
 }

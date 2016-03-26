@@ -5,8 +5,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 @Embeddable
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class PlayOrderLineLottery {
 	
 //	@NotNull
@@ -27,11 +32,5 @@ public class PlayOrderLineLottery {
 		this.playOrder = playOrder;
 	}
 */
-	public Lottery getLottery() {
-		return lottery;
-	}
-
-	public void setLottery(Lottery lottery) {
-		this.lottery = lottery;
-	}
+	
 }

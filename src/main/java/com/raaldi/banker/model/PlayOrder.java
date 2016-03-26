@@ -21,10 +21,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "play_order")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "PlayOrder.findAll", query = "SELECT c FROM PlayOrder c"), })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class PlayOrder extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -64,72 +69,4 @@ public class PlayOrder extends Model {
 	@OneToMany(mappedBy = "playOrder", cascade = CascadeType.ALL)
 	private List<PlayOrderLine> playOrderLines = new ArrayList<PlayOrderLine>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
-	}
-
-	public Shop getShop() {
-		return shop;
-	}
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
-	}
-
-	public CashRegister getCashRegister() {
-		return cashRegister;
-	}
-
-	public void setCashRegister(CashRegister cashRegister) {
-		this.cashRegister = cashRegister;
-	}
-
-	public boolean isWinner() {
-		return winner;
-	}
-
-	public void setWinner(boolean winner) {
-		this.winner = winner;
-	}
-
-	public boolean isCanceled() {
-		return canceled;
-	}
-
-	public void setCanceled(boolean canceled) {
-		this.canceled = canceled;
-	}
-
-	public List<PlayOrderLine> getPlayOrderLines() {
-		return playOrderLines;
-	}
-
-	public void setPlayOrderLines(List<PlayOrderLine> playOrderLines) {
-		this.playOrderLines = playOrderLines;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("PlayOrder@%d [id=%d, shop=%s, amount=%f, session=%s, winner=%s, canceled=%s]", hashCode(), id, shop, amount, cashRegister, winner, canceled);
-	}
 }

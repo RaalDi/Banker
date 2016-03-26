@@ -11,9 +11,14 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Permission.findAll", query = "SELECT c FROM Permission c"), })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Permission extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -26,26 +31,5 @@ public class Permission extends Model {
 	@NotNull
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
-	@Override
-	public String toString() {
-		return String.format("Permission@%d [id=%d, name=%s, address=%s]", hashCode(), id, name);
-	}
-
 }

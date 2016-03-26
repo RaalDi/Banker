@@ -14,11 +14,16 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c"),
 })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Address extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -53,49 +58,4 @@ public class Address extends Model {
 	// Bidirectional Mapping
 	// @OneToOne(mappedBy = "address")
 	// private Member member;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getZipcode() {
-		return zipcode;
-	}
-
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("Address@%d [id=%d, street=%s, city=%s, state=%s, zipcode=%s]", hashCode(), id, street, city, state, zipcode);
-	}
 }

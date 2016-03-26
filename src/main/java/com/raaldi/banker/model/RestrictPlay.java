@@ -27,12 +27,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "restrict_play")
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"),
 })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class RestrictPlay extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -71,66 +76,5 @@ public class RestrictPlay extends Model {
 	@NotNull
 	@Column(name = "active")
 	private boolean active = true;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Play getPlay() {
-		return play;
-	}
-
-	public void setPlay(Play play) {
-		this.play = play;
-	}
-
-	public Set<RestrictPlayLottery> getLotteries() {
-		return lotteries;
-	}
-
-	public void setLotteries(Set<RestrictPlayLottery> lotteries) {
-		this.lotteries = lotteries;
-	}
-
-	public List<RestrictPlayNumber> getNumbers() {
-		return numbers;
-	}
-
-	public void setNumbers(List<RestrictPlayNumber> numbers) {
-		this.numbers = numbers;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("RestricPlay@%d [id=%d, play=%s, lotteries=%s, numbers=%s, startDate=%s, endDate=%s]", hashCode(), id, play, lotteries, numbers, startDate, endDate);
-	}
 
 }

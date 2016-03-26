@@ -70,7 +70,7 @@ dependencies {
   	//compile 'org.apache.logging.log4j:log4j-core:2.5'
   	//compile 'org.slf4j:slf4j-api:1.7.13'
   	
-  	// Data Structure 
+  	// Java Agent
   	providedCompile 'org.projectlombok:lombok:1.16.8'
     
     // Testing

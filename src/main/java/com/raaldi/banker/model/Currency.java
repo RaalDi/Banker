@@ -13,11 +13,16 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"),
 })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Currency extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -30,26 +35,4 @@ public class Currency extends Model {
 	@NotNull
 	@Column(name = "value")
 	private BigDecimal value;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public BigDecimal getValue() {
-		return value;
-	}
-
-	public void setValue(BigDecimal value) {
-		this.value = value;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("Currency@%d [id=%d, value=%f]", hashCode(), id, value);
-	}
-
 }

@@ -12,8 +12,13 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @SuppressWarnings("serial")
 @MappedSuperclass
+@Data
+@EqualsAndHashCode(callSuper=false)
 public abstract class Model implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -34,19 +39,7 @@ public abstract class Model implements Serializable {
 	@Version
 	@Column(name = "optlock", nullable = false)
     private Long version = 0L;
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-
-	public Date getUpdated() {
-		return updated;
-	}
-
+	
 	public void setUpdated(Date updated) {
 		
 		if(updatedUid == null){
@@ -54,30 +47,6 @@ public abstract class Model implements Serializable {
 		}
 		
 		this.updated = updated;
-	}
-
-	public Long getCreatedUid() {
-		return createdUid;
-	}
-
-	public void setCreatedUid(Long createdUid) {
-		this.createdUid = createdUid;
-	}
-
-	public Long getUpdatedUid() {
-		return updatedUid;
-	}
-
-	public void setUpdatedUid(Long updatedUid) {
-		this.updatedUid = updatedUid;
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
 	}
 
 	@PrePersist

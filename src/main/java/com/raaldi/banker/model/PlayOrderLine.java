@@ -25,10 +25,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "play_order_line")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"), })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class PlayOrderLine extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -70,75 +75,4 @@ public class PlayOrderLine extends Model {
 	@NotNull
 	@Column(name = "canceled")
 	private boolean canceled = false;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public PlayOrder getPlayOrder() {
-		return playOrder;
-	}
-
-	public void setPlayOrder(PlayOrder playOrder) {
-		this.playOrder = playOrder;
-	}
-
-	public Play getPlay() {
-		return play;
-	}
-
-	public void setPlay(Play play) {
-		this.play = play;
-	}
-
-	public Set<PlayOrderLineLottery> getLotteries() {
-		return lotteries;
-	}
-
-	public void setLotteries(Set<PlayOrderLineLottery> lotteries) {
-		this.lotteries = lotteries;
-	}
-
-	public List<PlayOrderLineNumber> getNumbers() {
-		return numbers;
-	}
-
-	public void setNumbers(List<PlayOrderLineNumber> numbers) {
-		this.numbers = numbers;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public boolean isWinner() {
-		return winner;
-	}
-
-	public void setWinner(boolean winner) {
-		this.winner = winner;
-	}
-
-	public boolean isCanceled() {
-		return canceled;
-	}
-
-	public void setCanceled(boolean canceled) {
-		this.canceled = canceled;
-	}
-
-	@Override
-	public String toString() {
-		return String.format(
-				"PlayOrderLine@%d [id=%d, playOder=%s, play=%s, lotteries=%s, numbers=%s, amount=%f, winner=%s, canceled=%d]",
-				hashCode(), id, playOrder, play, lotteries, numbers, amount, winner, canceled);
-	}
 }

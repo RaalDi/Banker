@@ -22,9 +22,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.raaldi.banker.util.EnumSessionState;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Session.findAll", query = "SELECT c FROM Session c"), })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Session extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -59,34 +64,6 @@ public class Session extends Model {
 	@Column(name = "ended", insertable = false, updatable = true)
 	private Date ended;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-/*
-	public CashRegister getCashRegister() {
-		return cashRegister;
-	}
-
-	public void setCashRegister(CashRegister cashRegister) {
-		this.cashRegister = cashRegister;
-	}
-*/
-	public EnumSessionState getState() {
-		return state;
-	}
-
 	public void setState(EnumSessionState state) {
 		
 		switch (state) {
@@ -106,31 +83,9 @@ public class Session extends Model {
 		
 		this.state = state;
 	}
-
-	public Date getStarted() {
-		return started;
-	}
-
-	public void setStarted(Date started) {
-		this.started = started;
-	}
-
-	public Date getEnded() {
-		return ended;
-	}
-
-	public void setEnded(Date ended) {
-		this.ended = ended;
-	}
 	
 	@PrePersist
 	public void onPersist(){
 		this.setState(EnumSessionState.STARTING);
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Session@%d [id=%d, shop=%s, state=%s, started=%s, ended=%s]", hashCode(), id, user, state,
-				started, ended);
 	}
 }

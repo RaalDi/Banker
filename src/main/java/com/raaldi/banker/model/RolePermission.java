@@ -14,12 +14,17 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "role_permission", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id", "permission_id" }) )
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "RolePermission.findAll", query = "SELECT c FROM RolePermission c"),
 })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class RolePermission extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -44,41 +49,4 @@ public class RolePermission extends Model {
 	@JoinColumn(name = "permission_id", nullable = false)
 	private Permission permission;
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	public Permission getPermission() {
-		return permission;
-	}
-
-	public void setPermission(Permission permission) {
-		this.permission = permission;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("RolePermission@%d [id=%d, user=%s, role=%s, permission=%s]", hashCode(), id, user, role, permission);
-	}
-
 }

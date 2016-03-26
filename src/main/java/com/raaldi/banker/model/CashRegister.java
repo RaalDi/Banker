@@ -24,13 +24,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.raaldi.banker.util.CashRegisterState;
 
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "cash_register")
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "CashRegister.findAll", query = "SELECT c FROM CashRegister c"), })
-@ToString
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class CashRegister extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -62,26 +64,6 @@ public class CashRegister extends Model {
 	@Column(name = "closed_amount", insertable = false, updatable = true)
 	private BigDecimal closedAmount;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Session getSession() {
-		return session;
-	}
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
-
-	public CashRegisterState getState() {
-		return state;
-	}
-
 	public void setState(CashRegisterState state) {
 		
 		switch (state) {
@@ -102,10 +84,6 @@ public class CashRegister extends Model {
 		this.state = state;
 	}
 
-	public Date getOpened() {
-		return opened;
-	}
-
 	public void setOpened(Date opened) {
 
 		if (openedAmount == null) {
@@ -114,11 +92,7 @@ public class CashRegister extends Model {
 
 		this.opened = opened;
 	}
-
-	public Date getClosed() {
-		return closed;
-	}
-
+	
 	public void setClosed(Date closed) {
 
 		if (closedAmount == null) {
@@ -128,31 +102,8 @@ public class CashRegister extends Model {
 		this.closed = closed;
 	}
 
-	public BigDecimal getOpenedAmount() {
-		return openedAmount;
-	}
-
-	public void setOpenedAmount(BigDecimal openedAmount) {
-		this.openedAmount = openedAmount;
-	}
-
-	public BigDecimal getClosedAmount() {
-		return closedAmount;
-	}
-
-	public void setClosedAmount(BigDecimal closedAmount) {
-		this.closedAmount = closedAmount;
-	}
-
 	@PrePersist
 	public void onPersist() {
 		this.setState(CashRegisterState.OPENING);
-	}
-
-	@Override
-	public String toString() {
-		return String.format(
-				"CashRegister@%d [id=%d, state=%s, opened=%s, openedAmount=%f, closed=%s, closedAmount=%f]", hashCode(),
-				id, state, opened, openedAmount, closed, closedAmount);
 	}
 }

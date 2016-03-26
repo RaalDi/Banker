@@ -12,12 +12,17 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "session_state")
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "SessionState.findAll", query = "SELECT c FROM SessionState c"),
 })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class SessionState extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -30,21 +35,5 @@ public class SessionState extends Model {
 	@NotNull
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

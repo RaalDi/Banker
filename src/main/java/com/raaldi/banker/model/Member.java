@@ -30,11 +30,16 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "Member.findAll", query = "SELECT c FROM Member c"),
 })
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Member extends Model {
 
 	private static final long serialVersionUID = 1L;
@@ -55,33 +60,4 @@ public class Member extends Model {
 	@Digits(fraction = 0, integer = 12, message = "Not valid")
 	@Column(name = "phone_number")
 	private String phoneNumber;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return fullName;
-	}
-
-	public void setName(String name) {
-		this.fullName = name;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("Member@%d [id=%d, fullName=%s, phoneNumber=%s]", hashCode(), id, fullName, phoneNumber);
-	}
 }
