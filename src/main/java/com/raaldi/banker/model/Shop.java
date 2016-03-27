@@ -1,5 +1,8 @@
 package com.raaldi.banker.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,45 +21,40 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 @Entity
 @XmlRootElement
-@NamedQueries({ 
-	@NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c"),
-})
+@NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c"), })
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Shop extends Model {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
-	private Long id;
+    @Id
+    @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
+    private Long id;
 
-	@NotNull
-	@Column(name = "name", nullable = false, unique = true)
-	private String name;
-	
-	@NotNull
-	@Column(name = "active")
-	private boolean active = true;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
-	private Address address;
+    @NotNull
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 
-	@NotNull
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "company_id", nullable = false)
-	private Company company;
-	
-	@OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-	private List<User> users;
-	
-	@OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-	private List<PlayOrder> playOrders;
+    @NotNull
+    @Column(name = "active")
+    private boolean active = true;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<User> users;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<PlayOrder> playOrders;
 }

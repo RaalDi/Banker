@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Role;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Role;
+import javax.persistence.EntityManager;
 
 @Repository("roleDAO")
-public class RoleDAO extends ModelDAO<Role, Long> {
+public class RoleDAO extends ModelDao<Role, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public RoleDAO(Class<Role> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public RoleDAO(Class<Role> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

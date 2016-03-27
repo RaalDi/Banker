@@ -4,21 +4,21 @@ import java.util.List;
 
 public interface ModelService<T> {
 
-	public void save(T model);
+    public void save(T model);
 
-	// public void update(T model);
-	// public void delete(Long id);
-	// public void delete(T model);
-	// public void deleteAll();
+    // public void update(T model);
+    // public void delete(Long id);
+    // public void delete(T model);
+    // public void deleteAll();
 
-	public T findOne(Long id);
+    public T findOne(Long id);
 
-	// public T find(T model);
+    // public T find(T model);
 
-	public List<T> findAll();
+    public List<T> findAll();
 
-	public boolean exists(T model);
+    public boolean exists(T model);
 
-	public boolean exists(Long id);
+    public boolean exists(Long id);
 
 }

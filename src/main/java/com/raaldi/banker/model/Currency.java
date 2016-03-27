@@ -1,5 +1,8 @@
 package com.raaldi.banker.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -13,26 +16,21 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 @Entity
 @XmlRootElement
-@NamedQueries({ 
-	@NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"),
-})
+@NamedQueries({ @NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"), })
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Currency extends Model {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency-seq-gen")
-	private Long id;
+    @Id
+    @SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency-seq-gen")
+    private Long id;
 
-	@NotNull
-	@Column(name = "value")
-	private BigDecimal value;
+    @NotNull
+    @Column(name = "value")
+    private BigDecimal value;
 }

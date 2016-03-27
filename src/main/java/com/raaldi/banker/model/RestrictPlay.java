@@ -1,5 +1,10 @@
 package com.raaldi.banker.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,56 +30,52 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 @Entity
 @Table(name = "restrict_play")
 @XmlRootElement
-@NamedQueries({ 
-	@NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"),
-})
+@NamedQueries({
+        @NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"), })
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class RestrictPlay extends Model {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name = "restrict-play-seq-gen", sequenceName = "restrict_play_seq_id", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restrict-play-seq-gen")
-	private Long id;
+    @Id
+    @SequenceGenerator(name = "restrict-play-seq-gen", sequenceName = "restrict_play_seq_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restrict-play-seq-gen")
+    private Long id;
 
-	@NotNull
-	@OneToOne
-	@JoinColumn(name = "play_id", insertable = true, updatable = false)
-	private Play play;
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "play_id", insertable = true, updatable = false)
+    private Play play;
 
-	@NotEmpty
-	@ElementCollection
-	@CollectionTable(name = "restrict_play_lottery", joinColumns = { @JoinColumn(name = "restrict_play_id") })
-	private Set<RestrictPlayLottery> lotteries = new HashSet<RestrictPlayLottery>();
+    @NotEmpty
+    @ElementCollection
+    @CollectionTable(name = "restrict_play_lottery", joinColumns = {
+            @JoinColumn(name = "restrict_play_id") })
+    private Set<RestrictPlayLottery> lotteries = new HashSet<RestrictPlayLottery>();
 
-	@NotEmpty
-	@ElementCollection
-	@CollectionTable(name = "restrict_play_number", joinColumns = { @JoinColumn(name = "restrict_play_id") }, uniqueConstraints = @UniqueConstraint(columnNames = {
-			"restrict_play_id", "restricted_number" }) )
-	private List<RestrictPlayNumber> numbers = new ArrayList<RestrictPlayNumber>();
+    @NotEmpty
+    @ElementCollection
+    @CollectionTable(name = "restrict_play_number", joinColumns = {
+            @JoinColumn(name = "restrict_play_id") }, uniqueConstraints = @UniqueConstraint(columnNames = {
+                    "restrict_play_id", "restricted_number" }))
+    private List<RestrictPlayNumber> numbers = new ArrayList<RestrictPlayNumber>();
 
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "start_date", nullable = false)
-	private Date startDate;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_date", nullable = false)
+    private Date startDate;
 
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "end_date", nullable = false)
-	private Date endDate;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "end_date", nullable = false)
+    private Date endDate;
 
-	@NotNull
-	@Column(name = "active")
-	private boolean active = true;
+    @NotNull
+    @Column(name = "active")
+    private boolean active = true;
 
 }

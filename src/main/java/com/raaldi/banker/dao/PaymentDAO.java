@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Payment;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Payment;
+import javax.persistence.EntityManager;
 
 @Repository("paymentDAO")
-public class PaymentDAO extends ModelDAO<Payment, Long> {
+public class PaymentDAO extends ModelDao<Payment, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public PaymentDAO(Class<Payment> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public PaymentDAO(Class<Payment> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

@@ -2,6 +2,9 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'jetty'
 apply plugin: 'eclipse-wtp'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
 
 // buildDir = 'target/gradle-build'
 
@@ -101,6 +104,13 @@ dependencies {
 	testCompile 'org.gradle:gradle-tooling-api:2.9'
 	testCompile 'org.slf4j:slf4j-api:1.7.13'
 }
+
+ext.checkstyleConfigDir = "$rootDir/config/checkstyle"
+
+checkstyle {
+    configProperties.checkstyleConfigDir = checkstyleConfigDir
+}
+
 /*
 configurations {
    compileOnly

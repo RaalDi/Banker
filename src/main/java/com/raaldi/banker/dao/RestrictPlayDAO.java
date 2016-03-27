@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.RestrictPlay;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.RestrictPlay;
+import javax.persistence.EntityManager;
 
 @Repository("restrictPlayDAO")
-public class RestrictPlayDAO extends ModelDAO<RestrictPlay, Long> {
+public class RestrictPlayDAO extends ModelDao<RestrictPlay, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public RestrictPlayDAO(Class<RestrictPlay> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public RestrictPlayDAO(Class<RestrictPlay> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

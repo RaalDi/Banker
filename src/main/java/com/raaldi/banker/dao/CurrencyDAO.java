@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Currency;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Currency;
+import javax.persistence.EntityManager;
 
 @Repository("currencyDAO")
-public class CurrencyDAO extends ModelDAO<Currency, Long> {
+public class CurrencyDAO extends ModelDao<Currency, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CurrencyDAO(Class<Currency> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public CurrencyDAO(Class<Currency> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

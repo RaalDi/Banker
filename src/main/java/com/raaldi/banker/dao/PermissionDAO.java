@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Permission;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Permission;
+import javax.persistence.EntityManager;
 
 @Repository("permissionDAO")
-public class PermissionDAO extends ModelDAO<Permission, Long> {
+public class PermissionDAO extends ModelDao<Permission, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public PermissionDAO(Class<Permission> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public PermissionDAO(final Class<Permission> domainClass, final EntityManager em) {
+        super(domainClass, em);
+    }
 }

@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Lottery;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Lottery;
+import javax.persistence.EntityManager;
 
 @Repository("lotteryDAO")
-public class LotteryDAO extends ModelDAO<Lottery, Long> {
+public class LotteryDAO extends ModelDao<Lottery, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LotteryDAO(Class<Lottery> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public LotteryDAO(Class<Lottery> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

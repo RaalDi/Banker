@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Play;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Play;
+import javax.persistence.EntityManager;
 
 @Repository("playDAO")
-public class PlayDAO extends ModelDAO<Play, Long> {
+public class PlayDAO extends ModelDao<Play, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public PlayDAO(Class<Play> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public PlayDAO(Class<Play> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Shop;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Shop;
+import javax.persistence.EntityManager;
 
 @Repository("shopDAO")
-public class ShopDAO extends ModelDAO<Shop, Long> {
+public class ShopDAO extends ModelDao<Shop, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ShopDAO(Class<Shop> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public ShopDAO(Class<Shop> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

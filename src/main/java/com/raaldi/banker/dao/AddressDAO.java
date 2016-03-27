@@ -1,17 +1,17 @@
 package com.raaldi.banker.dao;
 
-import javax.persistence.EntityManager;
+import com.raaldi.banker.model.Address;
 
 import org.springframework.stereotype.Repository;
 
-import com.raaldi.banker.model.Address;
+import javax.persistence.EntityManager;
 
 @Repository("addressDAO")
-public class AddressDAO extends ModelDAO<Address, Long> {
+public class AddressDAO extends ModelDao<Address, Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AddressDAO(Class<Address> domainClass, EntityManager em) {
-		super(domainClass, em);
-	}
+    public AddressDAO(Class<Address> domainClass, EntityManager em) {
+        super(domainClass, em);
+    }
 }

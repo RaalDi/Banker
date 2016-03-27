@@ -1,5 +1,10 @@
 package com.raaldi.banker.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,56 +28,52 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 @Entity
 @Table(name = "play_order_line")
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"), })
+@NamedQueries({
+        @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"), })
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class PlayOrderLine extends Model {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@SequenceGenerator(name = "play-order-line-seq-gen", sequenceName = "play_order_line_seq_id", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-order-line-seq-gen")
-	private Long id;
+    @Id
+    @SequenceGenerator(name = "play-order-line-seq-gen", sequenceName = "play_order_line_seq_id", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-order-line-seq-gen")
+    private Long id;
 
-	@NotNull
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "play_order_id", nullable = false)
-	private PlayOrder playOrder;
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "play_order_id", nullable = false)
+    private PlayOrder playOrder;
 
-	@NotNull
-	@OneToOne(optional = false)
-	@JoinColumn(name = "play_id", nullable = false, insertable = true, updatable = false)
-	private Play play;
+    @NotNull
+    @OneToOne(optional = false)
+    @JoinColumn(name = "play_id", nullable = false, insertable = true, updatable = false)
+    private Play play;
 
-	@NotEmpty
-	@ElementCollection
-	@CollectionTable(name = "play_order_line_lottery", joinColumns = { @JoinColumn(name = "play_order_line_id") })
-	private Set<PlayOrderLineLottery> lotteries = new HashSet<PlayOrderLineLottery>();
+    @NotEmpty
+    @ElementCollection
+    @CollectionTable(name = "play_order_line_lottery", joinColumns = {
+            @JoinColumn(name = "play_order_line_id") })
+    private Set<PlayOrderLineLottery> lotteries = new HashSet<PlayOrderLineLottery>();
 
-	@NotEmpty
-	@ElementCollection
-	@CollectionTable(name = "play_order_line_number", joinColumns = {
-			@JoinColumn(name = "play_order_line_id") }/*, uniqueConstraints = @UniqueConstraint(columnNames = {
-					"play_order_line_id", "played_number" })*/ )
-	private List<PlayOrderLineNumber> numbers = new ArrayList<PlayOrderLineNumber>();
+    @NotEmpty
+    @ElementCollection
+    @CollectionTable(name = "play_order_line_number", joinColumns = {
+            @JoinColumn(name = "play_order_line_id") })
+    private List<PlayOrderLineNumber> numbers = new ArrayList<PlayOrderLineNumber>();
 
-	@NotNull
-	@Column(name = "amount", insertable = true, updatable = false)
-	private BigDecimal amount;
+    @NotNull
+    @Column(name = "amount", insertable = true, updatable = false)
+    private BigDecimal amount;
 
-	@Column(name = "winner", insertable = false, updatable = true)
-	private boolean winner;
+    @Column(name = "winner", insertable = false, updatable = true)
+    private boolean winner;
 
-	@NotNull
-	@Column(name = "canceled")
-	private boolean canceled = false;
+    @NotNull
+    @Column(name = "canceled")
+    private boolean canceled;
 }
