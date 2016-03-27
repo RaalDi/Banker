@@ -87,21 +87,29 @@ public class CashRegister extends Model {
     public void setOpened(final Date opened) {
 
         if (openedAmount == null) {
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     "CashRegister.openedAmount may not be null when opening the cash register");
         }
 
-        this.opened = opened;
+        this.opened = opened != null ? new Date(opened.getTime()) : null;
+    }
+
+    public Date getOpened() {
+        return opened != null ? new Date(opened.getTime()) : null;
     }
 
     public void setClosed(final Date closed) {
 
-        if (closedAmount == null) {
-            throw new NullPointerException(
+        if (this.closedAmount == null) {
+            throw new IllegalArgumentException(
                     "CashRegister.closedAmount may not be null when closing the cash register");
         }
 
-        this.closed = closed;
+        this.closed = closed != null ? new Date(closed.getTime()) : null;
+    }
+
+    public Date getClosed() {
+        return closed != null ? new Date(closed.getTime()) : null;
     }
 
     @Override

@@ -40,13 +40,26 @@ public abstract class Model implements Serializable {
     @Column(name = "optlock", nullable = false)
     private Long version = 0L;
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(final Date updated) {
 
         if (updatedUid == null) {
-            throw new NullPointerException("updatedUid may not be nulll when updating the Entity");
+            throw new IllegalArgumentException(
+                    "updatedUid may not be nulll when updating the Entity");
         }
 
-        this.updated = updated;
+        this.updated = updated != null ? new Date(updated.getTime()) : null;
+    }
+
+    public Date getUpdated() {
+        return updated != null ? new Date(updated.getTime()) : null;
+    }
+
+    public void setCreated(final Date created) {
+        this.created = created != null ? new Date(created.getTime()) : null;
+    }
+
+    public Date getCreated() {
+        return created != null ? new Date(created.getTime()) : null;
     }
 
     @PrePersist

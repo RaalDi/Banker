@@ -102,4 +102,11 @@ public class User extends Model {
     @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
+    public void setLoggedinDate(final Date loggedinDate) {
+        this.loggedinDate = loggedinDate != null ? new Date(loggedinDate.getTime()) : null;
+    }
+
+    public Date getLoggedinDate() {
+        return loggedinDate != null ? new Date(loggedinDate.getTime()) : null;
+    }
 }

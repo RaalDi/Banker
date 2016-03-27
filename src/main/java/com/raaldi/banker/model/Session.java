@@ -43,18 +43,7 @@ public class Session extends Model {
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false, insertable = true, updatable = false)
     private User user;
-    /*
-     * @NotNull
-     *
-     * @OneToOne(cascade = CascadeType.ALL)
-     *
-     * @JoinColumn(name = "cash_register_id", nullable = false, insertable =
-     * true, updatable = false) private CashRegister cashRegister;
-     */
-    // @NotNull
-    // @OneToOne(cascade = CascadeType.ALL)
-    // @JoinColumn(name = "state_id", nullable = false, insertable = true,
-    // updatable = true)
+
     @Enumerated(EnumType.STRING)
     private EnumSessionState state;
 
@@ -84,6 +73,22 @@ public class Session extends Model {
         }
 
         this.state = state;
+    }
+
+    public void setStarted(final Date started) {
+        this.started = started != null ? new Date(started.getTime()) : null;
+    }
+
+    public Date getStarted() {
+        return started != null ? new Date(started.getTime()) : null;
+    }
+
+    public void setEnded(final Date ended) {
+        this.ended = ended != null ? new Date(ended.getTime()) : null;
+    }
+
+    public Date getEnded() {
+        return ended != null ? new Date(ended.getTime()) : null;
     }
 
     @Override

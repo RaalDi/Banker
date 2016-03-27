@@ -78,4 +78,20 @@ public class RestrictPlay extends Model {
     @Column(name = "active")
     private boolean active = true;
 
+    public void setStartDate(final Date startDate) {
+        this.startDate = startDate != null ? new Date(startDate.getTime()) : null;
+    }
+
+    public Date getStartDate() {
+        return startDate != null ? new Date(startDate.getTime()) : null;
+    }
+
+    public void setEndDate(final Date endDate) {
+        this.endDate = endDate != null ? new Date(endDate.getTime()) : null;
+    }
+
+    public Date getEndDate() {
+        return endDate != null ? new Date(endDate.getTime()) : null;
+    }
+
 }
