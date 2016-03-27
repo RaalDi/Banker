@@ -25,6 +25,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -44,37 +46,24 @@ import javax.persistence.PersistenceContext;
 @SpringWebConfiguration(servletName = "dispatcher")
 public class AllModelsPersistenceTest {
 
-    private static final String[] COMPANY_NAMES = { "Rivera Brother" }; // ,
-                                                                        // "Amazon",
-                                                                        // "IBM"
-                                                                        // };
-    private static final String[] COMPANY_SHOPS = { "BANCA 1", "BANCA 2", "BANCA 3" };
-    private static String[] TEST_COMPANY_SHOPS = { "", "", "" };
-    private static final String[] STREET_NAMES = { "15350 Amberly Dr. Unit 1014" };// ,
-                                                                                   // "15350
-                                                                                   // Amberly
-                                                                                   // Dr.
-                                                                                   // Unit
-                                                                                   // 1015",
-                                                                                   // "15350
-                                                                                   // Amberly
-                                                                                   // Dr.
-                                                                                   // Unit
-                                                                                   // 1016"
-                                                                                   // };
-    private static final String[] USER_FIRST_NAMES = { "Rafael", "Alexander", "Candy" };
-    private static final String[] USER_LAST_NAMES = { "Rivera", "Diaz", "Martinez" };
-    private static final String[] USER_NAMES = { "riveralo", "diazotor", "martinezito" };
-    private static String[] TEST_USER_NAMES = { "", "", "" };
-    private static final String[] USER_PHONE_NUMBERS = { "8092886232", "3058096232", "7275155317" };
-    private static final String[] USER_PASSWORDS = { "12345Qwerty", "Alexander09876",
-            "asdfghj123567" };
-    private static final String[] USER_ROLES = { "Administrator", "Manager", "User" };
-    private static final String[] USER_PERMISSIONS = { "Edit", "View", "None" };
-    private static final String[] LOTTERIES = { "Quiniella Pale", "Nacional", "Loteca", "Leisa" };
-    private static final String[] PLAYS = { "Quiniella", "Pale", "Super Pale", "Tripleta" };
-    private static final boolean[] ACTIVES = { true, false, true };
+    private static final String[] COMPANY_NAMES = {"Rivera Brother"};
+    private static final String[] COMPANY_SHOPS = {"BANCA 1", "BANCA 2", "BANCA 3"};
+    private static String[] testCompanyShops = {"", "", ""};
+    private static final String[] STREET_NAMES = {"15350 Amberly Dr. Unit 1014"};
+    private static final String[] USER_FIRST_NAMES = {"Rafael", "Alexander", "Candy"};
+    private static final String[] USER_LAST_NAMES = {"Rivera", "Diaz", "Martinez"};
+    private static final String[] USER_NAMES = {"riveralo", "diazotor", "martinezito"};
+    private static String[] testUserNames = {"", "", ""};
+    private static final String[] USER_PHONE_NUMBERS = {"8092886232", "3058096232", "7275155317"};
+    private static final String[] USER_PASSWORDS = {"12345Qwerty", "Alexander09876",
+            "asdfghj123567"};
+    private static final String[] USER_ROLES = {"Administrator", "Manager", "User"};
+    private static final String[] USER_PERMISSIONS = {"Edit", "View", "None"};
+    private static final String[] LOTTERIES = {"Quiniella Pale", "Nacional", "Loteca", "Leisa"};
+    private static final String[] PLAYS = {"Quiniella", "Pale", "Super Pale", "Tripleta"};
+    private static final boolean[] ACTIVES = {true, false, true};
     private static final Long USER_ID = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(AllModelsPersistenceTest.class);
 
     @Autowired
     private CompanyService companyService;
@@ -172,7 +161,7 @@ public class AllModelsPersistenceTest {
     private void clearCompany() throws Exception {
         // utx.begin();
         // em.joinTransaction();
-        System.out.println("###---> Dumping old records...");
+        LOG.info("###---> Dumping old records...");
         em.createQuery("delete from RolePermission").executeUpdate();
         em.createNativeQuery("delete from play_order_line_lottery").executeUpdate();
         em.createNativeQuery("delete from play_order_line_number").executeUpdate();
@@ -196,19 +185,19 @@ public class AllModelsPersistenceTest {
     private void createCompany() throws Exception {
         // utx.begin();
         // em.joinTransaction();
-        System.out.println("###---> Inserting records...");
-        Company company = null;
+        LOG.info("###---> Inserting records...");
+        Company company;
         // List<User> users = null;
-        List<Shop> shops = null;
-        Address address = null;
+        List<Shop> shops;
+        Address address;
         int offset = 0;
         // User user = null;
-        Shop shop = null;
+        Shop shop;
         // String userName = null;
-        String shopName = null;
-        List<Role> roles = createRoles();
-        List<Permission> permissions = createPermissions();
-        Random random = new Random();
+        String shopName;
+        final List<Role> roles = createRoles();
+        final List<Permission> permissions = createPermissions();
+        final Random random = new Random();
         for (String name : COMPANY_NAMES) {
 
             company = new Company();
@@ -229,7 +218,7 @@ public class AllModelsPersistenceTest {
                 shop = new Shop();
                 setUsers(company, roles, permissions, shop, address);
                 shopName = COMPANY_SHOPS[index] + random.nextInt(1000);
-                TEST_COMPANY_SHOPS[index] = shopName;
+                testCompanyShops[index] = shopName;
                 shop.setName(shopName);
                 shop.setCreatedUid(USER_ID);
                 shop.setAddress(address);
@@ -260,7 +249,7 @@ public class AllModelsPersistenceTest {
         User user = null;
         RolePermission rolePermission = null;
         Set<RolePermission> rolePermissions = null;
-        Random ramdom = new Random();
+        final Random ramdom = new Random();
 
         for (int index = 0; index < USER_FIRST_NAMES.length; index++) {
             user = new User();
@@ -271,7 +260,7 @@ public class AllModelsPersistenceTest {
             user.setFirstName(USER_FIRST_NAMES[index]);
             user.setLastName(USER_LAST_NAMES[index]);
             userName = USER_NAMES[index] + ramdom.nextInt(1000);
-            TEST_USER_NAMES[index] = userName;
+            testUserNames[index] = userName;
             user.setUserName(userName);
             user.setPhoneNumber(USER_PHONE_NUMBERS[index]);
             user.setPassword(USER_PASSWORDS[index]);
@@ -346,8 +335,9 @@ public class AllModelsPersistenceTest {
 
     private void createPlayOrders() {
         try {
-            Shop shop = em.createQuery(String.format("SELECT s FROM Shop s WHERE s.name = '%s'",
-                    TEST_COMPANY_SHOPS[0]), Shop.class).getSingleResult();
+            Shop shop = em.createQuery(
+                    String.format("SELECT s FROM Shop s WHERE s.name = '%s'", testCompanyShops[0]),
+                    Shop.class).getSingleResult();
             User user = em
                     .createQuery(String.format("SELECT u FROM User u WHERE u.firstName = '%s'",
                             USER_FIRST_NAMES[0]), User.class)
@@ -440,12 +430,12 @@ public class AllModelsPersistenceTest {
         String fetchingAllCompaniesInJpql = "select c from Company c order by c.id";
 
         // when
-        System.out.println("Selecting (using JPQL)...");
+        LOG.info("Selecting (using JPQL)...");
         List<Company> companies = em.createQuery(fetchingAllCompaniesInJpql, Company.class)
                 .getResultList();
 
         // then
-        System.out.println("Found " + companies.size() + " Companies (using JPQL):");
+        LOG.info(String.format("Found %d Companies (using JPQL):", companies.size()));
         assertContainsAllCompanies(companies);
     }
 
@@ -456,7 +446,7 @@ public class AllModelsPersistenceTest {
         final Set<String> retrievedCompanyNames = new HashSet<String>();
 
         for (Company company : retrievedCompanies) {
-            System.out.println("* " + company);
+            LOG.info(String.format("* %s", company));
             retrievedCompanyNames.add(company.getName());
         }
 
@@ -469,12 +459,12 @@ public class AllModelsPersistenceTest {
         String fetchingAllCompaniesInJpql = "select c from Address c order by c.id";
 
         // when
-        System.out.println("Selecting (using JPQL)...");
+        LOG.info("Selecting (using JPQL)...");
         List<Address> addresses = em.createQuery(fetchingAllCompaniesInJpql, Address.class)
                 .getResultList();
 
         // then
-        System.out.println("Found " + addresses.size() + " Addresses (using JPQL):");
+        LOG.info(String.format("Found %d Addresses (using JPQL):", addresses.size()));
         assertContainsAllAddresses(addresses);
     }
 
@@ -485,7 +475,7 @@ public class AllModelsPersistenceTest {
         final List<String> retrievedAddressStreets = new ArrayList<String>();
 
         for (Address address : retrievedAddresses) {
-            System.out.println("* " + address);
+            LOG.info(String.format("* %s", address));
             retrievedAddressStreets.add(address.getStreet());
         }
 
@@ -498,27 +488,27 @@ public class AllModelsPersistenceTest {
         String fetchingAllUsersInJpql = "select c from User c order by c.id";
 
         // when
-        System.out.println("Selecting (using JPQL)...");
+        LOG.info("Selecting (using JPQL)...");
         List<User> users = em.createQuery(fetchingAllUsersInJpql, User.class).getResultList();
 
         // then
-        System.out.println("Found " + users.size() + " Users (using JPQL):");
+        LOG.info(String.format("Found %d Users (using JPQL):", users.size()));
         assertContainsAllUsers(users);
     }
 
     private static void assertContainsAllUsers(final Collection<User> retrievedUsers) {
 
-        Assert.assertEquals(COMPANY_NAMES.length * TEST_USER_NAMES.length * COMPANY_SHOPS.length,
+        Assert.assertEquals(COMPANY_NAMES.length * testUserNames.length * COMPANY_SHOPS.length,
                 retrievedUsers.size());
 
         final List<String> retrievedUserNames = new ArrayList<String>();
 
         for (User user : retrievedUsers) {
-            System.out.println("* " + user);
+            LOG.info(String.format("* %s", user));
             retrievedUserNames.add(user.getUserName());
         }
 
-        Assert.assertTrue(retrievedUserNames.containsAll(Arrays.asList(TEST_USER_NAMES)));
+        Assert.assertTrue(retrievedUserNames.containsAll(Arrays.asList(testUserNames)));
     }
 
     @Test
@@ -527,11 +517,11 @@ public class AllModelsPersistenceTest {
         String fetchingAllShopsInJpql = "select c from Shop c order by c.id";
 
         // when
-        System.out.println("Selecting (using JPQL)...");
-        List<Shop> shops = em.createQuery(fetchingAllShopsInJpql, Shop.class).getResultList();
+        LOG.info("Selecting (using JPQL)...");
+        final List<Shop> shops = em.createQuery(fetchingAllShopsInJpql, Shop.class).getResultList();
 
         // then
-        System.out.println("Found " + shops.size() + " Shops (using JPQL):");
+        LOG.info(String.format("Found %d Shops (using JPQL):", shops.size()));
         assertContainsAllShops(shops);
     }
 
@@ -542,11 +532,11 @@ public class AllModelsPersistenceTest {
         final List<String> retrievedShopNames = new ArrayList<String>();
 
         for (Shop shop : retrievedShops) {
-            System.out.println("* " + shop);
+            LOG.info(String.format("* %s", shop));
             retrievedShopNames.add(shop.getName());
         }
 
-        Assert.assertTrue(retrievedShopNames.containsAll(Arrays.asList(TEST_COMPANY_SHOPS)));
+        Assert.assertTrue(retrievedShopNames.containsAll(Arrays.asList(testCompanyShops)));
     }
 
 }
