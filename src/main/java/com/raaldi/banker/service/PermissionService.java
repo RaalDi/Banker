@@ -1,6 +1,6 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.ModelDao;
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.PermissionDAO;
 import com.raaldi.banker.model.Permission;
 
@@ -20,7 +20,7 @@ public class PermissionService implements ModelService<Permission> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Permission, Long> entityDAO;
+    private AbstractModelDao<Permission, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

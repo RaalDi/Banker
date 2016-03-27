@@ -1,6 +1,6 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.ModelDao;
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.PlayDAO;
 import com.raaldi.banker.model.Play;
 
@@ -20,7 +20,7 @@ public class PlayService implements ModelService<Play> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Play, Long> entityDAO;
+    private AbstractModelDao<Play, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

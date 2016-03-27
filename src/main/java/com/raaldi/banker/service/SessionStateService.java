@@ -1,6 +1,6 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.ModelDao;
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.SessionStateDAO;
 import com.raaldi.banker.model.SessionState;
 
@@ -20,7 +20,7 @@ public class SessionStateService implements ModelService<SessionState> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<SessionState, Long> entityDAO;
+    private AbstractModelDao<SessionState, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

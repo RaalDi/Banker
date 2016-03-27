@@ -1,6 +1,6 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.ModelDao;
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.PaymentDAO;
 import com.raaldi.banker.model.Payment;
 
@@ -20,7 +20,7 @@ public class PaymentService implements ModelService<Payment> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Payment, Long> entityDAO;
+    private AbstractModelDao<Payment, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

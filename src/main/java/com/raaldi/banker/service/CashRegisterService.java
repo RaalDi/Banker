@@ -1,7 +1,7 @@
 package com.raaldi.banker.service;
 
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.CashRegisterDAO;
-import com.raaldi.banker.dao.ModelDao;
 import com.raaldi.banker.model.CashRegister;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class CashRegisterService implements ModelService<CashRegister> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<CashRegister, Long> entityDAO;
+    private AbstractModelDao<CashRegister, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

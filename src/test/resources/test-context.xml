@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/Banker">
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
-	
+
 	<Resource name="jdbc/postgres" auth="Container" type="javax.sql.DataSource"
-				driverClassName="org.postgresql.Driver" url="jdbc:postgresql://127.0.0.1:5432/banker_test"
-				username="admin" password="M0nt1lla" maxTotal="20" maxIdle="10"
-				maxWaitMillis="-1" />
+		driverClassName="org.postgresql.Driver" url="jdbc:postgresql://127.0.0.1:5432/banker_test"
+		username="admin" password="M0nt1lla" maxTotal="20" maxIdle="10"
+		maxWaitMillis="-1" />
 </Context>

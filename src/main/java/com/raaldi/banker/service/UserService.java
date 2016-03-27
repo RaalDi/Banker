@@ -1,6 +1,6 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.ModelDao;
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.UserDAO;
 import com.raaldi.banker.model.User;
 
@@ -20,7 +20,7 @@ public class UserService implements ModelService<User> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<User, Long> entityDAO;
+    private AbstractModelDao<User, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

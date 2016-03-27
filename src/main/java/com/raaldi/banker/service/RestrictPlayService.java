@@ -1,6 +1,6 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.ModelDao;
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.RestrictPlayDAO;
 import com.raaldi.banker.model.RestrictPlay;
 
@@ -20,7 +20,7 @@ public class RestrictPlayService implements ModelService<RestrictPlay> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<RestrictPlay, Long> entityDAO;
+    private AbstractModelDao<RestrictPlay, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

@@ -53,7 +53,4 @@ public class Address extends Model {
     @Column(name = "zipcode")
     private String zipcode;
 
-    // Bidirectional Mapping
-    // @OneToOne(mappedBy = "address")
-    // private Member member;
 }

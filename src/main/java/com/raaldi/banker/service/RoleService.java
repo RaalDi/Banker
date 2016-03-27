@@ -1,6 +1,6 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.ModelDao;
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.RoleDAO;
 import com.raaldi.banker.model.Role;
 
@@ -20,7 +20,7 @@ public class RoleService implements ModelService<Role> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Role, Long> entityDAO;
+    private AbstractModelDao<Role, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

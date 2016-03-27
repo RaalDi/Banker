@@ -7,11 +7,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("currencyDAO")
-public class CurrencyDAO extends ModelDao<Currency, Long> {
+public class CurrencyDAO extends AbstractModelDao<Currency, Long> {
 
-    private static final long serialVersionUID = 1L;
-
-    public CurrencyDAO(Class<Currency> domainClass, EntityManager em) {
+    public CurrencyDAO(final Class<Currency> domainClass, final EntityManager em) {
         super(domainClass, em);
     }
 }

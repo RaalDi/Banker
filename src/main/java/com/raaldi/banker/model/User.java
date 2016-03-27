@@ -79,16 +79,11 @@ public class User extends Model {
     private boolean active = true;
 
     @NotNull
-    // @Column(name = "company_id")
-    // private Long companyId;
     @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
     @OneToOne(cascade = CascadeType.ALL)
-    // @PrimaryKeyJoinColumn
-    // @JoinColumn(name = "id", nullable = false, insertable = true, updatable =
-    // true)
     private Address address;
 
     @NotNull
@@ -98,7 +93,6 @@ public class User extends Model {
 
     @NotNull
     @ManyToOne(optional = false)
-    // @PrimaryKeyJoinColumn
     @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 

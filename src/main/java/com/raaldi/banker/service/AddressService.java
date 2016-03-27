@@ -1,7 +1,7 @@
 package com.raaldi.banker.service;
 
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.AddressDAO;
-import com.raaldi.banker.dao.ModelDao;
 import com.raaldi.banker.model.Address;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class AddressService implements ModelService<Address> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Address, Long> entityDAO;
+    private AbstractModelDao<Address, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {
@@ -28,12 +28,12 @@ public class AddressService implements ModelService<Address> {
     }
 
     @Override
-    public void save(Address model) {
+    public void save(final Address model) {
         entityDAO.save(model);
     }
 
     @Override
-    public Address findOne(Long id) {
+    public Address findOne(final Long id) {
         return entityDAO.findOne(id);
     }
 
@@ -43,12 +43,12 @@ public class AddressService implements ModelService<Address> {
     }
 
     @Override
-    public boolean exists(Address model) {
+    public boolean exists(final Address model) {
         return this.exists(model.getId());
     }
 
     @Override
-    public boolean exists(Long id) {
+    public boolean exists(final Long id) {
         return entityDAO.exists(id);
     }
 

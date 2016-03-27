@@ -1,7 +1,7 @@
 package com.raaldi.banker.service;
 
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.CurrencyDAO;
-import com.raaldi.banker.dao.ModelDao;
 import com.raaldi.banker.model.Currency;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class CurrencyService implements ModelService<Currency> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Currency, Long> entityDAO;
+    private AbstractModelDao<Currency, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

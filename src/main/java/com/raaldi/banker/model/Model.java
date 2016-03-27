@@ -38,7 +38,7 @@ public abstract class Model implements Serializable {
 
     @Version
     @Column(name = "optlock", nullable = false)
-    private Long version = 0L;
+    private Long version;
 
     public void setUpdated(final Date updated) {
 

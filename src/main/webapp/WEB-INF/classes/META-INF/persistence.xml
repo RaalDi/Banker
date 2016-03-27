@@ -4,13 +4,12 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
-	<persistence-unit name="BANKER-PU"
-		transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="BANKER-PU" transaction-type="RESOURCE_LOCAL">
 		<description>Banker Persistence Unit</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<non-jta-data-source>java:/comp/env/jdbc/postgres</non-jta-data-source>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
-		
+
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.show_sql" value="true" />

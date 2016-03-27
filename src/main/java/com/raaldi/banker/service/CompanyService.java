@@ -1,7 +1,7 @@
 package com.raaldi.banker.service;
 
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.CompanyDAO;
-import com.raaldi.banker.dao.ModelDao;
 import com.raaldi.banker.model.Company;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class CompanyService implements ModelService<Company> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Company, Long> entityDAO;
+    private AbstractModelDao<Company, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

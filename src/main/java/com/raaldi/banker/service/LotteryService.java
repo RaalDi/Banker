@@ -1,7 +1,7 @@
 package com.raaldi.banker.service;
 
+import com.raaldi.banker.dao.AbstractModelDao;
 import com.raaldi.banker.dao.LotteryDAO;
-import com.raaldi.banker.dao.ModelDao;
 import com.raaldi.banker.model.Lottery;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class LotteryService implements ModelService<Lottery> {
     @PersistenceContext
     private EntityManager em;
 
-    private ModelDao<Lottery, Long> entityDAO;
+    private AbstractModelDao<Lottery, Long> entityDAO;
 
     @PostConstruct
     public void postConstruct() {

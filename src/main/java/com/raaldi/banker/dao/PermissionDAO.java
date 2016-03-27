@@ -7,9 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("permissionDAO")
-public class PermissionDAO extends ModelDao<Permission, Long> {
-
-    private static final long serialVersionUID = 1L;
+public class PermissionDAO extends AbstractModelDao<Permission, Long> {
 
     public PermissionDAO(final Class<Permission> domainClass, final EntityManager em) {
         super(domainClass, em);

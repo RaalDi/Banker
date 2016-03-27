@@ -40,15 +40,12 @@ public class Company extends Model {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
-    // @PrimaryKeyJoinColumn
     @JoinColumn(name = "address_id")
     private Address address;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    // @JoinColumn(name="company_id")
     private List<User> users;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    // @JoinColumn(name="company_id")
     private List<Shop> shops;
 }

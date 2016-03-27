@@ -7,11 +7,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("addressDAO")
-public class AddressDAO extends ModelDao<Address, Long> {
+public class AddressDAO extends AbstractModelDao<Address, Long> {
 
-    private static final long serialVersionUID = 1L;
-
-    public AddressDAO(Class<Address> domainClass, EntityManager em) {
+    public AddressDAO(final Class<Address> domainClass, final EntityManager em) {
         super(domainClass, em);
     }
 }

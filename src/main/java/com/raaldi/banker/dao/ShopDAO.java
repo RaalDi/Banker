@@ -7,11 +7,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("shopDAO")
-public class ShopDAO extends ModelDao<Shop, Long> {
+public class ShopDAO extends AbstractModelDao<Shop, Long> {
 
-    private static final long serialVersionUID = 1L;
-
-    public ShopDAO(Class<Shop> domainClass, EntityManager em) {
+    public ShopDAO(final Class<Shop> domainClass, final EntityManager em) {
         super(domainClass, em);
     }
 }
