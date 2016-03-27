@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class SessionState extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 6611770901282246338L;
 
     @Id
     @SequenceGenerator(name = "session-state-seq-gen", sequenceName = "session_state_seq_id", allocationSize = 1)

@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -207,6 +208,7 @@ public class AllModelsPersistenceTest {
         String shopName = null;
         List<Role> roles = createRoles();
         List<Permission> permissions = createPermissions();
+        Random random = new Random();
         for (String name : COMPANY_NAMES) {
 
             company = new Company();
@@ -226,7 +228,7 @@ public class AllModelsPersistenceTest {
             for (int index = 0; index < COMPANY_SHOPS.length; index++) {
                 shop = new Shop();
                 setUsers(company, roles, permissions, shop, address);
-                shopName = COMPANY_SHOPS[index] + (int) (Math.random() * 1000);
+                shopName = COMPANY_SHOPS[index] + random.nextInt(1000);
                 TEST_COMPANY_SHOPS[index] = shopName;
                 shop.setName(shopName);
                 shop.setCreatedUid(USER_ID);
@@ -251,13 +253,14 @@ public class AllModelsPersistenceTest {
         // em.flush();
     }
 
-    private void setUsers(Company company, List<Role> roles, List<Permission> permissions,
-            Shop shop, Address address) {
+    private void setUsers(final Company company, final List<Role> roles,
+            final List<Permission> permissions, final Shop shop, final Address address) {
         List<User> users = new ArrayList<User>();
         String userName = null;
         User user = null;
         RolePermission rolePermission = null;
         Set<RolePermission> rolePermissions = null;
+        Random ramdom = new Random();
 
         for (int index = 0; index < USER_FIRST_NAMES.length; index++) {
             user = new User();
@@ -267,7 +270,7 @@ public class AllModelsPersistenceTest {
             user.setCreatedUid(USER_ID);
             user.setFirstName(USER_FIRST_NAMES[index]);
             user.setLastName(USER_LAST_NAMES[index]);
-            userName = USER_NAMES[index] + (int) (Math.random() * 1000);
+            userName = USER_NAMES[index] + ramdom.nextInt(1000);
             TEST_USER_NAMES[index] = userName;
             user.setUserName(userName);
             user.setPhoneNumber(USER_PHONE_NUMBERS[index]);
@@ -386,14 +389,14 @@ public class AllModelsPersistenceTest {
             PlayOrderLineLottery playOrderLineLottery = null;
             PlayOrderLineNumber playOrderLineNumber = null;
 
-            for (int index = 0; index < PLAYS.length; ++index) {
+            for (String element : PLAYS) {
 
                 playOrderLine = new PlayOrderLine();
                 playOrderLine.setAmount(new BigDecimal(5.00D));
                 playOrderLine.setCreatedUid(USER_ID);
                 playOrderLine.setPlayOrder(playOrder);
                 play = em.createQuery(
-                        String.format("SELECT p FROM Play p WHERE p.name = '%s'", PLAYS[index]),
+                        String.format("SELECT p FROM Play p WHERE p.name = '%s'", element),
                         Play.class).getSingleResult();
                 playOrderLine.setPlay(play);
 
@@ -425,11 +428,6 @@ public class AllModelsPersistenceTest {
         }
     }
 
-    private void startTransaction() throws Exception {
-        // utx.begin();
-        // em.joinTransaction();
-    }
-
     @After
     public void commitTransaction() throws Exception {
         // utx.commit();
@@ -451,7 +449,7 @@ public class AllModelsPersistenceTest {
         assertContainsAllCompanies(companies);
     }
 
-    private static void assertContainsAllCompanies(Collection<Company> retrievedCompanies) {
+    private static void assertContainsAllCompanies(final Collection<Company> retrievedCompanies) {
 
         Assert.assertEquals(COMPANY_NAMES.length, retrievedCompanies.size());
 
@@ -480,7 +478,7 @@ public class AllModelsPersistenceTest {
         assertContainsAllAddresses(addresses);
     }
 
-    private static void assertContainsAllAddresses(Collection<Address> retrievedAddresses) {
+    private static void assertContainsAllAddresses(final Collection<Address> retrievedAddresses) {
 
         Assert.assertEquals(COMPANY_NAMES.length, retrievedAddresses.size());
 
@@ -508,7 +506,7 @@ public class AllModelsPersistenceTest {
         assertContainsAllUsers(users);
     }
 
-    private static void assertContainsAllUsers(Collection<User> retrievedUsers) {
+    private static void assertContainsAllUsers(final Collection<User> retrievedUsers) {
 
         Assert.assertEquals(COMPANY_NAMES.length * TEST_USER_NAMES.length * COMPANY_SHOPS.length,
                 retrievedUsers.size());
@@ -537,7 +535,7 @@ public class AllModelsPersistenceTest {
         assertContainsAllShops(shops);
     }
 
-    private static void assertContainsAllShops(Collection<Shop> retrievedShops) {
+    private static void assertContainsAllShops(final Collection<Shop> retrievedShops) {
 
         Assert.assertEquals(COMPANY_NAMES.length * COMPANY_SHOPS.length, retrievedShops.size());
 

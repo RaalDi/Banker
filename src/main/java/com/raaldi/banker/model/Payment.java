@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Payment extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1017925264098582407L;
 
     @Id
     @SequenceGenerator(name = "payment-seq-gen", sequenceName = "payment_seq_id", allocationSize = 1)

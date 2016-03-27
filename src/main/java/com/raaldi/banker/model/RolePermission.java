@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class RolePermission extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -91786390688045690L;
 
     @Id
     @SequenceGenerator(name = "role-permission-seq-gen", sequenceName = "role_permission_seq_id", allocationSize = 1)

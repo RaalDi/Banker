@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Play extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7420839110305072161L;
 
     @Id
     @SequenceGenerator(name = "play-seq-gen", sequenceName = "play_seq_id", allocationSize = 1)

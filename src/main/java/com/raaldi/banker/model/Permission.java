@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Permission extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 638834021669541247L;
 
     @Id
     @SequenceGenerator(name = "permission-seq-gen", sequenceName = "permission_seq_id", allocationSize = 1)

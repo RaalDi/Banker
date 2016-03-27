@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Currency extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7121744068113817683L;
 
     @Id
     @SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)

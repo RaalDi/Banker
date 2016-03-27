@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Session extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5729958504572843209L;
 
     @Id
     @SequenceGenerator(name = "session-seq-gen", sequenceName = "session_seq_id", allocationSize = 1)
@@ -45,9 +45,9 @@ public class Session extends Model {
     private User user;
     /*
      * @NotNull
-     * 
+     *
      * @OneToOne(cascade = CascadeType.ALL)
-     * 
+     *
      * @JoinColumn(name = "cash_register_id", nullable = false, insertable =
      * true, updatable = false) private CashRegister cashRegister;
      */
@@ -66,26 +66,27 @@ public class Session extends Model {
     @Column(name = "ended", insertable = false, updatable = true)
     private Date ended;
 
-    public void setState(EnumSessionState state) {
+    public void setState(final EnumSessionState state) {
 
         switch (state) {
-        case STARTING:
-            this.setCreated(new Date());
-            break;
-        case STARTED:
-            this.setStarted(new Date());
-            break;
-        case ENDING:
-            this.setUpdated(new Date());
-            break;
-        case ENDED:
-            this.setEnded(new Date());
-            break;
+            case STARTING:
+                this.setCreated(new Date());
+                break;
+            case STARTED:
+                this.setStarted(new Date());
+                break;
+            case ENDING:
+                this.setUpdated(new Date());
+                break;
+            case ENDED:
+                this.setEnded(new Date());
+                break;
         }
 
         this.state = state;
     }
 
+    @Override
     @PrePersist
     public void onPersist() {
         this.setState(EnumSessionState.STARTING);

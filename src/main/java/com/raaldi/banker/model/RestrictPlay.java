@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class RestrictPlay extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -3936838944769073574L;
 
     @Id
     @SequenceGenerator(name = "restrict-play-seq-gen", sequenceName = "restrict_play_seq_id", allocationSize = 1)

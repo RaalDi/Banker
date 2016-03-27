@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class User extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8491559884264082143L;
 
     @Id
     @SequenceGenerator(name = "person-seq-gen", sequenceName = "person_seq_id", allocationSize = 1)

@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class CashRegister extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7871256452762586374L;
 
     @Id
     @SequenceGenerator(name = "cash-register-seq-gen", sequenceName = "cash_register_seq_id", allocationSize = 1)
@@ -67,18 +67,18 @@ public class CashRegister extends Model {
 
     public void setState(final CashRegisterState state) {
         switch (state) {
-        case OPENING:
-            this.setCreated(new Date());
-            break;
-        case OPENED:
-            this.setOpened(new Date());
-            break;
-        case CLOSING:
-            this.setUpdated(new Date());
-            break;
-        case CLOSED:
-            this.setClosed(new Date());
-            break;
+            case OPENING:
+                this.setCreated(new Date());
+                break;
+            case OPENED:
+                this.setOpened(new Date());
+                break;
+            case CLOSING:
+                this.setUpdated(new Date());
+                break;
+            case CLOSED:
+                this.setClosed(new Date());
+                break;
         }
 
         this.state = state;

@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class PlayOrderLine extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3148027909146756391L;
 
     @Id
     @SequenceGenerator(name = "play-order-line-seq-gen", sequenceName = "play_order_line_seq_id", allocationSize = 1)

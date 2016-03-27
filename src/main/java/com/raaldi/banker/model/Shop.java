@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Shop extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6096997265649544980L;
 
     @Id
     @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Address extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6530779330443333541L;
 
     @Id
     @SequenceGenerator(name = "address-seq-gen", sequenceName = "address_seq_id", allocationSize = 1)

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Lottery extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -749127867337161764L;
 
     @Id
     @SequenceGenerator(name = "lottery-seq-gen", sequenceName = "lottery_seq_id", allocationSize = 1)

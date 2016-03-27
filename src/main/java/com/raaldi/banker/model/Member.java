@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Member extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -5572520186586998185L;
 
     @Id
     @SequenceGenerator(name = "member-seq-gen", sequenceName = "member_seq_id", allocationSize = 1)

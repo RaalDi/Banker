@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(callSuper = false)
 public class Company extends Model {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1090990028819708077L;
 
     @Id
     @SequenceGenerator(name = "company-seq-gen", sequenceName = "company_seq_id", allocationSize = 1)
