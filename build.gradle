@@ -9,7 +9,7 @@
 //Add so Liquibase plugin can work
 buildscript {
   dependencies {
-    classpath 'org.postgresql:postgresql:9.4.1207.jre7'
+    classpath 'org.postgresql:postgresql:9.4.1208.jre7'
   }
 }
 
@@ -67,41 +67,45 @@ dependencies {
 	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 	
 	// MVC/Rest
-	compile 'org.springframework:spring-webmvc:4.2.4.RELEASE'
-	compile 'org.springframework:spring-tx:4.2.4.RELEASE'
+	compile 'org.springframework:spring-webmvc:4.2.5.RELEASE'
+	compile 'org.springframework:spring-tx:4.2.5.RELEASE'
 	
 	// Rest
-	compile 'org.glassfish.jersey.ext:jersey-spring3:2.22.2'
-	// compile 'org.springframework.data:spring-data-rest-webmvc:2.4.2.RELEASE'
+	// compile 'org.glassfish.jersey.ext:jersey-spring3:2.22.2'
+	compile 'org.springframework.data:spring-data-rest-webmvc:2.5.1.RELEASE'
 	
 	//JSON
-	compile 'com.fasterxml.jackson.core:jackson-databind:2.6.4'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
 	
 	// JPA
-	compile 'org.hibernate:hibernate-entitymanager:5.0.6.Final'
-	compile 'org.hibernate:hibernate-validator:5.2.2.Final'
-	compile 'org.springframework.data:spring-data-jpa:1.9.2.RELEASE'
-	compile 'org.liquibase:liquibase-core:3.4.2'
-	compile 'org.liquibase.ext:liquibase-hibernate4.2:3.5'
+	compile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
+	compile 'org.hibernate:hibernate-validator:5.2.4.Final'
+	compile 'org.springframework.data:spring-data-jpa:1.10.1.RELEASE'
+	//compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+	compile 'org.liquibase:liquibase-core:3.5.0'
+	//compile 'org.liquibase.ext:liquibase-hibernate4:3.5'
 	
 	//JTA
 	compile 'javax.transaction:jta:1.1'
 	
 	// Databade JDBC Driver
-	// providedCompile 'org.postgresql:postgresql:9.4.1207.jre7' //provided in Tomcat
-	runtime 'org.postgresql:postgresql:9.4.1207.jre7' // Liquibase runtime
+	// providedCompile 'org.postgresql:postgresql:9.4.1208.jre7' //provided in Tomcat
+	runtime 'org.postgresql:postgresql:9.4.1208.jre7' // Liquibase runtime
     
     // Logger
     //compile 'org.apache.logging.log4j:log4j-api:2.5'
   	//compile 'org.apache.logging.log4j:log4j-core:2.5'
   	//compile 'org.slf4j:slf4j-api:1.7.13'
+  	compile 'ch.qos.logback:logback-classic:1.1.7'
+  	//compile 'org.jboss.logging:jboss-logging:3.3.0.Final'
+  	
   	
   	// Java Agent
   	providedCompile 'org.projectlombok:lombok:1.16.8'
     
     // Testing
     testCompile 'junit:junit:4.+'
-    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.10.Final'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
     
     // Tomcat 7
     //testCompile 'org.jboss.arquillian.container:arquillian-tomcat-embedded-7:1.0.0.CR7'
@@ -132,6 +136,14 @@ ext.checkstyleConfigDir = "$rootDir/config/checkstyle"
 
 checkstyle {
     configProperties.checkstyleConfigDir = checkstyleConfigDir
+}
+
+findbugs{
+    findbugsTest.enabled=false
+}
+
+pmd {
+    pmdTest.enabled=false
 }
 
 liquibase {

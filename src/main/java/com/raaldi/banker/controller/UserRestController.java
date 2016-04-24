@@ -1,9 +1,10 @@
 package com.raaldi.banker.controller;
 
-import com.raaldi.banker.model.Address;
 import com.raaldi.banker.model.User;
 import com.raaldi.banker.service.ModelService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,19 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
+@RequestMapping(value = "user")
 public final class UserRestController {
 
-    private static final String TEMPLATE = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
+    static final Logger LOG = LoggerFactory.getLogger(UserRestController.class);
 
     @Autowired
     ModelService<User> service;
 
-    @RequestMapping(value = "/user/", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers() {
+    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getAll() {
         List<User> users = service.findAll();
         if (users.isEmpty()) {
             // You many decide to return HttpStatus.NOT_FOUND
@@ -38,43 +38,43 @@ public final class UserRestController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") final long id) {
-        System.out.println("Fetching User with id " + id);
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> get(@PathVariable("id") final long id) {
+        LOG.info(String.format("Fetching User with id %s", id));
         User user = service.findOne(id);
         if (user == null) {
-            System.out.println("User with id " + id + " not found");
+            LOG.info(String.format("User with id %s not found", id));
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody final User user,
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseEntity<Void> create(@RequestBody final User user,
             final UriComponentsBuilder uriBuilder) {
-        System.out.println("Creating User " + user.getUserName());
+        LOG.info(String.format("Creating User %s", user.getUserName()));
 
         if (service.exists(user)) {
-            System.out.println("A User with name " + user.getUserName() + " already exist");
+            LOG.info(String.format("A User with name %s already exist", user.getUserName()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
         service.save(user);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+        headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("id") final long id,
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<User> update(@PathVariable("id") final long id,
             @RequestBody final User user) {
-        System.out.println("Updating User " + id);
+        LOG.info(String.format("Updating User %s", id));
 
         User currentUser = service.findOne(id);
 
         if (currentUser == null) {
-            System.out.println("User with id " + id + " not found");
+            LOG.info(String.format("User with id %s not found", id));
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
 
@@ -88,13 +88,13 @@ public final class UserRestController {
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@PathVariable("id") final long id) {
-        System.out.println("Fetching & Deleting User with id " + id);
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<User> delete(@PathVariable("id") final long id) {
+        LOG.info(String.format("Fetching & Deleting User with id %s", id));
 
         User user = service.findOne(id);
         if (user == null) {
-            System.out.println("Unable to delete. User with id " + id + " not found");
+            LOG.info(String.format("Unable to delete. User with id %s not found", id));
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -104,9 +104,9 @@ public final class UserRestController {
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteAllUsers() {
-        System.out.println("Deleting All Users");
+    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+    public ResponseEntity<User> deleteAll() {
+        LOG.info("Deleting All Users");
 
         /**
          * TODO: Addres delete all method to service
@@ -117,25 +117,7 @@ public final class UserRestController {
 
     @RequestMapping(value = "/greeting/{name}", method = RequestMethod.GET)
     public String greeting(@PathVariable("name") final String name) {
-        User user = new User();
-        user.setFirstName("Rafael");
-        user.setLastName("Diaz");
-        user.setPassword("hello");
-        user.setPhoneNumber("7275155317");
-        user.setUserName("rafael.diaz");
-        user.setCreatedUid(1L);
-
-        Address address = new Address();
-        address.setStreet("15350 Amberly Dr 1014");
-        address.setCity("Tampa");
-        address.setState("Florida");
-        address.setZipcode("33647");
-        address.setCreatedUid(1L);
-
-        user.setAddress(address);
-        service.save(user);
-
-        return String.format(TEMPLATE, name);
+        return String.format("Name is %s", name);
     }
 
 }
