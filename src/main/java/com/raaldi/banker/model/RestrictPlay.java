@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class RestrictPlay extends Model {
+public final class RestrictPlay extends Model {
 
     private static final long serialVersionUID = -3936838944769073574L;
 

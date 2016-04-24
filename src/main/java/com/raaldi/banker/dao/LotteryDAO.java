@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("lotteryDAO")
-public class LotteryDAO extends AbstractModelDao<Lottery, Long> {
+public final class LotteryDAO extends AbstractModelDao<Lottery, Long> {
 
     public LotteryDAO(final Class<Lottery> domainClass, final EntityManager em) {
         super(domainClass, em);

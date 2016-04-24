@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("sessionDAO")
-public class SessionDAO extends AbstractModelDao<Session, Long> {
+public final class SessionDAO extends AbstractModelDao<Session, Long> {
 
     public SessionDAO(final Class<Session> domainClass, final EntityManager em) {
         super(domainClass, em);

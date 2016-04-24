@@ -44,7 +44,7 @@ import javax.persistence.PersistenceContext;
 @RunWith(Arquillian.class)
 @Transactional(manager = "transactionManager")
 @SpringWebConfiguration(servletName = "dispatcher")
-public class AllModelsPersistenceTest {
+public final class AllModelsPersistenceTest {
 
     private static final String[] COMPANY_NAMES = {"Rivera Brother"};
     private static final String[] COMPANY_SHOPS = {"BANCA 1", "BANCA 2", "BANCA 3"};

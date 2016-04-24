@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Member.findAll", query = "SELECT c FROM Member c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Member extends Model {
+public final class Member extends Model {
 
     private static final long serialVersionUID = -5572520186586998185L;
 

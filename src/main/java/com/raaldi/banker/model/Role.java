@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Role.findAll", query = "SELECT c FROM Role c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Role extends Model {
+public final class Role extends Model {
 
     private static final long serialVersionUID = 2062680389137922067L;
 

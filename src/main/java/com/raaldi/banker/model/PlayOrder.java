@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "PlayOrder.findAll", query = "SELECT c FROM PlayOrder c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PlayOrder extends Model {
+public final class PlayOrder extends Model {
 
     private static final long serialVersionUID = -2831284612290806696L;
 

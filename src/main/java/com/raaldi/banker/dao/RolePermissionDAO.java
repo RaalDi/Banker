@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("rolePermissionDAO")
-public class RolePermissionDAO extends AbstractModelDao<RolePermission, Long> {
+public final class RolePermissionDAO extends AbstractModelDao<RolePermission, Long> {
 
     public RolePermissionDAO(final Class<RolePermission> domainClass, final EntityManager em) {
         super(domainClass, em);

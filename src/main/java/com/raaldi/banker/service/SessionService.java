@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Service("sessionService")
 @Transactional
-public class SessionService implements ModelService<Session> {
+public final class SessionService implements ModelService<Session> {
 
     @PersistenceContext
     private EntityManager em;

@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "SessionState.findAll", query = "SELECT c FROM SessionState c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SessionState extends Model {
+public final class SessionState extends Model {
 
     private static final long serialVersionUID = 6611770901282246338L;
 

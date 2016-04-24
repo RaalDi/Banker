@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Service("shopService")
 @Transactional
-public class ShopService implements ModelService<Shop> {
+public final class ShopService implements ModelService<Shop> {
 
     @PersistenceContext
     private EntityManager em;

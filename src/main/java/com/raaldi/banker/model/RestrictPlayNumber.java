@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class RestrictPlayNumber implements Serializable {
+public final class RestrictPlayNumber implements Serializable {
 
     private static final long serialVersionUID = -2499724899416829464L;
 

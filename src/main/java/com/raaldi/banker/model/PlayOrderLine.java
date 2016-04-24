@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PlayOrderLine extends Model {
+public final class PlayOrderLine extends Model {
 
     private static final long serialVersionUID = 3148027909146756391L;
 

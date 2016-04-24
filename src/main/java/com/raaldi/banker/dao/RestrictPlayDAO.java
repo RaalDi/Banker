@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("restrictPlayDAO")
-public class RestrictPlayDAO extends AbstractModelDao<RestrictPlay, Long> {
+public final class RestrictPlayDAO extends AbstractModelDao<RestrictPlay, Long> {
 
     public RestrictPlayDAO(final Class<RestrictPlay> domainClass, final EntityManager em) {
         super(domainClass, em);

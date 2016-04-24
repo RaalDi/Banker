@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-public class CashRegisterRestController {
+public final class CashRegisterRestController {
 
     @Autowired
     ModelService<CashRegister> service;
@@ -34,7 +34,7 @@ public class CashRegisterRestController {
     }
 
     @RequestMapping(value = "/cashregister/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CashRegister> getCashRegister(@PathVariable("id") long id) {
+    public ResponseEntity<CashRegister> getCashRegister(@PathVariable("id") final long id) {
         System.out.println("Fetching CashRegister with id " + id);
         CashRegister cashRegister = service.findOne(id);
         if (cashRegister == null) {
@@ -45,8 +45,8 @@ public class CashRegisterRestController {
     }
 
     @RequestMapping(value = "/cashregister/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createCashRegister(@RequestBody CashRegister cashRegister,
-            UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> createCashRegister(@RequestBody final CashRegister cashRegister,
+            final UriComponentsBuilder uriBuilder) {
         System.out.println("Creating CashRegister " + cashRegister.toString());
 
         if (service.exists(cashRegister)) {
@@ -64,8 +64,8 @@ public class CashRegisterRestController {
     }
 
     @RequestMapping(value = "/cashregister/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<CashRegister> updateCashRegister(@PathVariable("id") long id,
-            @RequestBody CashRegister cashRegister) {
+    public ResponseEntity<CashRegister> updateCashRegister(@PathVariable("id") final long id,
+            @RequestBody final CashRegister cashRegister) {
         System.out.println("Updating CashRegister " + id);
 
         CashRegister currentCashRegister = service.findOne(id);
@@ -89,7 +89,7 @@ public class CashRegisterRestController {
     }
 
     @RequestMapping(value = "/cashregister/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<CashRegister> deleteCashRegister(@PathVariable("id") long id) {
+    public ResponseEntity<CashRegister> deleteCashRegister(@PathVariable("id") final long id) {
         System.out.println("Fetching & Deleting CashRegister with id " + id);
 
         CashRegister cashRegister = service.findOne(id);

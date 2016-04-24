@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-public class AddressRestController {
+public final class AddressRestController {
 
     @Autowired
     ModelService<Address> service;
@@ -34,7 +34,7 @@ public class AddressRestController {
     }
 
     @RequestMapping(value = "/address/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Address> getAddress(@PathVariable("id") long id) {
+    public ResponseEntity<Address> getAddress(@PathVariable("id") final long id) {
         System.out.println("Fetching Address with id " + id);
         Address address = service.findOne(id);
         if (address == null) {
@@ -45,8 +45,8 @@ public class AddressRestController {
     }
 
     @RequestMapping(value = "/address/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createAddress(@RequestBody Address address,
-            UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> createAddress(@RequestBody final Address address,
+            final UriComponentsBuilder uriBuilder) {
         System.out.println("Creating Address " + address.getStreet());
 
         if (service.exists(address)) {
@@ -63,8 +63,8 @@ public class AddressRestController {
     }
 
     @RequestMapping(value = "/address/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Address> updateAddress(@PathVariable("id") long id,
-            @RequestBody Address address) {
+    public ResponseEntity<Address> updateAddress(@PathVariable("id") final long id,
+            @RequestBody final Address address) {
         System.out.println("Updating Address " + id);
 
         Address currentAddress = service.findOne(id);
@@ -86,7 +86,7 @@ public class AddressRestController {
     }
 
     @RequestMapping(value = "/address/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Address> deleteAddress(@PathVariable("id") long id) {
+    public ResponseEntity<Address> deleteAddress(@PathVariable("id") final long id) {
         System.out.println("Fetching & Deleting Address with id " + id);
 
         Address address = service.findOne(id);

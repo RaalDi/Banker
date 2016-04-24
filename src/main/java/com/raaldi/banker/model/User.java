@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class User extends Model {
+public final class User extends Model {
 
     private static final long serialVersionUID = -8491559884264082143L;
 

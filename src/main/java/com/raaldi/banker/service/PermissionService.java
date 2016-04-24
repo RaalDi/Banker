@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Service("permissionService")
 @Transactional
-public class PermissionService implements ModelService<Permission> {
+public final class PermissionService implements ModelService<Permission> {
 
     @PersistenceContext
     private EntityManager em;

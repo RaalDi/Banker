@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Lottery.findAll", query = "SELECT c FROM Lottery c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Lottery extends Model {
+public final class Lottery extends Model {
 
     private static final long serialVersionUID = -749127867337161764L;
 

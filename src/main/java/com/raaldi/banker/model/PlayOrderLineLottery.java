@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PlayOrderLineLottery implements Serializable {
+public final class PlayOrderLineLottery implements Serializable {
 
     private static final long serialVersionUID = 4604753242703504870L;
 

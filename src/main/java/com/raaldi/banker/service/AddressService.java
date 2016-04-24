@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Service("addressService")
 @Transactional
-public class AddressService implements ModelService<Address> {
+public final class AddressService implements ModelService<Address> {
 
     @PersistenceContext
     private EntityManager em;

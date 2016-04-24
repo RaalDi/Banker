@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Service("restrictPlayService")
 @Transactional
-public class RestrictPlayService implements ModelService<RestrictPlay> {
+public final class RestrictPlayService implements ModelService<RestrictPlay> {
 
     @PersistenceContext
     private EntityManager em;

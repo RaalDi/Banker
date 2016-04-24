@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-public class UserRestController {
+public final class UserRestController {
 
     private static final String TEMPLATE = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -39,7 +39,7 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") final long id) {
         System.out.println("Fetching User with id " + id);
         User user = service.findOne(id);
         if (user == null) {
@@ -50,8 +50,8 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody User user,
-            UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> createUser(@RequestBody final User user,
+            final UriComponentsBuilder uriBuilder) {
         System.out.println("Creating User " + user.getUserName());
 
         if (service.exists(user)) {
@@ -67,7 +67,8 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") final long id,
+            @RequestBody final User user) {
         System.out.println("Updating User " + id);
 
         User currentUser = service.findOne(id);
@@ -88,7 +89,7 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
+    public ResponseEntity<User> deleteUser(@PathVariable("id") final long id) {
         System.out.println("Fetching & Deleting User with id " + id);
 
         User user = service.findOne(id);
@@ -115,7 +116,7 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/greeting/{name}", method = RequestMethod.GET)
-    public String greeting(@PathVariable("name") String name) {
+    public String greeting(@PathVariable("name") final String name) {
         User user = new User();
         user.setFirstName("Rafael");
         user.setLastName("Diaz");

@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Permission.findAll", query = "SELECT c FROM Permission c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Permission extends Model {
+public final class Permission extends Model {
 
     private static final long serialVersionUID = 638834021669541247L;
 

@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Session.findAll", query = "SELECT c FROM Session c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Session extends Model {
+public final class Session extends Model {
 
     private static final long serialVersionUID = 5729958504572843209L;
 

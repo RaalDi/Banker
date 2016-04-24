@@ -1,10 +1,29 @@
-apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'jetty'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
+//apply plugin: 'java'
+//apply plugin: 'war'
+//apply plugin: 'jetty'
+//apply plugin: 'eclipse-wtp'
+//apply plugin: 'pmd'
+//apply plugin: 'checkstyle'
+//apply plugin: 'findbugs'
+
+//Add so Liquibase plugin can work
+buildscript {
+  dependencies {
+    classpath 'org.postgresql:postgresql:9.4.1207.jre7'
+  }
+}
+
+plugins {
+    
+    id 'java'
+    id 'war'
+    id 'jetty'
+    id 'eclipse-wtp'
+    id 'pmd'
+    id 'checkstyle'
+    id 'findbugs'
+    id 'org.liquibase.gradle' version '1.2.1'
+}
 
 // buildDir = 'target/gradle-build'
 
@@ -52,6 +71,7 @@ dependencies {
 	compile 'org.springframework:spring-tx:4.2.4.RELEASE'
 	
 	// Rest
+	compile 'org.glassfish.jersey.ext:jersey-spring3:2.22.2'
 	// compile 'org.springframework.data:spring-data-rest-webmvc:2.4.2.RELEASE'
 	
 	//JSON
@@ -61,12 +81,15 @@ dependencies {
 	compile 'org.hibernate:hibernate-entitymanager:5.0.6.Final'
 	compile 'org.hibernate:hibernate-validator:5.2.2.Final'
 	compile 'org.springframework.data:spring-data-jpa:1.9.2.RELEASE'
+	compile 'org.liquibase:liquibase-core:3.4.2'
+	compile 'org.liquibase.ext:liquibase-hibernate4.2:3.5'
 	
 	//JTA
 	compile 'javax.transaction:jta:1.1'
 	
 	// Databade JDBC Driver
-	providedCompile 'org.postgresql:postgresql:9.4.1207.jre7'
+	// providedCompile 'org.postgresql:postgresql:9.4.1207.jre7' //provided in Tomcat
+	runtime 'org.postgresql:postgresql:9.4.1207.jre7' // Liquibase runtime
     
     // Logger
     //compile 'org.apache.logging.log4j:log4j-api:2.5'
@@ -111,9 +134,28 @@ checkstyle {
     configProperties.checkstyleConfigDir = checkstyleConfigDir
 }
 
+liquibase {
+  activities { 
+    main {
+      changeLogFile "$rootDir/src/main/resources/db/changelog-master.xml"
+      //diffChangeLogFile "$rootDir/src/main/resources/db/changelog-${version}.xml"
+      url 'jdbc:postgresql://127.0.0.1:5432/banker'
+      username 'admin'
+      password 'M0nt1lla'
+      //changeLogParameters([ myToken: 'myvalue',
+      //                      second: 'secondValue'])
+      referenceUrl 'persistence:persistenceUnit'
+      //verbose 'true'
+      //logging 'info'
+    }
+  } 
+  //runList = 'main,'
+}
+
 /*
 configurations {
-   compileOnly
+   //compileOnly
+   driver
 }
 
 sourceSets {
@@ -128,6 +170,7 @@ sourceSets {
    }
 }
 */
+
 test {
     systemProperties 'property': 'value'
     

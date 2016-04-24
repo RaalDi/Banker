@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 @Service("lotteryService")
 @Transactional
-public class LotteryService implements ModelService<Lottery> {
+public final class LotteryService implements ModelService<Lottery> {
 
     @PersistenceContext
     private EntityManager em;

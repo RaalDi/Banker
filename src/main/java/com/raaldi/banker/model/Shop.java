@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Shop extends Model {
+public final class Shop extends Model {
 
     private static final long serialVersionUID = -6096997265649544980L;
 

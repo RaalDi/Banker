@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Payment.findAll", query = "SELECT c FROM Payment c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Payment extends Model {
+public final class Payment extends Model {
 
     private static final long serialVersionUID = 1017925264098582407L;
 

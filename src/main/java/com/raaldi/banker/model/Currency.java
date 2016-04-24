@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ @NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Currency extends Model {
+public final class Currency extends Model {
 
     private static final long serialVersionUID = 7121744068113817683L;
 

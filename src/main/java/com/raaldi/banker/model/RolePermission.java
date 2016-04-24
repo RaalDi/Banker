@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "RolePermission.findAll", query = "SELECT c FROM RolePermission c"), })
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class RolePermission extends Model {
+public final class RolePermission extends Model {
 
     private static final long serialVersionUID = -91786390688045690L;
 

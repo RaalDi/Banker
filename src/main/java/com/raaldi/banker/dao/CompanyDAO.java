@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository("companyDAO")
-public class CompanyDAO extends AbstractModelDao<Company, Long> {
+public final class CompanyDAO extends AbstractModelDao<Company, Long> {
 
     public CompanyDAO(final Class<Company> domainClass, final EntityManager em) {
         super(domainClass, em);
