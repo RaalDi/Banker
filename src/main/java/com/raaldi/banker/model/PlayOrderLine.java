@@ -26,13 +26,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "play_order_line")
-@XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"), })
+        @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class PlayOrderLine extends Model {
@@ -57,13 +55,13 @@ public final class PlayOrderLine extends Model {
     @NotEmpty
     @ElementCollection
     @CollectionTable(name = "play_order_line_lottery", joinColumns = {
-            @JoinColumn(name = "play_order_line_id") })
+            @JoinColumn(name = "play_order_line_id")})
     private Set<PlayOrderLineLottery> lotteries = new HashSet<PlayOrderLineLottery>();
 
     @NotEmpty
     @ElementCollection
     @CollectionTable(name = "play_order_line_number", joinColumns = {
-            @JoinColumn(name = "play_order_line_id") })
+            @JoinColumn(name = "play_order_line_id")})
     private List<PlayOrderLineNumber> numbers = new ArrayList<PlayOrderLineNumber>();
 
     @NotNull

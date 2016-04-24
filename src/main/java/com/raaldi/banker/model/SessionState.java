@@ -13,13 +13,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "session_state")
-@XmlRootElement
-@NamedQueries({
-        @NamedQuery(name = "SessionState.findAll", query = "SELECT c FROM SessionState c"), })
+@NamedQueries({@NamedQuery(name = "SessionState.findAll", query = "SELECT c FROM SessionState c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class SessionState extends Model {

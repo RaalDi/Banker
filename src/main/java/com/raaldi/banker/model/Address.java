@@ -15,11 +15,9 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c"), })
+@NamedQueries({@NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class Address extends Model {

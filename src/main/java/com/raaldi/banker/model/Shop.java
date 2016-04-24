@@ -19,11 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c"), })
+@NamedQueries({@NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class Shop extends Model {

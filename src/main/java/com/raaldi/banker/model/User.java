@@ -26,12 +26,10 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "person")
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"), })
+@NamedQueries({@NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class User extends Model {

@@ -15,14 +15,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "role_permission", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id",
-        "role_id", "permission_id" }))
-@XmlRootElement
+@Table(name = "role_permission", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id",
+        "role_id", "permission_id"}))
 @NamedQueries({
-        @NamedQuery(name = "RolePermission.findAll", query = "SELECT c FROM RolePermission c"), })
+        @NamedQuery(name = "RolePermission.findAll", query = "SELECT c FROM RolePermission c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class RolePermission extends Model {

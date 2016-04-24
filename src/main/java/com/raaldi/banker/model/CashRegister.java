@@ -25,13 +25,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "cash_register")
-@XmlRootElement
-@NamedQueries({
-        @NamedQuery(name = "CashRegister.findAll", query = "SELECT c FROM CashRegister c"), })
+@NamedQueries({@NamedQuery(name = "CashRegister.findAll", query = "SELECT c FROM CashRegister c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class CashRegister extends Model {

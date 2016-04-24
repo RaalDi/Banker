@@ -23,11 +23,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Session.findAll", query = "SELECT c FROM Session c"), })
+@NamedQueries({@NamedQuery(name = "Session.findAll", query = "SELECT c FROM Session c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class Session extends Model {

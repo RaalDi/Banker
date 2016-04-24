@@ -28,13 +28,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "restrict_play")
-@XmlRootElement
-@NamedQueries({
-        @NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"), })
+@NamedQueries({@NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class RestrictPlay extends Model {
@@ -54,14 +51,14 @@ public final class RestrictPlay extends Model {
     @NotEmpty
     @ElementCollection
     @CollectionTable(name = "restrict_play_lottery", joinColumns = {
-            @JoinColumn(name = "restrict_play_id") })
+            @JoinColumn(name = "restrict_play_id")})
     private Set<RestrictPlayLottery> lotteries = new HashSet<RestrictPlayLottery>();
 
     @NotEmpty
     @ElementCollection
     @CollectionTable(name = "restrict_play_number", joinColumns = {
-            @JoinColumn(name = "restrict_play_id") }, uniqueConstraints = @UniqueConstraint(columnNames = {
-                    "restrict_play_id", "restricted_number" }))
+            @JoinColumn(name = "restrict_play_id")}, uniqueConstraints = @UniqueConstraint(columnNames = {
+                    "restrict_play_id", "restricted_number"}))
     private List<RestrictPlayNumber> numbers = new ArrayList<RestrictPlayNumber>();
 
     @NotNull

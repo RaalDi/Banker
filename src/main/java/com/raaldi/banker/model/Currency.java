@@ -14,11 +14,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"), })
+@NamedQueries({@NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class Currency extends Model {

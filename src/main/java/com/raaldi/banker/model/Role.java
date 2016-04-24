@@ -12,11 +12,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Role.findAll", query = "SELECT c FROM Role c"), })
+@NamedQueries({@NamedQuery(name = "Role.findAll", query = "SELECT c FROM Role c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class Role extends Model {

@@ -22,12 +22,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "play_order")
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "PlayOrder.findAll", query = "SELECT c FROM PlayOrder c"), })
+@NamedQueries({@NamedQuery(name = "PlayOrder.findAll", query = "SELECT c FROM PlayOrder c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class PlayOrder extends Model {

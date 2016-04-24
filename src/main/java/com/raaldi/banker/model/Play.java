@@ -12,11 +12,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Play.findAll", query = "SELECT c FROM Play c"), })
+@NamedQueries({@NamedQuery(name = "Play.findAll", query = "SELECT c FROM Play c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class Play extends Model {

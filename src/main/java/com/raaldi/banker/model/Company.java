@@ -18,12 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
-        @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name"), })
+@NamedQueries({@NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
+        @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public final class Company extends Model {
