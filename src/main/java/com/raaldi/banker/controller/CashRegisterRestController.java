@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "cashregister")
+@RequestMapping(value = "cash-register")
 public final class CashRegisterRestController {
 
     static final Logger LOG = LoggerFactory.getLogger(CashRegisterRestController.class);
@@ -30,12 +30,12 @@ public final class CashRegisterRestController {
 
     @RequestMapping(value = "/get-all", method = RequestMethod.GET)
     public ResponseEntity<List<CashRegister>> getAll() {
-        List<CashRegister> cashRegisteres = service.findAll();
-        if (cashRegisteres.isEmpty()) {
+        List<CashRegister> cashRegisters = service.findAll();
+        if (cashRegisters.isEmpty()) {
             // You many decide to return HttpStatus.NOT_FOUND
             return new ResponseEntity<List<CashRegister>>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<CashRegister>>(cashRegisteres, HttpStatus.OK);
+        return new ResponseEntity<List<CashRegister>>(cashRegisters, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
