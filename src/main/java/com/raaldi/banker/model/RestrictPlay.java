@@ -3,6 +3,8 @@ package com.raaldi.banker.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "RestrictPlay")
 @Table(name = "restrict_play")
 @NamedQueries({@NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"),})
 @Data

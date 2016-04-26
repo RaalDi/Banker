@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import com.raaldi.banker.util.EnumSessionState;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -25,6 +28,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Session")
 @NamedQueries({@NamedQuery(name = "Session.findAll", query = "SELECT c FROM Session c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)

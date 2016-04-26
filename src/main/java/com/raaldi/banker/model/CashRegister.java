@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import com.raaldi.banker.util.CashRegisterState;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -27,6 +30,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "CashRegister")
 @Table(name = "cash_register")
 @NamedQueries({@NamedQuery(name = "CashRegister.findAll", query = "SELECT c FROM CashRegister c"),})
 @Data

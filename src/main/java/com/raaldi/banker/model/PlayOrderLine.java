@@ -3,6 +3,8 @@ package com.raaldi.banker.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
@@ -28,6 +30,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "PlayOrderLine")
 @Table(name = "play_order_line")
 @NamedQueries({
         @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"),})

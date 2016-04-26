@@ -3,6 +3,9 @@ package com.raaldi.banker.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,6 +23,7 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Company")
 @NamedQueries({@NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
         @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name"),})
 @Data

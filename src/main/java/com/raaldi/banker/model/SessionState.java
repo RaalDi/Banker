@@ -3,6 +3,9 @@ package com.raaldi.banker.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "SessionState")
 @Table(name = "session_state")
 @NamedQueries({@NamedQuery(name = "SessionState.findAll", query = "SELECT c FROM SessionState c"),})
 @Data

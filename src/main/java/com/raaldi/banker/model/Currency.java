@@ -3,6 +3,9 @@ package com.raaldi.banker.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -16,6 +19,7 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Currency")
 @NamedQueries({@NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)

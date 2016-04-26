@@ -3,6 +3,9 @@ package com.raaldi.banker.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -28,6 +31,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "User")
 @Table(name = "person")
 @NamedQueries({@NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"),})
 @Data

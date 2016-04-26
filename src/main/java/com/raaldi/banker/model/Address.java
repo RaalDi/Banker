@@ -3,6 +3,9 @@ package com.raaldi.banker.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Address")
 @NamedQueries({@NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c"),})
 @Data
 @EqualsAndHashCode(callSuper = false)
