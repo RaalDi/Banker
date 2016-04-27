@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.SessionState;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "session-state")
 public final class SessionStateRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(SessionStateRestController.class);
 
     @Autowired
     ModelService<SessionState> service;
@@ -40,10 +41,10 @@ public final class SessionStateRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SessionState> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching SessionState with id %s", id));
+        log.info(String.format("Fetching SessionState with id %s", id));
         SessionState sessionState = service.findOne(id);
         if (sessionState == null) {
-            LOG.info(String.format("SessionState with id %s not found", id));
+            log.info(String.format("SessionState with id %s not found", id));
             return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<SessionState>(sessionState, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class SessionStateRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final SessionState sessionState,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating SessionState %s", sessionState.toString()));
+        log.info(String.format("Creating SessionState %s", sessionState.toString()));
 
         if (service.exists(sessionState)) {
-            LOG.info(String.format("A SessionState with name %s already exist",
+            log.info(String.format("A SessionState with name %s already exist",
                     sessionState.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
@@ -71,12 +72,12 @@ public final class SessionStateRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<SessionState> update(@PathVariable("id") final long id,
             @RequestBody final SessionState sessionState) {
-        LOG.info(String.format("Updating SessionState %s", id));
+        log.info(String.format("Updating SessionState %s", id));
 
         SessionState currentSessionState = service.findOne(id);
 
         if (currentSessionState == null) {
-            LOG.info(String.format("SessionState with id %s not found", id));
+            log.info(String.format("SessionState with id %s not found", id));
             return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
         }
 
@@ -91,11 +92,11 @@ public final class SessionStateRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<SessionState> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting SessionState with id %s", id));
+        log.info(String.format("Fetching & Deleting SessionState with id %s", id));
 
         SessionState sessionState = service.findOne(id);
         if (sessionState == null) {
-            LOG.info(String.format("Unable to delete. SessionState with id %s not found", id));
+            log.info(String.format("Unable to delete. SessionState with id %s not found", id));
             return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -107,7 +108,7 @@ public final class SessionStateRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<SessionState> deleteAll() {
-        LOG.info("Deleting All SessionStates");
+        log.info("Deleting All SessionStates");
 
         /**
          * TODO: Addres delete all method to service

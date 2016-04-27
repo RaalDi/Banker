@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.RestrictPlay;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "restrict-play")
 public final class RestrictPlayRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(RestrictPlayRestController.class);
 
     @Autowired
     ModelService<RestrictPlay> service;
@@ -40,10 +41,10 @@ public final class RestrictPlayRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RestrictPlay> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching RestrictPlay with id %s", id));
+        log.info(String.format("Fetching RestrictPlay with id %s", id));
         RestrictPlay restrictPlay = service.findOne(id);
         if (restrictPlay == null) {
-            LOG.info(String.format("RestrictPlay with id %s not found", id));
+            log.info(String.format("RestrictPlay with id %s not found", id));
             return new ResponseEntity<RestrictPlay>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<RestrictPlay>(restrictPlay, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class RestrictPlayRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final RestrictPlay restrictPlay,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating RestrictPlay %s", restrictPlay.toString()));
+        log.info(String.format("Creating RestrictPlay %s", restrictPlay.toString()));
 
         if (service.exists(restrictPlay)) {
-            LOG.info(String.format("A RestrictPlay with name %s already exist",
+            log.info(String.format("A RestrictPlay with name %s already exist",
                     restrictPlay.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
@@ -71,12 +72,12 @@ public final class RestrictPlayRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<RestrictPlay> update(@PathVariable("id") final long id,
             @RequestBody final RestrictPlay restrictPlay) {
-        LOG.info(String.format("Updating RestrictPlay %s", id));
+        log.info(String.format("Updating RestrictPlay %s", id));
 
         RestrictPlay currentRestrictPlay = service.findOne(id);
 
         if (currentRestrictPlay == null) {
-            LOG.info(String.format("RestrictPlay with id %s not found", id));
+            log.info(String.format("RestrictPlay with id %s not found", id));
             return new ResponseEntity<RestrictPlay>(HttpStatus.NOT_FOUND);
         }
 
@@ -96,11 +97,11 @@ public final class RestrictPlayRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<RestrictPlay> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting RestrictPlay with id %s", id));
+        log.info(String.format("Fetching & Deleting RestrictPlay with id %s", id));
 
         RestrictPlay restrictPlay = service.findOne(id);
         if (restrictPlay == null) {
-            LOG.info(String.format("Unable to delete. RestrictPlay with id %s not found", id));
+            log.info(String.format("Unable to delete. RestrictPlay with id %s not found", id));
             return new ResponseEntity<RestrictPlay>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -112,7 +113,7 @@ public final class RestrictPlayRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<RestrictPlay> deleteAll() {
-        LOG.info("Deleting All RestrictPlays");
+        log.info("Deleting All RestrictPlays");
 
         /**
          * TODO: Addres delete all method to service

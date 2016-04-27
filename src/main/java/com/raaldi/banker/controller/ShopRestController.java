@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Shop;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "shop")
 public final class ShopRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(ShopRestController.class);
 
     @Autowired
     ModelService<Shop> service;
@@ -40,10 +41,10 @@ public final class ShopRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Shop> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Shop with id %s", id));
+        log.info(String.format("Fetching Shop with id %s", id));
         Shop shop = service.findOne(id);
         if (shop == null) {
-            LOG.info(String.format("Shop with id %s not found", id));
+            log.info(String.format("Shop with id %s not found", id));
             return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Shop>(shop, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class ShopRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Shop shop,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Shop %s", shop.toString()));
+        log.info(String.format("Creating Shop %s", shop.toString()));
 
         if (service.exists(shop)) {
-            LOG.info(String.format("A Shop with name %s already exist", shop.toString()));
+            log.info(String.format("A Shop with name %s already exist", shop.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class ShopRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Shop> update(@PathVariable("id") final long id,
             @RequestBody final Shop shop) {
-        LOG.info(String.format("Updating Shop %s", id));
+        log.info(String.format("Updating Shop %s", id));
 
         Shop currentShop = service.findOne(id);
 
         if (currentShop == null) {
-            LOG.info(String.format("Shop with id %s not found", id));
+            log.info(String.format("Shop with id %s not found", id));
             return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
         }
 
@@ -93,11 +94,11 @@ public final class ShopRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Shop> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Shop with id %s", id));
+        log.info(String.format("Fetching & Deleting Shop with id %s", id));
 
         Shop shop = service.findOne(id);
         if (shop == null) {
-            LOG.info(String.format("Unable to delete. Shop with id %s not found", id));
+            log.info(String.format("Unable to delete. Shop with id %s not found", id));
             return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -109,7 +110,7 @@ public final class ShopRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Shop> deleteAll() {
-        LOG.info("Deleting All Shops");
+        log.info("Deleting All Shops");
 
         /**
          * TODO: Addres delete all method to service

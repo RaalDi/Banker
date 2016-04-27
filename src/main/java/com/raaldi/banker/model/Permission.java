@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -18,18 +19,19 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Permission")
-@NamedQueries({@NamedQuery(name = "Permission.findAll", query = "SELECT c FROM Permission c"),})
+@NamedQueries({@NamedQuery(name = "Permission.findAll", query = "SELECT c FROM Permission c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class Permission extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class Permission extends AbstractModel {
 
     private static final long serialVersionUID = 638834021669541247L;
 
     @Id
     @SequenceGenerator(name = "permission-seq-gen", sequenceName = "permission_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permission-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
     private String name;

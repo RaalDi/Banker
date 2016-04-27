@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import com.raaldi.banker.util.CashRegisterState;
 
@@ -32,18 +33,19 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "CashRegister")
 @Table(name = "cash_register")
-@NamedQueries({@NamedQuery(name = "CashRegister.findAll", query = "SELECT c FROM CashRegister c"),})
+@NamedQueries({@NamedQuery(name = "CashRegister.findAll", query = "SELECT c FROM CashRegister c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class CashRegister extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class CashRegister extends AbstractModel {
 
     private static final long serialVersionUID = 7871256452762586374L;
 
     @Id
     @SequenceGenerator(name = "cash-register-seq-gen", sequenceName = "cash_register_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cash-register-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @OneToOne(optional = false)
     @JoinColumn(name = "session_id", nullable = false, insertable = true, updatable = false)
@@ -92,11 +94,11 @@ public final class CashRegister extends Model {
                     "CashRegister.openedAmount may not be null when opening the cash register");
         }
 
-        this.opened = opened != null ? new Date(opened.getTime()) : null;
+        this.opened = opened == null ? null : new Date(opened.getTime());
     }
 
     public Date getOpened() {
-        return opened != null ? new Date(opened.getTime()) : null;
+        return opened == null ? null : new Date(opened.getTime());
     }
 
     public void setClosed(final Date closed) {
@@ -106,11 +108,11 @@ public final class CashRegister extends Model {
                     "CashRegister.closedAmount may not be null when closing the cash register");
         }
 
-        this.closed = closed != null ? new Date(closed.getTime()) : null;
+        this.closed = closed == null ? null : new Date(closed.getTime());
     }
 
     public Date getClosed() {
-        return closed != null ? new Date(closed.getTime()) : null;
+        return closed == null ? null : new Date(closed.getTime());
     }
 
     @Override

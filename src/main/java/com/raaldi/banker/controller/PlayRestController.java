@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Play;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "play")
 public final class PlayRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(PlayRestController.class);
 
     @Autowired
     ModelService<Play> service;
@@ -40,10 +41,10 @@ public final class PlayRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Play> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Play with id %s", id));
+        log.info(String.format("Fetching Play with id %s", id));
         Play play = service.findOne(id);
         if (play == null) {
-            LOG.info(String.format("Play with id %s not found", id));
+            log.info(String.format("Play with id %s not found", id));
             return new ResponseEntity<Play>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Play>(play, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class PlayRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Play play,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Play %s", play.toString()));
+        log.info(String.format("Creating Play %s", play.toString()));
 
         if (service.exists(play)) {
-            LOG.info(String.format("A Play with name %s already exist", play.toString()));
+            log.info(String.format("A Play with name %s already exist", play.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class PlayRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Play> update(@PathVariable("id") final long id,
             @RequestBody final Play play) {
-        LOG.info(String.format("Updating Play %s", id));
+        log.info(String.format("Updating Play %s", id));
 
         Play currentPlay = service.findOne(id);
 
         if (currentPlay == null) {
-            LOG.info(String.format("Play with id %s not found", id));
+            log.info(String.format("Play with id %s not found", id));
             return new ResponseEntity<Play>(HttpStatus.NOT_FOUND);
         }
 
@@ -90,11 +91,11 @@ public final class PlayRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Play> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Play with id %s", id));
+        log.info(String.format("Fetching & Deleting Play with id %s", id));
 
         Play play = service.findOne(id);
         if (play == null) {
-            LOG.info(String.format("Unable to delete. Play with id %s not found", id));
+            log.info(String.format("Unable to delete. Play with id %s not found", id));
             return new ResponseEntity<Play>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -106,7 +107,7 @@ public final class PlayRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Play> deleteAll() {
-        LOG.info("Deleting All Plays");
+        log.info("Deleting All Plays");
 
         /**
          * TODO: Addres delete all method to service

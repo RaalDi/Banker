@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import com.raaldi.banker.util.EnumSessionState;
 
@@ -29,18 +30,19 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Session")
-@NamedQueries({@NamedQuery(name = "Session.findAll", query = "SELECT c FROM Session c"),})
+@NamedQueries({@NamedQuery(name = "Session.findAll", query = "SELECT c FROM Session c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class Session extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class Session extends AbstractModel {
 
     private static final long serialVersionUID = 5729958504572843209L;
 
     @Id
     @SequenceGenerator(name = "session-seq-gen", sequenceName = "session_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false, insertable = true, updatable = false)
@@ -78,19 +80,19 @@ public final class Session extends Model {
     }
 
     public void setStarted(final Date started) {
-        this.started = started != null ? new Date(started.getTime()) : null;
+        this.started = started == null ? null : new Date(started.getTime());
     }
 
     public Date getStarted() {
-        return started != null ? new Date(started.getTime()) : null;
+        return started == null ? null : new Date(started.getTime());
     }
 
     public void setEnded(final Date ended) {
-        this.ended = ended != null ? new Date(ended.getTime()) : null;
+        this.ended = ended == null ? null : new Date(ended.getTime());
     }
 
     public Date getEnded() {
-        return ended != null ? new Date(ended.getTime()) : null;
+        return ended == null ? null : new Date(ended.getTime());
     }
 
     @Override

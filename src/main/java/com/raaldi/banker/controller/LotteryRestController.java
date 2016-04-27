@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Lottery;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "lottery")
 public final class LotteryRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(LotteryRestController.class);
 
     @Autowired
     ModelService<Lottery> service;
@@ -40,10 +41,10 @@ public final class LotteryRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Lottery> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Lottery with id %s", id));
+        log.info(String.format("Fetching Lottery with id %s", id));
         Lottery lottery = service.findOne(id);
         if (lottery == null) {
-            LOG.info(String.format("Lottery with id %s not found", id));
+            log.info(String.format("Lottery with id %s not found", id));
             return new ResponseEntity<Lottery>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Lottery>(lottery, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class LotteryRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Lottery lottery,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Lottery %s", lottery.toString()));
+        log.info(String.format("Creating Lottery %s", lottery.toString()));
 
         if (service.exists(lottery)) {
-            LOG.info(String.format("A Lottery with name %s already exist", lottery.toString()));
+            log.info(String.format("A Lottery with name %s already exist", lottery.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class LotteryRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Lottery> update(@PathVariable("id") final long id,
             @RequestBody final Lottery lottery) {
-        LOG.info(String.format("Updating Lottery %s", id));
+        log.info(String.format("Updating Lottery %s", id));
 
         Lottery currentLottery = service.findOne(id);
 
         if (currentLottery == null) {
-            LOG.info(String.format("Lottery with id %s not found", id));
+            log.info(String.format("Lottery with id %s not found", id));
             return new ResponseEntity<Lottery>(HttpStatus.NOT_FOUND);
         }
 
@@ -90,11 +91,11 @@ public final class LotteryRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Lottery> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Lottery with id %s", id));
+        log.info(String.format("Fetching & Deleting Lottery with id %s", id));
 
         Lottery lottery = service.findOne(id);
         if (lottery == null) {
-            LOG.info(String.format("Unable to delete. Lottery with id %s not found", id));
+            log.info(String.format("Unable to delete. Lottery with id %s not found", id));
             return new ResponseEntity<Lottery>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -106,7 +107,7 @@ public final class LotteryRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Lottery> deleteAll() {
-        LOG.info("Deleting All Lotterys");
+        log.info("Deleting All Lotterys");
 
         /**
          * TODO: Addres delete all method to service

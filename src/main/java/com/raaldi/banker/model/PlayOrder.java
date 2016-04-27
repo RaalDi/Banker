@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -29,32 +30,36 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "PlayOrder")
 @Table(name = "play_order")
-@NamedQueries({@NamedQuery(name = "PlayOrder.findAll", query = "SELECT c FROM PlayOrder c"),})
+@NamedQueries({@NamedQuery(name = "PlayOrder.findAll", query = "SELECT c FROM PlayOrder c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class PlayOrder extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class PlayOrder extends AbstractModel {
 
     private static final long serialVersionUID = -2831284612290806696L;
 
     @Id
     @SequenceGenerator(name = "play-order-seq-gen", sequenceName = "play_order_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-order-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
+    @NonNull
     @NotNull
     @Column(name = "amount", insertable = true, updatable = false)
     private BigDecimal amount;
 
+    @NonNull
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id", nullable = false, updatable = false)
     private Payment payment;
 
+    @NonNull
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cash_register_id", nullable = false, updatable = false)
@@ -67,6 +72,7 @@ public final class PlayOrder extends Model {
     @Column(name = "canceled")
     private boolean canceled;
 
+    @NonNull
     @NotNull
     @OneToMany(mappedBy = "playOrder", cascade = CascadeType.ALL)
     private List<PlayOrderLine> playOrderLines = new ArrayList<PlayOrderLine>();

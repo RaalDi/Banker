@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -20,18 +21,19 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Currency")
-@NamedQueries({@NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c"),})
+@NamedQueries({@NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class Currency extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class Currency extends AbstractModel {
 
     private static final long serialVersionUID = 7121744068113817683L;
 
     @Id
     @SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @Column(name = "value")
     private BigDecimal value;

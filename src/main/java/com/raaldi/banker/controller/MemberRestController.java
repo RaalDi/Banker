@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Member;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "member")
 public final class MemberRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(MemberRestController.class);
 
     @Autowired
     ModelService<Member> service;
@@ -40,10 +41,10 @@ public final class MemberRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Member> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Member with id %s", id));
+        log.info(String.format("Fetching Member with id %s", id));
         Member member = service.findOne(id);
         if (member == null) {
-            LOG.info(String.format("Member with id %s not found", id));
+            log.info(String.format("Member with id %s not found", id));
             return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Member>(member, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class MemberRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Member member,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Member %s", member.toString()));
+        log.info(String.format("Creating Member %s", member.toString()));
 
         if (service.exists(member)) {
-            LOG.info(String.format("A Member with name %s already exist", member.toString()));
+            log.info(String.format("A Member with name %s already exist", member.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class MemberRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Member> update(@PathVariable("id") final long id,
             @RequestBody final Member member) {
-        LOG.info(String.format("Updating Member %s", id));
+        log.info(String.format("Updating Member %s", id));
 
         Member currentMember = service.findOne(id);
 
         if (currentMember == null) {
-            LOG.info(String.format("Member with id %s not found", id));
+            log.info(String.format("Member with id %s not found", id));
             return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
         }
 
@@ -89,11 +90,11 @@ public final class MemberRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Member> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Member with id %s", id));
+        log.info(String.format("Fetching & Deleting Member with id %s", id));
 
         Member member = service.findOne(id);
         if (member == null) {
-            LOG.info(String.format("Unable to delete. Member with id %s not found", id));
+            log.info(String.format("Unable to delete. Member with id %s not found", id));
             return new ResponseEntity<Member>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -105,7 +106,7 @@ public final class MemberRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Member> deleteAll() {
-        LOG.info("Deleting All Members");
+        log.info("Deleting All Members");
 
         /**
          * TODO: Addres delete all method to service

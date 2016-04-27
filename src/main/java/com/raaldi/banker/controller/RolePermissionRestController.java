@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.RolePermission;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "role-permission")
 public final class RolePermissionRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(RolePermissionRestController.class);
 
     @Autowired
     ModelService<RolePermission> service;
@@ -40,10 +41,10 @@ public final class RolePermissionRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RolePermission> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching RolePermission with id %s", id));
+        log.info(String.format("Fetching RolePermission with id %s", id));
         RolePermission rolePermission = service.findOne(id);
         if (rolePermission == null) {
-            LOG.info(String.format("RolePermission with id %s not found", id));
+            log.info(String.format("RolePermission with id %s not found", id));
             return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<RolePermission>(rolePermission, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class RolePermissionRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final RolePermission rolePermission,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating RolePermission %s", rolePermission.toString()));
+        log.info(String.format("Creating RolePermission %s", rolePermission.toString()));
 
         if (service.exists(rolePermission)) {
-            LOG.info(String.format("A RolePermission with name %s already exist",
+            log.info(String.format("A RolePermission with name %s already exist",
                     rolePermission.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
@@ -71,12 +72,12 @@ public final class RolePermissionRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<RolePermission> update(@PathVariable("id") final long id,
             @RequestBody final RolePermission rolePermission) {
-        LOG.info(String.format("Updating RolePermission %s", id));
+        log.info(String.format("Updating RolePermission %s", id));
 
         RolePermission currentRolePermission = service.findOne(id);
 
         if (currentRolePermission == null) {
-            LOG.info(String.format("RolePermission with id %s not found", id));
+            log.info(String.format("RolePermission with id %s not found", id));
             return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
         }
 
@@ -92,11 +93,11 @@ public final class RolePermissionRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<RolePermission> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting RolePermission with id %s", id));
+        log.info(String.format("Fetching & Deleting RolePermission with id %s", id));
 
         RolePermission rolePermission = service.findOne(id);
         if (rolePermission == null) {
-            LOG.info(String.format("Unable to delete. RolePermission with id %s not found", id));
+            log.info(String.format("Unable to delete. RolePermission with id %s not found", id));
             return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -108,7 +109,7 @@ public final class RolePermissionRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<RolePermission> deleteAll() {
-        LOG.info("Deleting All RolePermissions");
+        log.info("Deleting All RolePermissions");
 
         /**
          * TODO: Addres delete all method to service

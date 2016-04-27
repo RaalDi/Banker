@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -25,30 +26,32 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Shop")
-@NamedQueries({@NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c"),})
+@NamedQueries({@NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class Shop extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class Shop extends AbstractModel {
 
     private static final long serialVersionUID = -6096997265649544980L;
 
     @Id
     @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @NotNull
     @Column(name = "active")
-    private boolean active = true;
+    private boolean active;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @NonNull
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", nullable = false)

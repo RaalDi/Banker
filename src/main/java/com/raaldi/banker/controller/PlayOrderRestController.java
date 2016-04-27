@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.PlayOrder;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "play-order")
 public final class PlayOrderRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(PlayOrderRestController.class);
 
     @Autowired
     ModelService<PlayOrder> service;
@@ -40,10 +41,10 @@ public final class PlayOrderRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PlayOrder> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching PlayOrder with id %s", id));
+        log.info(String.format("Fetching PlayOrder with id %s", id));
         PlayOrder playOrder = service.findOne(id);
         if (playOrder == null) {
-            LOG.info(String.format("PlayOrder with id %s not found", id));
+            log.info(String.format("PlayOrder with id %s not found", id));
             return new ResponseEntity<PlayOrder>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<PlayOrder>(playOrder, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class PlayOrderRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final PlayOrder playOrder,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating PlayOrder %s", playOrder.toString()));
+        log.info(String.format("Creating PlayOrder %s", playOrder.toString()));
 
         if (service.exists(playOrder)) {
-            LOG.info(String.format("A PlayOrder with name %s already exist", playOrder.toString()));
+            log.info(String.format("A PlayOrder with name %s already exist", playOrder.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class PlayOrderRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<PlayOrder> update(@PathVariable("id") final long id,
             @RequestBody final PlayOrder playOrder) {
-        LOG.info(String.format("Updating PlayOrder %s", id));
+        log.info(String.format("Updating PlayOrder %s", id));
 
         PlayOrder currentPlayOrder = service.findOne(id);
 
         if (currentPlayOrder == null) {
-            LOG.info(String.format("PlayOrder with id %s not found", id));
+            log.info(String.format("PlayOrder with id %s not found", id));
             return new ResponseEntity<PlayOrder>(HttpStatus.NOT_FOUND);
         }
 
@@ -94,11 +95,11 @@ public final class PlayOrderRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<PlayOrder> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting PlayOrder with id %s", id));
+        log.info(String.format("Fetching & Deleting PlayOrder with id %s", id));
 
         PlayOrder playOrder = service.findOne(id);
         if (playOrder == null) {
-            LOG.info(String.format("Unable to delete. PlayOrder with id %s not found", id));
+            log.info(String.format("Unable to delete. PlayOrder with id %s not found", id));
             return new ResponseEntity<PlayOrder>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -110,7 +111,7 @@ public final class PlayOrderRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<PlayOrder> deleteAll() {
-        LOG.info("Deleting All PlayOrders");
+        log.info("Deleting All PlayOrders");
 
         /**
          * TODO: Addres delete all method to service

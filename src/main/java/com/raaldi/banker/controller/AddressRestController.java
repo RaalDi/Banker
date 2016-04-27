@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Address;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping("address")
 public final class AddressRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(AddressRestController.class);
 
     @Autowired
     ModelService<Address> service;
@@ -40,10 +41,10 @@ public final class AddressRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Address> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Address with id %s", id));
+        log.info(String.format("Fetching Address with id %s", id));
         Address address = service.findOne(id);
         if (address == null) {
-            LOG.info(String.format("Address with id %s not found", id));
+            log.info(String.format("Address with id %s not found", id));
             return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Address>(address, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class AddressRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Address address,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Address %s", address.getStreet()));
+        log.info(String.format("Creating Address %s", address.getStreet()));
 
         if (service.exists(address)) {
-            LOG.info(String.format("A Address with name %s already exist", address.getStreet()));
+            log.info(String.format("A Address with name %s already exist", address.getStreet()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class AddressRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Address> update(@PathVariable("id") final long id,
             @RequestBody final Address address) {
-        LOG.info(String.format("Updating Address %s", id));
+        log.info(String.format("Updating Address %s", id));
 
         Address currentAddress = service.findOne(id);
 
         if (currentAddress == null) {
-            LOG.info(String.format("Address with id %s not found", id));
+            log.info(String.format("Address with id %s not found", id));
             return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
         }
 
@@ -91,11 +92,11 @@ public final class AddressRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Address> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Address with id %s", id));
+        log.info(String.format("Fetching & Deleting Address with id %s", id));
 
         Address address = service.findOne(id);
         if (address == null) {
-            LOG.info(String.format("Unable to delete. Address with id %s not found", id));
+            log.info(String.format("Unable to delete. Address with id %s not found", id));
             return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -107,7 +108,7 @@ public final class AddressRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Address> deleteAll() {
-        LOG.info("Deleting All Addresses");
+        log.info("Deleting All Addresses");
 
         /**
          * TODO: Addres delete all method to service

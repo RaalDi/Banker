@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Session;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "session")
 public final class SessionRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(SessionRestController.class);
 
     @Autowired
     ModelService<Session> service;
@@ -40,10 +41,10 @@ public final class SessionRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Session> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Session with id %s", id));
+        log.info(String.format("Fetching Session with id %s", id));
         Session session = service.findOne(id);
         if (session == null) {
-            LOG.info(String.format("Session with id %s not found", id));
+            log.info(String.format("Session with id %s not found", id));
             return new ResponseEntity<Session>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Session>(session, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class SessionRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Session session,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Session %s", session.toString()));
+        log.info(String.format("Creating Session %s", session.toString()));
 
         if (service.exists(session)) {
-            LOG.info(String.format("A Session with name %s already exist", session.toString()));
+            log.info(String.format("A Session with name %s already exist", session.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class SessionRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Session> update(@PathVariable("id") final long id,
             @RequestBody final Session session) {
-        LOG.info(String.format("Updating Session %s", id));
+        log.info(String.format("Updating Session %s", id));
 
         Session currentSession = service.findOne(id);
 
         if (currentSession == null) {
-            LOG.info(String.format("Session with id %s not found", id));
+            log.info(String.format("Session with id %s not found", id));
             return new ResponseEntity<Session>(HttpStatus.NOT_FOUND);
         }
 
@@ -91,11 +92,11 @@ public final class SessionRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Session> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Session with id %s", id));
+        log.info(String.format("Fetching & Deleting Session with id %s", id));
 
         Session session = service.findOne(id);
         if (session == null) {
-            LOG.info(String.format("Unable to delete. Session with id %s not found", id));
+            log.info(String.format("Unable to delete. Session with id %s not found", id));
             return new ResponseEntity<Session>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -107,7 +108,7 @@ public final class SessionRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Session> deleteAll() {
-        LOG.info("Deleting All Sessions");
+        log.info("Deleting All Sessions");
 
         /**
          * TODO: Addres delete all method to service

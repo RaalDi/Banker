@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Company;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "company")
 public final class CompanyRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(CompanyRestController.class);
 
     @Autowired
     ModelService<Company> service;
@@ -40,10 +41,10 @@ public final class CompanyRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Company> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Company with id %s", id));
+        log.info(String.format("Fetching Company with id %s", id));
         Company company = service.findOne(id);
         if (company == null) {
-            LOG.info(String.format("Company with id %s not found", id));
+            log.info(String.format("Company with id %s not found", id));
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Company>(company, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class CompanyRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Company company,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Company %s", company.toString()));
+        log.info(String.format("Creating Company %s", company.toString()));
 
         if (service.exists(company)) {
-            LOG.info(String.format("A Company with name %s already exist", company.toString()));
+            log.info(String.format("A Company with name %s already exist", company.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class CompanyRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Company> update(@PathVariable("id") final long id,
             @RequestBody final Company company) {
-        LOG.info(String.format("Updating Company %s", id));
+        log.info(String.format("Updating Company %s", id));
 
         Company currentCompany = service.findOne(id);
 
         if (currentCompany == null) {
-            LOG.info(String.format("Company with id %s not found", id));
+            log.info(String.format("Company with id %s not found", id));
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
 
@@ -91,11 +92,11 @@ public final class CompanyRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Company> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Company with id %s", id));
+        log.info(String.format("Fetching & Deleting Company with id %s", id));
 
         Company company = service.findOne(id);
         if (company == null) {
-            LOG.info(String.format("Unable to delete. Company with id %s not found", id));
+            log.info(String.format("Unable to delete. Company with id %s not found", id));
             return new ResponseEntity<Company>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -107,7 +108,7 @@ public final class CompanyRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Company> deleteAll() {
-        LOG.info("Deleting All Companys");
+        log.info("Deleting All Companys");
 
         /**
          * TODO: Addres delete all method to service

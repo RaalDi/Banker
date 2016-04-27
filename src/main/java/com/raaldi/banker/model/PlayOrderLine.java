@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -33,23 +34,25 @@ import javax.validation.constraints.NotNull;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "PlayOrderLine")
 @Table(name = "play_order_line")
 @NamedQueries({
-        @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c"),})
+        @NamedQuery(name = "PlayOrderLine.findAll", query = "SELECT c FROM PlayOrderLine c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class PlayOrderLine extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class PlayOrderLine extends AbstractModel {
 
     private static final long serialVersionUID = 3148027909146756391L;
 
     @Id
     @SequenceGenerator(name = "play-order-line-seq-gen", sequenceName = "play_order_line_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-order-line-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "play_order_id", nullable = false)
     private PlayOrder playOrder;
 
+    @NonNull
     @NotNull
     @OneToOne(optional = false)
     @JoinColumn(name = "play_id", nullable = false, insertable = true, updatable = false)
@@ -67,6 +70,7 @@ public final class PlayOrderLine extends Model {
             @JoinColumn(name = "play_order_line_id")})
     private List<PlayOrderLineNumber> numbers = new ArrayList<PlayOrderLineNumber>();
 
+    @NonNull
     @NotNull
     @Column(name = "amount", insertable = true, updatable = false)
     private BigDecimal amount;

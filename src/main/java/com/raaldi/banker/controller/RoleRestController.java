@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Role;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "role")
 public final class RoleRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(RoleRestController.class);
 
     @Autowired
     ModelService<Role> service;
@@ -40,10 +41,10 @@ public final class RoleRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Role> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Role with id %s", id));
+        log.info(String.format("Fetching Role with id %s", id));
         Role role = service.findOne(id);
         if (role == null) {
-            LOG.info(String.format("Role with id %s not found", id));
+            log.info(String.format("Role with id %s not found", id));
             return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Role>(role, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class RoleRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Role role,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Role %s", role.toString()));
+        log.info(String.format("Creating Role %s", role.toString()));
 
         if (service.exists(role)) {
-            LOG.info(String.format("A Role with name %s already exist", role.toString()));
+            log.info(String.format("A Role with name %s already exist", role.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class RoleRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Role> update(@PathVariable("id") final long id,
             @RequestBody final Role role) {
-        LOG.info(String.format("Updating Role %s", id));
+        log.info(String.format("Updating Role %s", id));
 
         Role currentRole = service.findOne(id);
 
         if (currentRole == null) {
-            LOG.info(String.format("Role with id %s not found", id));
+            log.info(String.format("Role with id %s not found", id));
             return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
         }
 
@@ -88,11 +89,11 @@ public final class RoleRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Role> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Role with id %s", id));
+        log.info(String.format("Fetching & Deleting Role with id %s", id));
 
         Role role = service.findOne(id);
         if (role == null) {
-            LOG.info(String.format("Unable to delete. Role with id %s not found", id));
+            log.info(String.format("Unable to delete. Role with id %s not found", id));
             return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -104,7 +105,7 @@ public final class RoleRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Role> deleteAll() {
-        LOG.info("Deleting All Roles");
+        log.info("Deleting All Roles");
 
         /**
          * TODO: Addres delete all method to service

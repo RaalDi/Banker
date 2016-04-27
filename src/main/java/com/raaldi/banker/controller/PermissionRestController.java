@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Permission;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "permission")
 public final class PermissionRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(PermissionRestController.class);
 
     @Autowired
     ModelService<Permission> service;
@@ -40,10 +41,10 @@ public final class PermissionRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Permission> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Permission with id %s", id));
+        log.info(String.format("Fetching Permission with id %s", id));
         Permission permission = service.findOne(id);
         if (permission == null) {
-            LOG.info(String.format("Permission with id %s not found", id));
+            log.info(String.format("Permission with id %s not found", id));
             return new ResponseEntity<Permission>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Permission>(permission, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class PermissionRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Permission permission,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Permission %s", permission.toString()));
+        log.info(String.format("Creating Permission %s", permission.toString()));
 
         if (service.exists(permission)) {
-            LOG.info(String.format("A Permission with name %s already exist",
+            log.info(String.format("A Permission with name %s already exist",
                     permission.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
@@ -71,12 +72,12 @@ public final class PermissionRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Permission> update(@PathVariable("id") final long id,
             @RequestBody final Permission permission) {
-        LOG.info(String.format("Updating Permission %s", id));
+        log.info(String.format("Updating Permission %s", id));
 
         Permission currentPermission = service.findOne(id);
 
         if (currentPermission == null) {
-            LOG.info(String.format("Permission with id %s not found", id));
+            log.info(String.format("Permission with id %s not found", id));
             return new ResponseEntity<Permission>(HttpStatus.NOT_FOUND);
         }
 
@@ -90,11 +91,11 @@ public final class PermissionRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Permission> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Permission with id %s", id));
+        log.info(String.format("Fetching & Deleting Permission with id %s", id));
 
         Permission permission = service.findOne(id);
         if (permission == null) {
-            LOG.info(String.format("Unable to delete. Permission with id %s not found", id));
+            log.info(String.format("Unable to delete. Permission with id %s not found", id));
             return new ResponseEntity<Permission>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -106,7 +107,7 @@ public final class PermissionRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Permission> deleteAll() {
-        LOG.info("Deleting All Permissions");
+        log.info("Deleting All Permissions");
 
         /**
          * TODO: Addres delete all method to service

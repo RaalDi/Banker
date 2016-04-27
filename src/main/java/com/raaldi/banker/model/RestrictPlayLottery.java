@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import java.io.Serializable;
 
@@ -17,6 +18,7 @@ public final class RestrictPlayLottery implements Serializable {
 
     private static final long serialVersionUID = -751469974986603513L;
 
+    @NonNull
     @NotNull
     @OneToOne
     @JoinColumn(name = "lottery_id", nullable = false)

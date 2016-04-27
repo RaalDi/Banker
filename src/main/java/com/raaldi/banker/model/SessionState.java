@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -20,18 +21,19 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "SessionState")
 @Table(name = "session_state")
-@NamedQueries({@NamedQuery(name = "SessionState.findAll", query = "SELECT c FROM SessionState c"),})
+@NamedQueries({@NamedQuery(name = "SessionState.findAll", query = "SELECT c FROM SessionState c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class SessionState extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class SessionState extends AbstractModel {
 
     private static final long serialVersionUID = 6611770901282246338L;
 
     @Id
     @SequenceGenerator(name = "session-state-seq-gen", sequenceName = "session_state_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session-state-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
     private String name;

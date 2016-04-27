@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -34,18 +35,25 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "RestrictPlay")
 @Table(name = "restrict_play")
-@NamedQueries({@NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c"),})
+@NamedQueries({@NamedQuery(name = "RestrictPlay.findAll", query = "SELECT c FROM RestrictPlay c")})
 @Data
-@EqualsAndHashCode(callSuper = false)
-public final class RestrictPlay extends Model {
+@EqualsAndHashCode(callSuper = true)
+public final class RestrictPlay extends AbstractModel {
 
     private static final long serialVersionUID = -3936838944769073574L;
+
+    public RestrictPlay(final Play play, final Date startDate, final Date endDate) {
+        this.setPlay(play);
+        this.setStartDate(startDate);
+        this.setEndDate(endDate);
+    }
 
     @Id
     @SequenceGenerator(name = "restrict-play-seq-gen", sequenceName = "restrict_play_seq_id", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restrict-play-seq-gen")
-    private Long id;
+    private long id;
 
+    @NonNull
     @NotNull
     @OneToOne
     @JoinColumn(name = "play_id", insertable = true, updatable = false)
@@ -64,11 +72,13 @@ public final class RestrictPlay extends Model {
                     "restrict_play_id", "restricted_number"}))
     private List<RestrictPlayNumber> numbers = new ArrayList<RestrictPlayNumber>();
 
+    @NonNull
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_date", nullable = false)
     private Date startDate;
 
+    @NonNull
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_date", nullable = false)
@@ -76,22 +86,22 @@ public final class RestrictPlay extends Model {
 
     @NotNull
     @Column(name = "active")
-    private boolean active = true;
+    private boolean active;
 
     public void setStartDate(final Date startDate) {
-        this.startDate = startDate != null ? new Date(startDate.getTime()) : null;
+        this.startDate = startDate == null ? null : new Date(startDate.getTime());
     }
 
     public Date getStartDate() {
-        return startDate != null ? new Date(startDate.getTime()) : null;
+        return startDate == null ? null : new Date(startDate.getTime());
     }
 
     public void setEndDate(final Date endDate) {
-        this.endDate = endDate != null ? new Date(endDate.getTime()) : null;
+        this.endDate = endDate == null ? null : new Date(endDate.getTime());
     }
 
     public Date getEndDate() {
-        return endDate != null ? new Date(endDate.getTime()) : null;
+        return endDate == null ? null : new Date(endDate.getTime());
     }
 
 }

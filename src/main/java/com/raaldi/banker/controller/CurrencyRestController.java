@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.Currency;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "currency")
 public final class CurrencyRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(CurrencyRestController.class);
 
     @Autowired
     ModelService<Currency> service;
@@ -40,10 +41,10 @@ public final class CurrencyRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Currency> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching Currency with id %s", id));
+        log.info(String.format("Fetching Currency with id %s", id));
         Currency currency = service.findOne(id);
         if (currency == null) {
-            LOG.info(String.format("Currency with id %s not found", id));
+            log.info(String.format("Currency with id %s not found", id));
             return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Currency>(currency, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class CurrencyRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final Currency currency,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating Currency %s", currency.toString()));
+        log.info(String.format("Creating Currency %s", currency.toString()));
 
         if (service.exists(currency)) {
-            LOG.info(String.format("A Currency with name %s already exist", currency.toString()));
+            log.info(String.format("A Currency with name %s already exist", currency.toString()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class CurrencyRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Currency> update(@PathVariable("id") final long id,
             @RequestBody final Currency currency) {
-        LOG.info(String.format("Updating Currency %s", id));
+        log.info(String.format("Updating Currency %s", id));
 
         Currency currentCurrency = service.findOne(id);
 
         if (currentCurrency == null) {
-            LOG.info(String.format("Currency with id %s not found", id));
+            log.info(String.format("Currency with id %s not found", id));
             return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
         }
 
@@ -89,11 +90,11 @@ public final class CurrencyRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Currency> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting Currency with id %s", id));
+        log.info(String.format("Fetching & Deleting Currency with id %s", id));
 
         Currency currency = service.findOne(id);
         if (currency == null) {
-            LOG.info(String.format("Unable to delete. Currency with id %s not found", id));
+            log.info(String.format("Unable to delete. Currency with id %s not found", id));
             return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -105,7 +106,7 @@ public final class CurrencyRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<Currency> deleteAll() {
-        LOG.info("Deleting All Currencys");
+        log.info("Deleting All Currencys");
 
         /**
          * TODO: Addres delete all method to service

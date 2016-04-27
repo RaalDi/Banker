@@ -2,6 +2,7 @@ package com.raaldi.banker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import java.io.Serializable;
 
@@ -16,6 +17,7 @@ public final class RestrictPlayNumber implements Serializable {
 
     private static final long serialVersionUID = -2499724899416829464L;
 
+    @NonNull
     @NotNull
     @Column(name = "restricted_number", nullable = false)
     private String number;

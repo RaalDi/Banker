@@ -1,10 +1,11 @@
 package com.raaldi.banker.controller;
 
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.raaldi.banker.model.User;
 import com.raaldi.banker.service.ModelService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@NoArgsConstructor
 @RestController
 @RequestMapping(value = "user")
 public final class UserRestController {
-
-    static final Logger LOG = LoggerFactory.getLogger(UserRestController.class);
 
     @Autowired
     ModelService<User> service;
@@ -40,10 +41,10 @@ public final class UserRestController {
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> get(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching User with id %s", id));
+        log.info(String.format("Fetching User with id %s", id));
         User user = service.findOne(id);
         if (user == null) {
-            LOG.info(String.format("User with id %s not found", id));
+            log.info(String.format("User with id %s not found", id));
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -52,10 +53,10 @@ public final class UserRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody final User user,
             final UriComponentsBuilder uriBuilder) {
-        LOG.info(String.format("Creating User %s", user.getUserName()));
+        log.info(String.format("Creating User %s", user.getUserName()));
 
         if (service.exists(user)) {
-            LOG.info(String.format("A User with name %s already exist", user.getUserName()));
+            log.info(String.format("A User with name %s already exist", user.getUserName()));
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
 
@@ -69,12 +70,12 @@ public final class UserRestController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<User> update(@PathVariable("id") final long id,
             @RequestBody final User user) {
-        LOG.info(String.format("Updating User %s", id));
+        log.info(String.format("Updating User %s", id));
 
         User currentUser = service.findOne(id);
 
         if (currentUser == null) {
-            LOG.info(String.format("User with id %s not found", id));
+            log.info(String.format("User with id %s not found", id));
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
 
@@ -90,11 +91,11 @@ public final class UserRestController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> delete(@PathVariable("id") final long id) {
-        LOG.info(String.format("Fetching & Deleting User with id %s", id));
+        log.info(String.format("Fetching & Deleting User with id %s", id));
 
         User user = service.findOne(id);
         if (user == null) {
-            LOG.info(String.format("Unable to delete. User with id %s not found", id));
+            log.info(String.format("Unable to delete. User with id %s not found", id));
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         /**
@@ -106,7 +107,7 @@ public final class UserRestController {
 
     @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteAll() {
-        LOG.info("Deleting All Users");
+        log.info("Deleting All Users");
 
         /**
          * TODO: Addres delete all method to service
