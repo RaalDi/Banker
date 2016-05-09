@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class PaymentService implements ModelService<Payment> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<Payment, Long> entityDAO;
+  private AbstractModelDao<Payment, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new PaymentDAO(Payment.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new PaymentDAO(Payment.class, em);
+  }
 
-    @Override
-    public void save(Payment model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(Payment model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public Payment findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public Payment findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<Payment> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<Payment> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(Payment model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(Payment model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

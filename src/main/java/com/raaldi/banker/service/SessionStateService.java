@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class SessionStateService implements ModelService<SessionState> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<SessionState, Long> entityDAO;
+  private AbstractModelDao<SessionState, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new SessionStateDAO(SessionState.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new SessionStateDAO(SessionState.class, em);
+  }
 
-    @Override
-    public void save(SessionState model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(SessionState model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public SessionState findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public SessionState findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<SessionState> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<SessionState> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(SessionState model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(SessionState model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

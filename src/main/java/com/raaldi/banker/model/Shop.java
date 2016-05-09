@@ -31,35 +31,35 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class Shop extends AbstractModel {
 
-    private static final long serialVersionUID = -6096997265649544980L;
+  private static final long serialVersionUID = -6096997265649544980L;
 
-    @Id
-    @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+  @NonNull
+  @NotNull
+  @Column(name = "name", nullable = false, unique = true)
+  private String name;
 
-    @NotNull
-    @Column(name = "active")
-    private boolean active;
+  @NotNull
+  @Column(name = "active")
+  private boolean active;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private Address address;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "address_id")
+  private Address address;
 
-    @NonNull
-    @NotNull
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+  @NonNull
+  @NotNull
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "company_id", nullable = false)
+  private Company company;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<User> users;
+  @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+  private List<User> users;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<PlayOrder> playOrders;
+  @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+  private List<PlayOrder> playOrders;
 }

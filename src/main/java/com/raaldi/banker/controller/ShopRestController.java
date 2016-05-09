@@ -26,96 +26,96 @@ import java.util.List;
 @RequestMapping(value = "shop")
 public final class ShopRestController {
 
-    @Autowired
-    ModelService<Shop> service;
+  @Autowired
+  ModelService<Shop> service;
 
-    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
-    public ResponseEntity<List<Shop>> getAll() {
-        List<Shop> shops = service.findAll();
-        if (shops.isEmpty()) {
-            // You many decide to return HttpStatus.NOT_FOUND
-            return new ResponseEntity<List<Shop>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Shop>>(shops, HttpStatus.OK);
+  @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+  public ResponseEntity<List<Shop>> getAll() {
+    List<Shop> shops = service.findAll();
+    if (shops.isEmpty()) {
+      // You many decide to return HttpStatus.NOT_FOUND
+      return new ResponseEntity<List<Shop>>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<List<Shop>>(shops, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Shop> get(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching Shop with id %s", id));
+    Shop shop = service.findOne(id);
+    if (shop == null) {
+      log.info(String.format("Shop with id %s not found", id));
+      return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Shop>(shop, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  public ResponseEntity<Void> create(@RequestBody final Shop shop,
+      final UriComponentsBuilder uriBuilder) {
+    log.info(String.format("Creating Shop %s", shop.toString()));
+
+    if (service.exists(shop)) {
+      log.info(String.format("A Shop with name %s already exist", shop.toString()));
+      return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Shop> get(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching Shop with id %s", id));
-        Shop shop = service.findOne(id);
-        if (shop == null) {
-            log.info(String.format("Shop with id %s not found", id));
-            return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Shop>(shop, HttpStatus.OK);
+    service.save(shop);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(shop.getId()).toUri());
+    return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+  }
+
+  @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<Shop> update(@PathVariable("id") final long id,
+      @RequestBody final Shop shop) {
+    log.info(String.format("Updating Shop %s", id));
+
+    Shop currentShop = service.findOne(id);
+
+    if (currentShop == null) {
+      log.info(String.format("Shop with id %s not found", id));
+      return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody final Shop shop,
-            final UriComponentsBuilder uriBuilder) {
-        log.info(String.format("Creating Shop %s", shop.toString()));
+    currentShop.setActive(shop.isActive());
+    currentShop.setAddress(shop.getAddress());
+    currentShop.setCompany(shop.getCompany());
+    currentShop.setName(shop.getName());
+    currentShop.setPlayOrders(shop.getPlayOrders());
+    currentShop.setUsers(shop.getUsers());
+    /**
+     * TODO: Update entity model service
+     */
+    // userService.updateShop(currentShop);
+    return new ResponseEntity<Shop>(currentShop, HttpStatus.OK);
+  }
 
-        if (service.exists(shop)) {
-            log.info(String.format("A Shop with name %s already exist", shop.toString()));
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<Shop> delete(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching & Deleting Shop with id %s", id));
 
-        service.save(shop);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(shop.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    Shop shop = service.findOne(id);
+    if (shop == null) {
+      log.info(String.format("Unable to delete. Shop with id %s not found", id));
+      return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * TODO: Addres delete method to service
+     */
+    // userService.deleteShopById(id);
+    return new ResponseEntity<Shop>(HttpStatus.NO_CONTENT);
+  }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Shop> update(@PathVariable("id") final long id,
-            @RequestBody final Shop shop) {
-        log.info(String.format("Updating Shop %s", id));
+  @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+  public ResponseEntity<Shop> deleteAll() {
+    log.info("Deleting All Shops");
 
-        Shop currentShop = service.findOne(id);
-
-        if (currentShop == null) {
-            log.info(String.format("Shop with id %s not found", id));
-            return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
-        }
-
-        currentShop.setActive(shop.isActive());
-        currentShop.setAddress(shop.getAddress());
-        currentShop.setCompany(shop.getCompany());
-        currentShop.setName(shop.getName());
-        currentShop.setPlayOrders(shop.getPlayOrders());
-        currentShop.setUsers(shop.getUsers());
-        /**
-         * TODO: Update entity model service
-         */
-        // userService.updateShop(currentShop);
-        return new ResponseEntity<Shop>(currentShop, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Shop> delete(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching & Deleting Shop with id %s", id));
-
-        Shop shop = service.findOne(id);
-        if (shop == null) {
-            log.info(String.format("Unable to delete. Shop with id %s not found", id));
-            return new ResponseEntity<Shop>(HttpStatus.NOT_FOUND);
-        }
-        /**
-         * TODO: Addres delete method to service
-         */
-        // userService.deleteShopById(id);
-        return new ResponseEntity<Shop>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
-    public ResponseEntity<Shop> deleteAll() {
-        log.info("Deleting All Shops");
-
-        /**
-         * TODO: Addres delete all method to service
-         */
-        // userService.deleteAllShops();
-        return new ResponseEntity<Shop>(HttpStatus.NO_CONTENT);
-    }
+    /**
+     * TODO: Addres delete all method to service
+     */
+    // userService.deleteAllShops();
+    return new ResponseEntity<Shop>(HttpStatus.NO_CONTENT);
+  }
 }

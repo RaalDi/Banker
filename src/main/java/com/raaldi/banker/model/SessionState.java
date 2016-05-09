@@ -26,16 +26,16 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class SessionState extends AbstractModel {
 
-    private static final long serialVersionUID = 6611770901282246338L;
+  private static final long serialVersionUID = 6611770901282246338L;
 
-    @Id
-    @SequenceGenerator(name = "session-state-seq-gen", sequenceName = "session_state_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session-state-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "session-state-seq-gen", sequenceName = "session_state_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session-state-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+  @NonNull
+  @NotNull
+  @Column(name = "name", nullable = false, unique = true)
+  private String name;
 
 }

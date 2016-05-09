@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("paymentDAO")
 public final class PaymentDAO extends AbstractModelDao<Payment, Long> {
 
-    public PaymentDAO(final Class<Payment> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public PaymentDAO(final Class<Payment> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

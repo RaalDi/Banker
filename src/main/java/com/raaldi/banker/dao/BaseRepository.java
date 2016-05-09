@@ -10,16 +10,16 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface BaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
 
-    // void delete(T model);
+  // void delete(T model);
 
-    List<T> findAll();
+  List<T> findAll();
 
-    Optional<T> find(ID id);
+  Optional<T> find(ID id);
 
-    // Optional<T> find(T model);
+  // Optional<T> find(T model);
 
-    // T save(T model);
+  // T save(T model);
 
-    // void update(T model);
+  // void update(T model);
 
 }

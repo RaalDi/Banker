@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("lotteryDAO")
 public final class LotteryDAO extends AbstractModelDao<Lottery, Long> {
 
-    public LotteryDAO(final Class<Lottery> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public LotteryDAO(final Class<Lottery> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

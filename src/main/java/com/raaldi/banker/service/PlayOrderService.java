@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class PlayOrderService implements ModelService<PlayOrder> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<PlayOrder, Long> entityDAO;
+  private AbstractModelDao<PlayOrder, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new PlayOrderDAO(PlayOrder.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new PlayOrderDAO(PlayOrder.class, em);
+  }
 
-    @Override
-    public void save(PlayOrder model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(PlayOrder model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public PlayOrder findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public PlayOrder findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<PlayOrder> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<PlayOrder> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(PlayOrder model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(PlayOrder model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

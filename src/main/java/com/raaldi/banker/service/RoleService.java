@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class RoleService implements ModelService<Role> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<Role, Long> entityDAO;
+  private AbstractModelDao<Role, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new RoleDAO(Role.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new RoleDAO(Role.class, em);
+  }
 
-    @Override
-    public void save(Role model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(Role model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public Role findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public Role findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<Role> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<Role> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(Role model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(Role model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

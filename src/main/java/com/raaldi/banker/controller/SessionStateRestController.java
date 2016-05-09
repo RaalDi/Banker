@@ -26,94 +26,92 @@ import java.util.List;
 @RequestMapping(value = "session-state")
 public final class SessionStateRestController {
 
-    @Autowired
-    ModelService<SessionState> service;
+  @Autowired
+  ModelService<SessionState> service;
 
-    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
-    public ResponseEntity<List<SessionState>> getAll() {
-        List<SessionState> sessionStates = service.findAll();
-        if (sessionStates.isEmpty()) {
-            // You many decide to return HttpStatus.NOT_FOUND
-            return new ResponseEntity<List<SessionState>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<SessionState>>(sessionStates, HttpStatus.OK);
+  @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+  public ResponseEntity<List<SessionState>> getAll() {
+    List<SessionState> sessionStates = service.findAll();
+    if (sessionStates.isEmpty()) {
+      // You many decide to return HttpStatus.NOT_FOUND
+      return new ResponseEntity<List<SessionState>>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<List<SessionState>>(sessionStates, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<SessionState> get(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching SessionState with id %s", id));
+    SessionState sessionState = service.findOne(id);
+    if (sessionState == null) {
+      log.info(String.format("SessionState with id %s not found", id));
+      return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<SessionState>(sessionState, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  public ResponseEntity<Void> create(@RequestBody final SessionState sessionState,
+      final UriComponentsBuilder uriBuilder) {
+    log.info(String.format("Creating SessionState %s", sessionState.toString()));
+
+    if (service.exists(sessionState)) {
+      log.info(String.format("A SessionState with name %s already exist", sessionState.toString()));
+      return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SessionState> get(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching SessionState with id %s", id));
-        SessionState sessionState = service.findOne(id);
-        if (sessionState == null) {
-            log.info(String.format("SessionState with id %s not found", id));
-            return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<SessionState>(sessionState, HttpStatus.OK);
+    service.save(sessionState);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(sessionState.getId()).toUri());
+    return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+  }
+
+  @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<SessionState> update(@PathVariable("id") final long id,
+      @RequestBody final SessionState sessionState) {
+    log.info(String.format("Updating SessionState %s", id));
+
+    SessionState currentSessionState = service.findOne(id);
+
+    if (currentSessionState == null) {
+      log.info(String.format("SessionState with id %s not found", id));
+      return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody final SessionState sessionState,
-            final UriComponentsBuilder uriBuilder) {
-        log.info(String.format("Creating SessionState %s", sessionState.toString()));
+    currentSessionState.setName(sessionState.getName());
 
-        if (service.exists(sessionState)) {
-            log.info(String.format("A SessionState with name %s already exist",
-                    sessionState.toString()));
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+    /**
+     * TODO: Update entity model service
+     */
+    // userService.updateSessionState(currentSessionState);
+    return new ResponseEntity<SessionState>(currentSessionState, HttpStatus.OK);
+  }
 
-        service.save(sessionState);
+  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<SessionState> delete(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching & Deleting SessionState with id %s", id));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(
-                uriBuilder.path("/get/{id}").buildAndExpand(sessionState.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    SessionState sessionState = service.findOne(id);
+    if (sessionState == null) {
+      log.info(String.format("Unable to delete. SessionState with id %s not found", id));
+      return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * TODO: Addres delete method to service
+     */
+    // userService.deleteSessionStateById(id);
+    return new ResponseEntity<SessionState>(HttpStatus.NO_CONTENT);
+  }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<SessionState> update(@PathVariable("id") final long id,
-            @RequestBody final SessionState sessionState) {
-        log.info(String.format("Updating SessionState %s", id));
+  @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+  public ResponseEntity<SessionState> deleteAll() {
+    log.info("Deleting All SessionStates");
 
-        SessionState currentSessionState = service.findOne(id);
-
-        if (currentSessionState == null) {
-            log.info(String.format("SessionState with id %s not found", id));
-            return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
-        }
-
-        currentSessionState.setName(sessionState.getName());
-
-        /**
-         * TODO: Update entity model service
-         */
-        // userService.updateSessionState(currentSessionState);
-        return new ResponseEntity<SessionState>(currentSessionState, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<SessionState> delete(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching & Deleting SessionState with id %s", id));
-
-        SessionState sessionState = service.findOne(id);
-        if (sessionState == null) {
-            log.info(String.format("Unable to delete. SessionState with id %s not found", id));
-            return new ResponseEntity<SessionState>(HttpStatus.NOT_FOUND);
-        }
-        /**
-         * TODO: Addres delete method to service
-         */
-        // userService.deleteSessionStateById(id);
-        return new ResponseEntity<SessionState>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
-    public ResponseEntity<SessionState> deleteAll() {
-        log.info("Deleting All SessionStates");
-
-        /**
-         * TODO: Addres delete all method to service
-         */
-        // userService.deleteAllSessionStates();
-        return new ResponseEntity<SessionState>(HttpStatus.NO_CONTENT);
-    }
+    /**
+     * TODO: Addres delete all method to service
+     */
+    // userService.deleteAllSessionStates();
+    return new ResponseEntity<SessionState>(HttpStatus.NO_CONTENT);
+  }
 }

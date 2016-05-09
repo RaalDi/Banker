@@ -17,38 +17,38 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class RolePermissionService implements ModelService<RolePermission> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<RolePermission, Long> entityDAO;
+  private AbstractModelDao<RolePermission, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new RolePermissionDAO(RolePermission.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new RolePermissionDAO(RolePermission.class, em);
+  }
 
-    @Override
-    public void save(RolePermission model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(RolePermission model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public RolePermission findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public RolePermission findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<RolePermission> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<RolePermission> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(RolePermission model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(RolePermission model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 }

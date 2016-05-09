@@ -26,92 +26,92 @@ import java.util.List;
 @RequestMapping(value = "currency")
 public final class CurrencyRestController {
 
-    @Autowired
-    ModelService<Currency> service;
+  @Autowired
+  ModelService<Currency> service;
 
-    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
-    public ResponseEntity<List<Currency>> getAll() {
-        List<Currency> currencies = service.findAll();
-        if (currencies.isEmpty()) {
-            // You many decide to return HttpStatus.NOT_FOUND
-            return new ResponseEntity<List<Currency>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Currency>>(currencies, HttpStatus.OK);
+  @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+  public ResponseEntity<List<Currency>> getAll() {
+    List<Currency> currencies = service.findAll();
+    if (currencies.isEmpty()) {
+      // You many decide to return HttpStatus.NOT_FOUND
+      return new ResponseEntity<List<Currency>>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<List<Currency>>(currencies, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Currency> get(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching Currency with id %s", id));
+    Currency currency = service.findOne(id);
+    if (currency == null) {
+      log.info(String.format("Currency with id %s not found", id));
+      return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Currency>(currency, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  public ResponseEntity<Void> create(@RequestBody final Currency currency,
+      final UriComponentsBuilder uriBuilder) {
+    log.info(String.format("Creating Currency %s", currency.toString()));
+
+    if (service.exists(currency)) {
+      log.info(String.format("A Currency with name %s already exist", currency.toString()));
+      return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Currency> get(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching Currency with id %s", id));
-        Currency currency = service.findOne(id);
-        if (currency == null) {
-            log.info(String.format("Currency with id %s not found", id));
-            return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Currency>(currency, HttpStatus.OK);
+    service.save(currency);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(currency.getId()).toUri());
+    return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+  }
+
+  @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<Currency> update(@PathVariable("id") final long id,
+      @RequestBody final Currency currency) {
+    log.info(String.format("Updating Currency %s", id));
+
+    Currency currentCurrency = service.findOne(id);
+
+    if (currentCurrency == null) {
+      log.info(String.format("Currency with id %s not found", id));
+      return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody final Currency currency,
-            final UriComponentsBuilder uriBuilder) {
-        log.info(String.format("Creating Currency %s", currency.toString()));
+    currentCurrency.setValue(currency.getValue());
 
-        if (service.exists(currency)) {
-            log.info(String.format("A Currency with name %s already exist", currency.toString()));
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+    /**
+     * TODO: Update entity model service
+     */
+    // userService.updateCurrency(currentCurrency);
+    return new ResponseEntity<Currency>(currentCurrency, HttpStatus.OK);
+  }
 
-        service.save(currency);
+  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<Currency> delete(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching & Deleting Currency with id %s", id));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(currency.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    Currency currency = service.findOne(id);
+    if (currency == null) {
+      log.info(String.format("Unable to delete. Currency with id %s not found", id));
+      return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * TODO: Addres delete method to service
+     */
+    // userService.deleteCurrencyById(id);
+    return new ResponseEntity<Currency>(HttpStatus.NO_CONTENT);
+  }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Currency> update(@PathVariable("id") final long id,
-            @RequestBody final Currency currency) {
-        log.info(String.format("Updating Currency %s", id));
+  @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+  public ResponseEntity<Currency> deleteAll() {
+    log.info("Deleting All Currencys");
 
-        Currency currentCurrency = service.findOne(id);
-
-        if (currentCurrency == null) {
-            log.info(String.format("Currency with id %s not found", id));
-            return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
-        }
-
-        currentCurrency.setValue(currency.getValue());
-
-        /**
-         * TODO: Update entity model service
-         */
-        // userService.updateCurrency(currentCurrency);
-        return new ResponseEntity<Currency>(currentCurrency, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Currency> delete(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching & Deleting Currency with id %s", id));
-
-        Currency currency = service.findOne(id);
-        if (currency == null) {
-            log.info(String.format("Unable to delete. Currency with id %s not found", id));
-            return new ResponseEntity<Currency>(HttpStatus.NOT_FOUND);
-        }
-        /**
-         * TODO: Addres delete method to service
-         */
-        // userService.deleteCurrencyById(id);
-        return new ResponseEntity<Currency>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
-    public ResponseEntity<Currency> deleteAll() {
-        log.info("Deleting All Currencys");
-
-        /**
-         * TODO: Addres delete all method to service
-         */
-        // userService.deleteAllCurrencys();
-        return new ResponseEntity<Currency>(HttpStatus.NO_CONTENT);
-    }
+    /**
+     * TODO: Addres delete all method to service
+     */
+    // userService.deleteAllCurrencys();
+    return new ResponseEntity<Currency>(HttpStatus.NO_CONTENT);
+  }
 }

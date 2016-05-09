@@ -26,95 +26,95 @@ import java.util.List;
 @RequestMapping(value = "role-permission")
 public final class RolePermissionRestController {
 
-    @Autowired
-    ModelService<RolePermission> service;
+  @Autowired
+  ModelService<RolePermission> service;
 
-    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
-    public ResponseEntity<List<RolePermission>> getAll() {
-        List<RolePermission> rolePermissions = service.findAll();
-        if (rolePermissions.isEmpty()) {
-            // You many decide to return HttpStatus.NOT_FOUND
-            return new ResponseEntity<List<RolePermission>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<RolePermission>>(rolePermissions, HttpStatus.OK);
+  @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+  public ResponseEntity<List<RolePermission>> getAll() {
+    List<RolePermission> rolePermissions = service.findAll();
+    if (rolePermissions.isEmpty()) {
+      // You many decide to return HttpStatus.NOT_FOUND
+      return new ResponseEntity<List<RolePermission>>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<List<RolePermission>>(rolePermissions, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<RolePermission> get(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching RolePermission with id %s", id));
+    RolePermission rolePermission = service.findOne(id);
+    if (rolePermission == null) {
+      log.info(String.format("RolePermission with id %s not found", id));
+      return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<RolePermission>(rolePermission, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  public ResponseEntity<Void> create(@RequestBody final RolePermission rolePermission,
+      final UriComponentsBuilder uriBuilder) {
+    log.info(String.format("Creating RolePermission %s", rolePermission.toString()));
+
+    if (service.exists(rolePermission)) {
+      log.info(
+          String.format("A RolePermission with name %s already exist", rolePermission.toString()));
+      return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RolePermission> get(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching RolePermission with id %s", id));
-        RolePermission rolePermission = service.findOne(id);
-        if (rolePermission == null) {
-            log.info(String.format("RolePermission with id %s not found", id));
-            return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<RolePermission>(rolePermission, HttpStatus.OK);
+    service.save(rolePermission);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers
+        .setLocation(uriBuilder.path("/get/{id}").buildAndExpand(rolePermission.getId()).toUri());
+    return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+  }
+
+  @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<RolePermission> update(@PathVariable("id") final long id,
+      @RequestBody final RolePermission rolePermission) {
+    log.info(String.format("Updating RolePermission %s", id));
+
+    RolePermission currentRolePermission = service.findOne(id);
+
+    if (currentRolePermission == null) {
+      log.info(String.format("RolePermission with id %s not found", id));
+      return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody final RolePermission rolePermission,
-            final UriComponentsBuilder uriBuilder) {
-        log.info(String.format("Creating RolePermission %s", rolePermission.toString()));
+    currentRolePermission.setPermission(rolePermission.getPermission());
+    currentRolePermission.setRole(rolePermission.getRole());
+    currentRolePermission.setUser(rolePermission.getUser());
+    /**
+     * TODO: Update entity model service
+     */
+    // userService.updateRolePermission(currentRolePermission);
+    return new ResponseEntity<RolePermission>(currentRolePermission, HttpStatus.OK);
+  }
 
-        if (service.exists(rolePermission)) {
-            log.info(String.format("A RolePermission with name %s already exist",
-                    rolePermission.toString()));
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<RolePermission> delete(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching & Deleting RolePermission with id %s", id));
 
-        service.save(rolePermission);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(
-                uriBuilder.path("/get/{id}").buildAndExpand(rolePermission.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    RolePermission rolePermission = service.findOne(id);
+    if (rolePermission == null) {
+      log.info(String.format("Unable to delete. RolePermission with id %s not found", id));
+      return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * TODO: Addres delete method to service
+     */
+    // userService.deleteRolePermissionById(id);
+    return new ResponseEntity<RolePermission>(HttpStatus.NO_CONTENT);
+  }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<RolePermission> update(@PathVariable("id") final long id,
-            @RequestBody final RolePermission rolePermission) {
-        log.info(String.format("Updating RolePermission %s", id));
+  @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+  public ResponseEntity<RolePermission> deleteAll() {
+    log.info("Deleting All RolePermissions");
 
-        RolePermission currentRolePermission = service.findOne(id);
-
-        if (currentRolePermission == null) {
-            log.info(String.format("RolePermission with id %s not found", id));
-            return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
-        }
-
-        currentRolePermission.setPermission(rolePermission.getPermission());
-        currentRolePermission.setRole(rolePermission.getRole());
-        currentRolePermission.setUser(rolePermission.getUser());
-        /**
-         * TODO: Update entity model service
-         */
-        // userService.updateRolePermission(currentRolePermission);
-        return new ResponseEntity<RolePermission>(currentRolePermission, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<RolePermission> delete(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching & Deleting RolePermission with id %s", id));
-
-        RolePermission rolePermission = service.findOne(id);
-        if (rolePermission == null) {
-            log.info(String.format("Unable to delete. RolePermission with id %s not found", id));
-            return new ResponseEntity<RolePermission>(HttpStatus.NOT_FOUND);
-        }
-        /**
-         * TODO: Addres delete method to service
-         */
-        // userService.deleteRolePermissionById(id);
-        return new ResponseEntity<RolePermission>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
-    public ResponseEntity<RolePermission> deleteAll() {
-        log.info("Deleting All RolePermissions");
-
-        /**
-         * TODO: Addres delete all method to service
-         */
-        // userService.deleteAllRolePermissions();
-        return new ResponseEntity<RolePermission>(HttpStatus.NO_CONTENT);
-    }
+    /**
+     * TODO: Addres delete all method to service
+     */
+    // userService.deleteAllRolePermissions();
+    return new ResponseEntity<RolePermission>(HttpStatus.NO_CONTENT);
+  }
 }

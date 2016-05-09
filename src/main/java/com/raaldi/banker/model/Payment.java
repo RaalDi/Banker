@@ -24,19 +24,19 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class Payment extends AbstractModel {
 
-    private static final long serialVersionUID = 1017925264098582407L;
+  private static final long serialVersionUID = 1017925264098582407L;
 
-    @Id
-    @SequenceGenerator(name = "payment-seq-gen", sequenceName = "payment_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "payment-seq-gen", sequenceName = "payment_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Column(name = "type", nullable = false, unique = true)
-    private String type;
+  @NonNull
+  @NotNull
+  @Column(name = "type", nullable = false, unique = true)
+  private String type;
 
-    @NotNull
-    @Column(name = "active")
-    private boolean active;
+  @NotNull
+  @Column(name = "active")
+  private boolean active;
 }

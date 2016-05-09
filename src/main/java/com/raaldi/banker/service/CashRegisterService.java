@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class CashRegisterService implements ModelService<CashRegister> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<CashRegister, Long> entityDAO;
+  private AbstractModelDao<CashRegister, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new CashRegisterDAO(CashRegister.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new CashRegisterDAO(CashRegister.class, em);
+  }
 
-    @Override
-    public void save(CashRegister model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(CashRegister model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public CashRegister findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public CashRegister findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<CashRegister> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<CashRegister> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(CashRegister model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(CashRegister model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

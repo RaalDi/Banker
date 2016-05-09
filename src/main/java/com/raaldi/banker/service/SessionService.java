@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class SessionService implements ModelService<Session> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<Session, Long> entityDAO;
+  private AbstractModelDao<Session, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new SessionDAO(Session.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new SessionDAO(Session.class, em);
+  }
 
-    @Override
-    public void save(Session model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(Session model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public Session findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public Session findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<Session> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<Session> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(Session model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(Session model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

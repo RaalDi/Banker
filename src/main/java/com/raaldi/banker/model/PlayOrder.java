@@ -35,46 +35,46 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class PlayOrder extends AbstractModel {
 
-    private static final long serialVersionUID = -2831284612290806696L;
+  private static final long serialVersionUID = -2831284612290806696L;
 
-    @Id
-    @SequenceGenerator(name = "play-order-seq-gen", sequenceName = "play_order_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-order-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "play-order-seq-gen", sequenceName = "play_order_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-order-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
+  @NonNull
+  @NotNull
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "shop_id", nullable = false)
+  private Shop shop;
 
-    @NonNull
-    @NotNull
-    @Column(name = "amount", insertable = true, updatable = false)
-    private BigDecimal amount;
+  @NonNull
+  @NotNull
+  @Column(name = "amount", insertable = true, updatable = false)
+  private BigDecimal amount;
 
-    @NonNull
-    @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_id", nullable = false, updatable = false)
-    private Payment payment;
+  @NonNull
+  @NotNull
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "payment_id", nullable = false, updatable = false)
+  private Payment payment;
 
-    @NonNull
-    @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cash_register_id", nullable = false, updatable = false)
-    private CashRegister cashRegister;
+  @NonNull
+  @NotNull
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "cash_register_id", nullable = false, updatable = false)
+  private CashRegister cashRegister;
 
-    @Column(name = "winner", insertable = false, updatable = true)
-    private boolean winner;
+  @Column(name = "winner", insertable = false, updatable = true)
+  private boolean winner;
 
-    @NotNull
-    @Column(name = "canceled")
-    private boolean canceled;
+  @NotNull
+  @Column(name = "canceled")
+  private boolean canceled;
 
-    @NonNull
-    @NotNull
-    @OneToMany(mappedBy = "playOrder", cascade = CascadeType.ALL)
-    private List<PlayOrderLine> playOrderLines = new ArrayList<PlayOrderLine>();
+  @NonNull
+  @NotNull
+  @OneToMany(mappedBy = "playOrder", cascade = CascadeType.ALL)
+  private List<PlayOrderLine> playOrderLines = new ArrayList<PlayOrderLine>();
 
 }

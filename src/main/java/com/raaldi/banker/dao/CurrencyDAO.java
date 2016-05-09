@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("currencyDAO")
 public final class CurrencyDAO extends AbstractModelDao<Currency, Long> {
 
-    public CurrencyDAO(final Class<Currency> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public CurrencyDAO(final Class<Currency> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

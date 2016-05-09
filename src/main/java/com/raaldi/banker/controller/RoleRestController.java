@@ -26,91 +26,91 @@ import java.util.List;
 @RequestMapping(value = "role")
 public final class RoleRestController {
 
-    @Autowired
-    ModelService<Role> service;
+  @Autowired
+  ModelService<Role> service;
 
-    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
-    public ResponseEntity<List<Role>> getAll() {
-        List<Role> roles = service.findAll();
-        if (roles.isEmpty()) {
-            // You many decide to return HttpStatus.NOT_FOUND
-            return new ResponseEntity<List<Role>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Role>>(roles, HttpStatus.OK);
+  @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+  public ResponseEntity<List<Role>> getAll() {
+    List<Role> roles = service.findAll();
+    if (roles.isEmpty()) {
+      // You many decide to return HttpStatus.NOT_FOUND
+      return new ResponseEntity<List<Role>>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<List<Role>>(roles, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Role> get(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching Role with id %s", id));
+    Role role = service.findOne(id);
+    if (role == null) {
+      log.info(String.format("Role with id %s not found", id));
+      return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Role>(role, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  public ResponseEntity<Void> create(@RequestBody final Role role,
+      final UriComponentsBuilder uriBuilder) {
+    log.info(String.format("Creating Role %s", role.toString()));
+
+    if (service.exists(role)) {
+      log.info(String.format("A Role with name %s already exist", role.toString()));
+      return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Role> get(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching Role with id %s", id));
-        Role role = service.findOne(id);
-        if (role == null) {
-            log.info(String.format("Role with id %s not found", id));
-            return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Role>(role, HttpStatus.OK);
+    service.save(role);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(role.getId()).toUri());
+    return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+  }
+
+  @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<Role> update(@PathVariable("id") final long id,
+      @RequestBody final Role role) {
+    log.info(String.format("Updating Role %s", id));
+
+    Role currentRole = service.findOne(id);
+
+    if (currentRole == null) {
+      log.info(String.format("Role with id %s not found", id));
+      return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody final Role role,
-            final UriComponentsBuilder uriBuilder) {
-        log.info(String.format("Creating Role %s", role.toString()));
+    currentRole.setName(role.getName());
+    /**
+     * TODO: Update entity model service
+     */
+    // userService.updateRole(currentRole);
+    return new ResponseEntity<Role>(currentRole, HttpStatus.OK);
+  }
 
-        if (service.exists(role)) {
-            log.info(String.format("A Role with name %s already exist", role.toString()));
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<Role> delete(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching & Deleting Role with id %s", id));
 
-        service.save(role);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(role.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    Role role = service.findOne(id);
+    if (role == null) {
+      log.info(String.format("Unable to delete. Role with id %s not found", id));
+      return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * TODO: Addres delete method to service
+     */
+    // userService.deleteRoleById(id);
+    return new ResponseEntity<Role>(HttpStatus.NO_CONTENT);
+  }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Role> update(@PathVariable("id") final long id,
-            @RequestBody final Role role) {
-        log.info(String.format("Updating Role %s", id));
+  @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+  public ResponseEntity<Role> deleteAll() {
+    log.info("Deleting All Roles");
 
-        Role currentRole = service.findOne(id);
-
-        if (currentRole == null) {
-            log.info(String.format("Role with id %s not found", id));
-            return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
-        }
-
-        currentRole.setName(role.getName());
-        /**
-         * TODO: Update entity model service
-         */
-        // userService.updateRole(currentRole);
-        return new ResponseEntity<Role>(currentRole, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Role> delete(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching & Deleting Role with id %s", id));
-
-        Role role = service.findOne(id);
-        if (role == null) {
-            log.info(String.format("Unable to delete. Role with id %s not found", id));
-            return new ResponseEntity<Role>(HttpStatus.NOT_FOUND);
-        }
-        /**
-         * TODO: Addres delete method to service
-         */
-        // userService.deleteRoleById(id);
-        return new ResponseEntity<Role>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
-    public ResponseEntity<Role> deleteAll() {
-        log.info("Deleting All Roles");
-
-        /**
-         * TODO: Addres delete all method to service
-         */
-        // userService.deleteAllRoles();
-        return new ResponseEntity<Role>(HttpStatus.NO_CONTENT);
-    }
+    /**
+     * TODO: Addres delete all method to service
+     */
+    // userService.deleteAllRoles();
+    return new ResponseEntity<Role>(HttpStatus.NO_CONTENT);
+  }
 }

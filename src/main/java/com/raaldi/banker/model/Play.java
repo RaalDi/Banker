@@ -24,25 +24,25 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class Play extends AbstractModel {
 
-    private static final long serialVersionUID = -7420839110305072161L;
+  private static final long serialVersionUID = -7420839110305072161L;
 
-    @Id
-    @SequenceGenerator(name = "play-seq-gen", sequenceName = "play_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "play-seq-gen", sequenceName = "play_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+  @NonNull
+  @NotNull
+  @Column(name = "name", nullable = false, unique = true)
+  private String name;
 
-    @NonNull
-    @NotNull
-    @Column(name = "short_name", nullable = false, unique = true)
-    private String shortName;
+  @NonNull
+  @NotNull
+  @Column(name = "short_name", nullable = false, unique = true)
+  private String shortName;
 
-    @NotNull
-    @Column(name = "active")
-    private boolean active;
+  @NotNull
+  @Column(name = "active")
+  private boolean active;
 
 }

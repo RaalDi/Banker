@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("restrictPlayDAO")
 public final class RestrictPlayDAO extends AbstractModelDao<RestrictPlay, Long> {
 
-    public RestrictPlayDAO(final Class<RestrictPlay> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public RestrictPlayDAO(final Class<RestrictPlay> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

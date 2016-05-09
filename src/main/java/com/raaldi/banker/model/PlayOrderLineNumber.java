@@ -15,11 +15,11 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = false)
 public final class PlayOrderLineNumber implements Serializable {
 
-    private static final long serialVersionUID = -7239652607366102299L;
+  private static final long serialVersionUID = -7239652607366102299L;
 
-    @NonNull
-    @NotNull
-    @Column(name = "played_number", nullable = false, insertable = true, updatable = false)
-    private String number;
+  @NonNull
+  @NotNull
+  @Column(name = "played_number", nullable = false, insertable = true, updatable = false)
+  private String number;
 
 }

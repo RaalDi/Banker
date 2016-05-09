@@ -26,15 +26,15 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class Currency extends AbstractModel {
 
-    private static final long serialVersionUID = 7121744068113817683L;
+  private static final long serialVersionUID = 7121744068113817683L;
 
-    @Id
-    @SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Column(name = "value")
-    private BigDecimal value;
+  @NonNull
+  @NotNull
+  @Column(name = "value")
+  private BigDecimal value;
 }

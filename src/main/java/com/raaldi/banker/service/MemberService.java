@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class MemberService implements ModelService<Member> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<Member, Long> entityDAO;
+  private AbstractModelDao<Member, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new MemberDAO(Member.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new MemberDAO(Member.class, em);
+  }
 
-    @Override
-    public void save(Member model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(Member model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public Member findOne(Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public Member findOne(Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<Member> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<Member> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(Member model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(Member model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

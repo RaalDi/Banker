@@ -15,10 +15,10 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = false)
 public final class RestrictPlayNumber implements Serializable {
 
-    private static final long serialVersionUID = -2499724899416829464L;
+  private static final long serialVersionUID = -2499724899416829464L;
 
-    @NonNull
-    @NotNull
-    @Column(name = "restricted_number", nullable = false)
-    private String number;
+  @NonNull
+  @NotNull
+  @Column(name = "restricted_number", nullable = false)
+  private String number;
 }

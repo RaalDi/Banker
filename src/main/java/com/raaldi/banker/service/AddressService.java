@@ -17,39 +17,39 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public final class AddressService implements ModelService<Address> {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    private AbstractModelDao<Address, Long> entityDAO;
+  private AbstractModelDao<Address, Long> entityDAO;
 
-    @PostConstruct
-    public void postConstruct() {
-        entityDAO = new AddressDAO(Address.class, em);
-    }
+  @PostConstruct
+  public void postConstruct() {
+    entityDAO = new AddressDAO(Address.class, em);
+  }
 
-    @Override
-    public void save(final Address model) {
-        entityDAO.save(model);
-    }
+  @Override
+  public void save(final Address model) {
+    entityDAO.save(model);
+  }
 
-    @Override
-    public Address findOne(final Long id) {
-        return entityDAO.findOne(id);
-    }
+  @Override
+  public Address findOne(final Long id) {
+    return entityDAO.findOne(id);
+  }
 
-    @Override
-    public List<Address> findAll() {
-        return entityDAO.findAll();
-    }
+  @Override
+  public List<Address> findAll() {
+    return entityDAO.findAll();
+  }
 
-    @Override
-    public boolean exists(final Address model) {
-        return this.exists(model.getId());
-    }
+  @Override
+  public boolean exists(final Address model) {
+    return this.exists(model.getId());
+  }
 
-    @Override
-    public boolean exists(final Long id) {
-        return entityDAO.exists(id);
-    }
+  @Override
+  public boolean exists(final Long id) {
+    return entityDAO.exists(id);
+  }
 
 }

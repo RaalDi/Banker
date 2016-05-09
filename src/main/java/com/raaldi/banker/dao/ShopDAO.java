@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("shopDAO")
 public final class ShopDAO extends AbstractModelDao<Shop, Long> {
 
-    public ShopDAO(final Class<Shop> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public ShopDAO(final Class<Shop> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

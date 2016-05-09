@@ -26,30 +26,30 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Company")
 @NamedQueries({@NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
-        @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name")})
+    @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name")})
 @Data
 @EqualsAndHashCode(callSuper = true)
 public final class Company extends AbstractModel {
 
-    private static final long serialVersionUID = 1090990028819708077L;
+  private static final long serialVersionUID = 1090990028819708077L;
 
-    @Id
-    @SequenceGenerator(name = "company-seq-gen", sequenceName = "company_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "company-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "company-seq-gen", sequenceName = "company_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "company-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Column(name = "name")
-    private String name;
+  @NonNull
+  @NotNull
+  @Column(name = "name")
+  private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private Address address;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "address_id")
+  private Address address;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<User> users;
+  @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+  private List<User> users;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<Shop> shops;
+  @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+  private List<Shop> shops;
 }

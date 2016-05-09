@@ -35,69 +35,69 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class Session extends AbstractModel {
 
-    private static final long serialVersionUID = 5729958504572843209L;
+  private static final long serialVersionUID = 5729958504572843209L;
 
-    @Id
-    @SequenceGenerator(name = "session-seq-gen", sequenceName = "session_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "session-seq-gen", sequenceName = "session_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false, insertable = true, updatable = false)
-    private User user;
+  @NonNull
+  @NotNull
+  @OneToOne(optional = false)
+  @JoinColumn(name = "user_id", nullable = false, insertable = true, updatable = false)
+  private User user;
 
-    @Enumerated(EnumType.STRING)
-    private EnumSessionState state;
+  @Enumerated(EnumType.STRING)
+  private EnumSessionState state;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "started", insertable = false, updatable = true)
-    private Date started;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "started", insertable = false, updatable = true)
+  private Date started;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "ended", insertable = false, updatable = true)
-    private Date ended;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "ended", insertable = false, updatable = true)
+  private Date ended;
 
-    public void setState(final EnumSessionState state) {
+  public void setState(final EnumSessionState state) {
 
-        switch (state) {
-            case STARTING:
-                this.setCreated(new Date());
-                break;
-            case STARTED:
-                this.setStarted(new Date());
-                break;
-            case ENDING:
-                this.setUpdated(new Date());
-                break;
-            case ENDED:
-                this.setEnded(new Date());
-                break;
-        }
-
-        this.state = state;
+    switch (state) {
+      case STARTING:
+        this.setCreated(new Date());
+        break;
+      case STARTED:
+        this.setStarted(new Date());
+        break;
+      case ENDING:
+        this.setUpdated(new Date());
+        break;
+      case ENDED:
+        this.setEnded(new Date());
+        break;
     }
 
-    public void setStarted(final Date started) {
-        this.started = started == null ? null : new Date(started.getTime());
-    }
+    this.state = state;
+  }
 
-    public Date getStarted() {
-        return started == null ? null : new Date(started.getTime());
-    }
+  public void setStarted(final Date started) {
+    this.started = started == null ? null : new Date(started.getTime());
+  }
 
-    public void setEnded(final Date ended) {
-        this.ended = ended == null ? null : new Date(ended.getTime());
-    }
+  public Date getStarted() {
+    return started == null ? null : new Date(started.getTime());
+  }
 
-    public Date getEnded() {
-        return ended == null ? null : new Date(ended.getTime());
-    }
+  public void setEnded(final Date ended) {
+    this.ended = ended == null ? null : new Date(ended.getTime());
+  }
 
-    @Override
-    @PrePersist
-    public void onPersist() {
-        this.setState(EnumSessionState.STARTING);
-    }
+  public Date getEnded() {
+    return ended == null ? null : new Date(ended.getTime());
+  }
+
+  @Override
+  @PrePersist
+  public void onPersist() {
+    this.setState(EnumSessionState.STARTING);
+  }
 }

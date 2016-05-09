@@ -39,77 +39,77 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 public final class User extends AbstractModel {
 
-    private static final long serialVersionUID = -8491559884264082143L;
+  private static final long serialVersionUID = -8491559884264082143L;
 
-    @Id
-    @SequenceGenerator(name = "person-seq-gen", sequenceName = "person_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "person-seq-gen", sequenceName = "person_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Size(min = 2, max = 25, message = "2-25 letters and spaces")
-    @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
-    @Column(name = "first_name")
-    private String firstName;
+  @NonNull
+  @NotNull
+  @Size(min = 2, max = 25, message = "2-25 letters and spaces")
+  @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
+  @Column(name = "first_name")
+  private String firstName;
 
-    @NonNull
-    @NotNull
-    @Size(min = 2, max = 25, message = "2-25 letters and spaces")
-    @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
-    @Column(name = "last_name")
-    private String lastName;
+  @NonNull
+  @NotNull
+  @Size(min = 2, max = 25, message = "2-25 letters and spaces")
+  @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
+  @Column(name = "last_name")
+  private String lastName;
 
-    @NonNull
-    @NotNull
-    @Size(min = 8, max = 16, message = "8-16 letters and spaces")
-    @Column(name = "user_name", unique = true)
-    private String userName;
+  @NonNull
+  @NotNull
+  @Size(min = 8, max = 16, message = "8-16 letters and spaces")
+  @Column(name = "user_name", unique = true)
+  private String userName;
 
-    @NonNull
-    @NotNull
-    @Size(min = 10, max = 12, message = "10-12 Numbers")
-    @Digits(fraction = 0, integer = 12, message = "Not valid")
-    @Column(name = "phone_number")
-    private String phoneNumber;
+  @NonNull
+  @NotNull
+  @Size(min = 10, max = 12, message = "10-12 Numbers")
+  @Digits(fraction = 0, integer = 12, message = "Not valid")
+  @Column(name = "phone_number")
+  private String phoneNumber;
 
-    @NonNull
-    @NotNull
-    @Column(name = "password")
-    private String password;
+  @NonNull
+  @NotNull
+  @Column(name = "password")
+  private String password;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "loggedin_date")
-    private Date loggedinDate;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "loggedin_date")
+  private Date loggedinDate;
 
-    @NotNull
-    @Column(name = "active")
-    private boolean active;
+  @NotNull
+  @Column(name = "active")
+  private boolean active;
 
-    @NonNull
-    @NotNull
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+  @NonNull
+  @NotNull
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "company_id", nullable = false)
+  private Company company;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private Set<RolePermission> rolePermissions;
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private Set<RolePermission> rolePermissions;
 
-    @NonNull
-    @NotNull
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
+  @NonNull
+  @NotNull
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "shop_id", nullable = false)
+  private Shop shop;
 
-    public void setloggedinDate(final Date loggedinDate) {
-        this.loggedinDate = loggedinDate == null ? null : new Date(loggedinDate.getTime());
-    }
+  public void setloggedinDate(final Date loggedinDate) {
+    this.loggedinDate = loggedinDate == null ? null : new Date(loggedinDate.getTime());
+  }
 
-    public Date getloggedinDate() {
-        return loggedinDate == null ? null : new Date(loggedinDate.getTime());
-    }
+  public Date getloggedinDate() {
+    return loggedinDate == null ? null : new Date(loggedinDate.getTime());
+  }
 }

@@ -26,94 +26,94 @@ import java.util.List;
 @RequestMapping("address")
 public final class AddressRestController {
 
-    @Autowired
-    ModelService<Address> service;
+  @Autowired
+  ModelService<Address> service;
 
-    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
-    public ResponseEntity<List<Address>> getAll() {
-        List<Address> addresses = service.findAll();
-        if (addresses.isEmpty()) {
-            // You many decide to return HttpStatus.NOT_FOUND
-            return new ResponseEntity<List<Address>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Address>>(addresses, HttpStatus.OK);
+  @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+  public ResponseEntity<List<Address>> getAll() {
+    List<Address> addresses = service.findAll();
+    if (addresses.isEmpty()) {
+      // You many decide to return HttpStatus.NOT_FOUND
+      return new ResponseEntity<List<Address>>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<List<Address>>(addresses, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Address> get(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching Address with id %s", id));
+    Address address = service.findOne(id);
+    if (address == null) {
+      log.info(String.format("Address with id %s not found", id));
+      return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Address>(address, HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  public ResponseEntity<Void> create(@RequestBody final Address address,
+      final UriComponentsBuilder uriBuilder) {
+    log.info(String.format("Creating Address %s", address.getStreet()));
+
+    if (service.exists(address)) {
+      log.info(String.format("A Address with name %s already exist", address.getStreet()));
+      return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Address> get(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching Address with id %s", id));
-        Address address = service.findOne(id);
-        if (address == null) {
-            log.info(String.format("Address with id %s not found", id));
-            return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Address>(address, HttpStatus.OK);
+    service.save(address);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(address.getId()).toUri());
+    return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+  }
+
+  @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<Address> update(@PathVariable("id") final long id,
+      @RequestBody final Address address) {
+    log.info(String.format("Updating Address %s", id));
+
+    Address currentAddress = service.findOne(id);
+
+    if (currentAddress == null) {
+      log.info(String.format("Address with id %s not found", id));
+      return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody final Address address,
-            final UriComponentsBuilder uriBuilder) {
-        log.info(String.format("Creating Address %s", address.getStreet()));
+    currentAddress.setStreet(address.getStreet());
+    currentAddress.setCity(address.getCity());
+    currentAddress.setState(address.getState());
+    currentAddress.setZipcode(address.getZipcode());
+    /**
+     * TODO: Update entity model service
+     */
+    // userService.updateAddress(currentAddress);
+    return new ResponseEntity<Address>(currentAddress, HttpStatus.OK);
+  }
 
-        if (service.exists(address)) {
-            log.info(String.format("A Address with name %s already exist", address.getStreet()));
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<Address> delete(@PathVariable("id") final long id) {
+    log.info(String.format("Fetching & Deleting Address with id %s", id));
 
-        service.save(address);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/get/{id}").buildAndExpand(address.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    Address address = service.findOne(id);
+    if (address == null) {
+      log.info(String.format("Unable to delete. Address with id %s not found", id));
+      return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * TODO: Addres delete method to service
+     */
+    // userService.deleteAddressById(id);
+    return new ResponseEntity<Address>(HttpStatus.NO_CONTENT);
+  }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Address> update(@PathVariable("id") final long id,
-            @RequestBody final Address address) {
-        log.info(String.format("Updating Address %s", id));
+  @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
+  public ResponseEntity<Address> deleteAll() {
+    log.info("Deleting All Addresses");
 
-        Address currentAddress = service.findOne(id);
-
-        if (currentAddress == null) {
-            log.info(String.format("Address with id %s not found", id));
-            return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
-        }
-
-        currentAddress.setStreet(address.getStreet());
-        currentAddress.setCity(address.getCity());
-        currentAddress.setState(address.getState());
-        currentAddress.setZipcode(address.getZipcode());
-        /**
-         * TODO: Update entity model service
-         */
-        // userService.updateAddress(currentAddress);
-        return new ResponseEntity<Address>(currentAddress, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Address> delete(@PathVariable("id") final long id) {
-        log.info(String.format("Fetching & Deleting Address with id %s", id));
-
-        Address address = service.findOne(id);
-        if (address == null) {
-            log.info(String.format("Unable to delete. Address with id %s not found", id));
-            return new ResponseEntity<Address>(HttpStatus.NOT_FOUND);
-        }
-        /**
-         * TODO: Addres delete method to service
-         */
-        // userService.deleteAddressById(id);
-        return new ResponseEntity<Address>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/delete-all", method = RequestMethod.DELETE)
-    public ResponseEntity<Address> deleteAll() {
-        log.info("Deleting All Addresses");
-
-        /**
-         * TODO: Addres delete all method to service
-         */
-        // userService.deleteAllAddresses();
-        return new ResponseEntity<Address>(HttpStatus.NO_CONTENT);
-    }
+    /**
+     * TODO: Addres delete all method to service
+     */
+    // userService.deleteAllAddresses();
+    return new ResponseEntity<Address>(HttpStatus.NO_CONTENT);
+  }
 }

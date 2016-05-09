@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("playDAO")
 public final class PlayDAO extends AbstractModelDao<Play, Long> {
 
-    public PlayDAO(final Class<Play> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public PlayDAO(final Class<Play> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("addressDAO")
 public final class AddressDAO extends AbstractModelDao<Address, Long> {
 
-    public AddressDAO(final Class<Address> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public AddressDAO(final Class<Address> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

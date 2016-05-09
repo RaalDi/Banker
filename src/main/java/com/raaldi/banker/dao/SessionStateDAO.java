@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 @Repository("sessionStateDAO")
 public final class SessionStateDAO extends AbstractModelDao<SessionState, Long> {
 
-    public SessionStateDAO(final Class<SessionState> domainClass, final EntityManager em) {
-        super(domainClass, em);
-    }
+  public SessionStateDAO(final Class<SessionState> domainClass, final EntityManager em) {
+    super(domainClass, em);
+  }
 }

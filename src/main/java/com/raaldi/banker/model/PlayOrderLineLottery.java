@@ -16,12 +16,12 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = false)
 public final class PlayOrderLineLottery implements Serializable {
 
-    private static final long serialVersionUID = 4604753242703504870L;
+  private static final long serialVersionUID = 4604753242703504870L;
 
-    @NonNull
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "lottery_id", nullable = false, insertable = true, updatable = false)
-    private Lottery lottery;
+  @NonNull
+  @NotNull
+  @OneToOne
+  @JoinColumn(name = "lottery_id", nullable = false, insertable = true, updatable = false)
+  private Lottery lottery;
 
 }

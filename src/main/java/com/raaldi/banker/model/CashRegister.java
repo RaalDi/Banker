@@ -38,86 +38,86 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class CashRegister extends AbstractModel {
 
-    private static final long serialVersionUID = 7871256452762586374L;
+  private static final long serialVersionUID = 7871256452762586374L;
 
-    @Id
-    @SequenceGenerator(name = "cash-register-seq-gen", sequenceName = "cash_register_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cash-register-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "cash-register-seq-gen", sequenceName = "cash_register_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cash-register-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @OneToOne(optional = false)
-    @JoinColumn(name = "session_id", nullable = false, insertable = true, updatable = false)
-    private Session session;
+  @NonNull
+  @NotNull
+  @OneToOne(optional = false)
+  @JoinColumn(name = "session_id", nullable = false, insertable = true, updatable = false)
+  private Session session;
 
-    @Enumerated(EnumType.STRING)
-    private CashRegisterState state;
+  @Enumerated(EnumType.STRING)
+  private CashRegisterState state;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "opened", insertable = false, updatable = true)
-    private Date opened;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "opened", insertable = false, updatable = true)
+  private Date opened;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "closed", insertable = false, updatable = true)
-    private Date closed;
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "closed", insertable = false, updatable = true)
+  private Date closed;
 
-    @Column(name = "opened_amount", insertable = false, updatable = true)
-    private BigDecimal openedAmount;
+  @Column(name = "opened_amount", insertable = false, updatable = true)
+  private BigDecimal openedAmount;
 
-    @Column(name = "closed_amount", insertable = false, updatable = true)
-    private BigDecimal closedAmount;
+  @Column(name = "closed_amount", insertable = false, updatable = true)
+  private BigDecimal closedAmount;
 
-    public void setState(final CashRegisterState state) {
-        switch (state) {
-            case OPENING:
-                this.setCreated(new Date());
-                break;
-            case OPENED:
-                this.setOpened(new Date());
-                break;
-            case CLOSING:
-                this.setUpdated(new Date());
-                break;
-            case CLOSED:
-                this.setClosed(new Date());
-                break;
-        }
-
-        this.state = state;
+  public void setState(final CashRegisterState state) {
+    switch (state) {
+      case OPENING:
+        this.setCreated(new Date());
+        break;
+      case OPENED:
+        this.setOpened(new Date());
+        break;
+      case CLOSING:
+        this.setUpdated(new Date());
+        break;
+      case CLOSED:
+        this.setClosed(new Date());
+        break;
     }
 
-    public void setOpened(final Date opened) {
+    this.state = state;
+  }
 
-        if (openedAmount == null) {
-            throw new IllegalArgumentException(
-                    "CashRegister.openedAmount may not be null when opening the cash register");
-        }
+  public void setOpened(final Date opened) {
 
-        this.opened = opened == null ? null : new Date(opened.getTime());
+    if (openedAmount == null) {
+      throw new IllegalArgumentException(
+          "CashRegister.openedAmount may not be null when opening the cash register");
     }
 
-    public Date getOpened() {
-        return opened == null ? null : new Date(opened.getTime());
+    this.opened = opened == null ? null : new Date(opened.getTime());
+  }
+
+  public Date getOpened() {
+    return opened == null ? null : new Date(opened.getTime());
+  }
+
+  public void setClosed(final Date closed) {
+
+    if (this.closedAmount == null) {
+      throw new IllegalArgumentException(
+          "CashRegister.closedAmount may not be null when closing the cash register");
     }
 
-    public void setClosed(final Date closed) {
+    this.closed = closed == null ? null : new Date(closed.getTime());
+  }
 
-        if (this.closedAmount == null) {
-            throw new IllegalArgumentException(
-                    "CashRegister.closedAmount may not be null when closing the cash register");
-        }
+  public Date getClosed() {
+    return closed == null ? null : new Date(closed.getTime());
+  }
 
-        this.closed = closed == null ? null : new Date(closed.getTime());
-    }
-
-    public Date getClosed() {
-        return closed == null ? null : new Date(closed.getTime());
-    }
-
-    @Override
-    @PrePersist
-    public void onPersist() {
-        this.setState(CashRegisterState.OPENING);
-    }
+  @Override
+  @PrePersist
+  public void onPersist() {
+    this.setState(CashRegisterState.OPENING);
+  }
 }

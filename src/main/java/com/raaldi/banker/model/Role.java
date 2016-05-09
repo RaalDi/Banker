@@ -24,15 +24,15 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public final class Role extends AbstractModel {
 
-    private static final long serialVersionUID = 2062680389137922067L;
+  private static final long serialVersionUID = 2062680389137922067L;
 
-    @Id
-    @SequenceGenerator(name = "role-seq-gen", sequenceName = "role_seq_id", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role-seq-gen")
-    private long id;
+  @Id
+  @SequenceGenerator(name = "role-seq-gen", sequenceName = "role_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role-seq-gen")
+  private long id;
 
-    @NonNull
-    @NotNull
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+  @NonNull
+  @NotNull
+  @Column(name = "name", nullable = false, unique = true)
+  private String name;
 }
