@@ -6,10 +6,9 @@ buildscript {
 }
 
 plugins {
-    
     id 'java'
     id 'war'
-    id 'jetty'
+    id 'org.akhikhl.gretty' version '1.4.0'
     id 'eclipse-wtp'
     id 'pmd'
     id 'checkstyle'
@@ -20,7 +19,7 @@ plugins {
 // buildDir = 'target/gradle-build'
 
 sourceCompatibility = 1.8
-version = '1.0'
+version = '1.0.0'
 jar {
     manifest {
         attributes 'Implementation-Title': 'Gradle Quickstart',
