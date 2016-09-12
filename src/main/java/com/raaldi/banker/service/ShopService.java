@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.ShopDAO;
 import com.raaldi.banker.model.Shop;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.ShopRepository;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,43 +18,50 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/** Shop service provides access to the shop repository. */
+@NoArgsConstructor
 @Service("shopService")
 @Transactional
 public final class ShopService implements ModelService<Shop> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<Shop, Long> entityDAO;
+  /** The shop repository. */
+  private AbstractModelRepository<Shop, Long> repository;
 
+  /** Initializes the shop repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new ShopDAO(Shop.class, em);
+    repository = new ShopRepository(Shop.class, entityManager);
   }
 
   @Override
-  public void save(Shop model) {
-    entityDAO.save(model);
+  public void save(final Shop model) {
+    repository.save(model);
   }
 
   @Override
-  public Shop findOne(Long id) {
-    return entityDAO.findOne(id);
+  public Shop findOne(final Long id) {
+    return repository.findOne(id);
   }
 
   @Override
   public List<Shop> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
-  public boolean exists(Shop model) {
+  public boolean exists(final Shop model) {
     return this.exists(model.getId());
   }
 
   @Override
-  public boolean exists(Long id) {
-    return entityDAO.exists(id);
+  public boolean exists(final Long id) {
+    return repository.exists(id);
   }
 
 }

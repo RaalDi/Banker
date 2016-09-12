@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.CompanyDAO;
 import com.raaldi.banker.model.Company;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.CompanyRepository;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,43 +18,50 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/** Company service provides access to the company repository. */
+@NoArgsConstructor
 @Service("companyService")
 @Transactional
 public final class CompanyService implements ModelService<Company> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<Company, Long> entityDAO;
+  /** The company repository. */
+  private AbstractModelRepository<Company, Long> repository;
 
+  /** Initializes the company repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new CompanyDAO(Company.class, em);
+    repository = new CompanyRepository(Company.class, entityManager);
   }
 
   @Override
-  public void save(Company model) {
-    entityDAO.save(model);
+  public void save(final Company model) {
+    repository.save(model);
   }
 
   @Override
-  public Company findOne(Long id) {
-    return entityDAO.findOne(id);
+  public Company findOne(final Long id) {
+    return repository.findOne(id);
   }
 
   @Override
   public List<Company> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
-  public boolean exists(Company model) {
+  public boolean exists(final Company model) {
     return this.exists(model.getId());
   }
 
   @Override
-  public boolean exists(Long id) {
-    return entityDAO.exists(id);
+  public boolean exists(final Long id) {
+    return repository.exists(id);
   }
 
 }

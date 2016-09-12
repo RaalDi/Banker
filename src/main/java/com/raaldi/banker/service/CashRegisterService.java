@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.CashRegisterDAO;
 import com.raaldi.banker.model.CashRegister;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.CashRegisterRepository;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,43 +18,50 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/** Cash register service provides access to the cash register repository. */
+@NoArgsConstructor
 @Service("cashRegisterService")
 @Transactional
 public final class CashRegisterService implements ModelService<CashRegister> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<CashRegister, Long> entityDAO;
+  /** The cash register repository. */
+  private AbstractModelRepository<CashRegister, Long> repository;
 
+  /** Initializes the cash register repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new CashRegisterDAO(CashRegister.class, em);
+    repository = new CashRegisterRepository(CashRegister.class, entityManager);
   }
 
   @Override
-  public void save(CashRegister model) {
-    entityDAO.save(model);
+  public void save(final CashRegister model) {
+    repository.save(model);
   }
 
   @Override
-  public CashRegister findOne(Long id) {
-    return entityDAO.findOne(id);
+  public CashRegister findOne(final Long id) {
+    return repository.findOne(id);
   }
 
   @Override
   public List<CashRegister> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
-  public boolean exists(CashRegister model) {
+  public boolean exists(final CashRegister model) {
     return this.exists(model.getId());
   }
 
   @Override
-  public boolean exists(Long id) {
-    return entityDAO.exists(id);
+  public boolean exists(final Long id) {
+    return repository.exists(id);
   }
 
 }

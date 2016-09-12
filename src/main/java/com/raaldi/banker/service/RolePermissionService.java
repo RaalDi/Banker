@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.RolePermissionDAO;
 import com.raaldi.banker.model.RolePermission;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.RolePermissionDAO;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,42 +18,51 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ * Role permission service provides access to the role permission repository.
+ */
+@NoArgsConstructor
 @Service("rolePermissionService")
 @Transactional
 public final class RolePermissionService implements ModelService<RolePermission> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<RolePermission, Long> entityDAO;
+  /** The role permission repository. */
+  private AbstractModelRepository<RolePermission, Long> repository;
 
+  /** Initializes the role permission repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new RolePermissionDAO(RolePermission.class, em);
+    repository = new RolePermissionDAO(RolePermission.class, entityManager);
   }
 
   @Override
-  public void save(RolePermission model) {
-    entityDAO.save(model);
+  public void save(final RolePermission model) {
+    repository.save(model);
   }
 
   @Override
-  public RolePermission findOne(Long id) {
-    return entityDAO.findOne(id);
+  public RolePermission findOne(final Long id) {
+    return repository.findOne(id);
   }
 
   @Override
   public List<RolePermission> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
-  public boolean exists(RolePermission model) {
+  public boolean exists(final RolePermission model) {
     return this.exists(model.getId());
   }
 
   @Override
-  public boolean exists(Long id) {
-    return entityDAO.exists(id);
+  public boolean exists(final Long id) {
+    return repository.exists(id);
   }
 }

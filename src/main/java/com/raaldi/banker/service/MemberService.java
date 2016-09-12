@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.MemberDAO;
 import com.raaldi.banker.model.Member;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.MemberRepository;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,43 +18,50 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/** Member service provides access to the member repository. */
+@NoArgsConstructor
 @Service("memberService")
 @Transactional
 public final class MemberService implements ModelService<Member> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<Member, Long> entityDAO;
+  /** The member repository. */
+  private AbstractModelRepository<Member, Long> repository;
 
+  /** Initializes the member repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new MemberDAO(Member.class, em);
+    repository = new MemberRepository(Member.class, entityManager);
   }
 
   @Override
-  public void save(Member model) {
-    entityDAO.save(model);
+  public void save(final Member model) {
+    repository.save(model);
   }
 
   @Override
-  public Member findOne(Long id) {
-    return entityDAO.findOne(id);
+  public Member findOne(final Long id) {
+    return repository.findOne(id);
   }
 
   @Override
   public List<Member> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
-  public boolean exists(Member model) {
+  public boolean exists(final Member model) {
     return this.exists(model.getId());
   }
 
   @Override
-  public boolean exists(Long id) {
-    return entityDAO.exists(id);
+  public boolean exists(final Long id) {
+    return repository.exists(id);
   }
 
 }

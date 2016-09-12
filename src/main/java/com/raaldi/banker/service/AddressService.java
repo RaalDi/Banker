@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.AddressDAO;
 import com.raaldi.banker.model.Address;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.AddressRepository;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,33 +18,40 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/** Address service provides access to the address repository. */
+@NoArgsConstructor
 @Service("addressService")
 @Transactional
 public final class AddressService implements ModelService<Address> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<Address, Long> entityDAO;
+  /** The address repository. */
+  private AbstractModelRepository<Address, Long> repository;
 
+  /** Initializes the address repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new AddressDAO(Address.class, em);
+    repository = new AddressRepository(Address.class, entityManager);
   }
 
   @Override
   public void save(final Address model) {
-    entityDAO.save(model);
+    repository.save(model);
   }
 
   @Override
   public Address findOne(final Long id) {
-    return entityDAO.findOne(id);
+    return repository.findOne(id);
   }
 
   @Override
   public List<Address> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
@@ -49,7 +61,6 @@ public final class AddressService implements ModelService<Address> {
 
   @Override
   public boolean exists(final Long id) {
-    return entityDAO.exists(id);
+    return repository.exists(id);
   }
-
 }

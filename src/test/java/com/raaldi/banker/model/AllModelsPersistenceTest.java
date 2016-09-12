@@ -1,8 +1,5 @@
 package com.raaldi.banker.model;
 
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import com.raaldi.banker.service.CashRegisterService;
 import com.raaldi.banker.service.CompanyService;
 import com.raaldi.banker.service.LotteryService;
@@ -14,6 +11,12 @@ import com.raaldi.banker.service.RoleService;
 import com.raaldi.banker.service.SessionService;
 import com.raaldi.banker.util.CashRegisterState;
 import com.raaldi.banker.util.EnumSessionState;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -46,6 +49,7 @@ import javax.persistence.PersistenceContext;
 @Transactional(manager = "transactionManager")
 @SpringWebConfiguration(servletName = "dispatcher")
 @Slf4j
+/** Address service provides access to the address repository. */
 @NoArgsConstructor
 public final class AllModelsPersistenceTest {
 
@@ -92,8 +96,11 @@ public final class AllModelsPersistenceTest {
   @Autowired
   private PlayOrderService playOrderService;
 
+  /** The entity manager. */
   @PersistenceContext
-  EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  EntityManager entityManager;
 
   // @Resource
   // UserTransaction utx;
@@ -159,31 +166,31 @@ public final class AllModelsPersistenceTest {
 
   private void clearCompany() throws Exception {
     // utx.begin();
-    // em.joinTransaction();
+    // entityManager.joinTransaction();
     log.info("###---> Dumping old records...");
-    em.createQuery("delete from RolePermission").executeUpdate();
-    em.createNativeQuery("delete from play_order_line_lottery").executeUpdate();
-    em.createNativeQuery("delete from play_order_line_number").executeUpdate();
-    em.createQuery("delete from PlayOrderLine").executeUpdate();
-    em.createQuery("delete from PlayOrder").executeUpdate();
-    em.createQuery("delete from CashRegister").executeUpdate();
-    em.createQuery("delete from Session").executeUpdate();
-    em.createQuery("delete from User").executeUpdate();
-    em.createQuery("delete from Role").executeUpdate();
-    em.createQuery("delete from Permission").executeUpdate();
-    em.createQuery("delete from Shop").executeUpdate();
-    em.createQuery("delete from Company").executeUpdate();
-    em.createQuery("delete from Address").executeUpdate();
-    em.createQuery("delete from Lottery").executeUpdate();
-    em.createQuery("delete from Play").executeUpdate();
-    em.createQuery("delete from Payment").executeUpdate();
+    entityManager.createQuery("delete from RolePermission").executeUpdate();
+    entityManager.createNativeQuery("delete from play_order_line_lottery").executeUpdate();
+    entityManager.createNativeQuery("delete from play_order_line_number").executeUpdate();
+    entityManager.createQuery("delete from PlayOrderLine").executeUpdate();
+    entityManager.createQuery("delete from PlayOrder").executeUpdate();
+    entityManager.createQuery("delete from CashRegister").executeUpdate();
+    entityManager.createQuery("delete from Session").executeUpdate();
+    entityManager.createQuery("delete from User").executeUpdate();
+    entityManager.createQuery("delete from Role").executeUpdate();
+    entityManager.createQuery("delete from Permission").executeUpdate();
+    entityManager.createQuery("delete from Shop").executeUpdate();
+    entityManager.createQuery("delete from Company").executeUpdate();
+    entityManager.createQuery("delete from Address").executeUpdate();
+    entityManager.createQuery("delete from Lottery").executeUpdate();
+    entityManager.createQuery("delete from Play").executeUpdate();
+    entityManager.createQuery("delete from Payment").executeUpdate();
 
     // utx.commit();
   }
 
   private void createCompany() throws Exception {
     // utx.begin();
-    // em.joinTransaction();
+    // entityManager.joinTransaction();
     log.info("###---> Inserting records...");
     Company company;
     // List<User> users = null;
@@ -223,7 +230,7 @@ public final class AllModelsPersistenceTest {
       // company.setUsers(users);
 
       companyService.save(company);
-      // em.flush();
+      // entityManager.flush();
     }
 
     createLotteries();
@@ -231,7 +238,7 @@ public final class AllModelsPersistenceTest {
     createPlayOrders();
     // utx.commit();
     // clear the persistence context (first-level cache)
-    // em.flush();
+    // entityManager.flush();
   }
 
   private void setUsers(final Company company, final List<Role> roles,
@@ -313,10 +320,7 @@ public final class AllModelsPersistenceTest {
 
   private void createPlayOrders() {
     try {
-      Shop shop = em.createQuery(
-          String.format("SELECT s FROM Shop s WHERE s.name = '%s'", testCompanyShops[0]),
-          Shop.class).getSingleResult();
-      User user = em.createQuery(
+      User user = entityManager.createQuery(
           String.format("SELECT u FROM User u WHERE u.firstName = '%s'", USER_FIRST_NAMES[0]),
           User.class).getResultList().get(0);
       Play play = null;
@@ -342,6 +346,10 @@ public final class AllModelsPersistenceTest {
       payment.setCreatedUid(USER_ID);
       paymentService.save(payment);
 
+      Shop shop = entityManager.createQuery(
+          String.format("SELECT s FROM Shop s WHERE s.name = '%s'", testCompanyShops[0]),
+          Shop.class).getSingleResult();
+
       PlayOrder playOrder = new PlayOrder(shop, new BigDecimal(20.00D), payment, cashRegister);
       playOrder.setCreatedUid(USER_ID);
 
@@ -351,15 +359,17 @@ public final class AllModelsPersistenceTest {
 
       for (String element : PLAYS) {
 
-        play = em.createQuery(String.format("SELECT p FROM Play p WHERE p.name = '%s'", element),
-            Play.class).getSingleResult();
+        play = entityManager
+            .createQuery(String.format("SELECT p FROM Play p WHERE p.name = '%s'", element),
+                Play.class)
+            .getSingleResult();
 
         playOrderLine = new PlayOrderLine(playOrder, play, new BigDecimal(5.00D));
         playOrderLine.setCreatedUid(USER_ID);
 
         for (int i = 0; i < 2; i++) {
 
-          lottery = em.createQuery(
+          lottery = entityManager.createQuery(
               String.format("SELECT l FROM Lottery l WHERE l.name = '%s'", LOTTERIES[i]),
               Lottery.class).getSingleResult();
 
@@ -388,7 +398,7 @@ public final class AllModelsPersistenceTest {
   @After
   public void commitTransaction() throws Exception {
     // utx.commit();
-    // em.flush();
+    // entityManager.flush();
   }
 
   @Test
@@ -398,7 +408,7 @@ public final class AllModelsPersistenceTest {
 
     // when
     log.info("Selecting (using JPQL)...");
-    List<Company> companies = em.createQuery(fetchingAllCompaniesInJpql, Company.class)
+    List<Company> companies = entityManager.createQuery(fetchingAllCompaniesInJpql, Company.class)
         .getResultList();
 
     // then
@@ -427,7 +437,7 @@ public final class AllModelsPersistenceTest {
 
     // when
     log.info("Selecting (using JPQL)...");
-    List<Address> addresses = em.createQuery(fetchingAllCompaniesInJpql, Address.class)
+    List<Address> addresses = entityManager.createQuery(fetchingAllCompaniesInJpql, Address.class)
         .getResultList();
 
     // then
@@ -456,7 +466,8 @@ public final class AllModelsPersistenceTest {
 
     // when
     log.info("Selecting (using JPQL)...");
-    List<User> users = em.createQuery(fetchingAllUsersInJpql, User.class).getResultList();
+    List<User> users = entityManager.createQuery(fetchingAllUsersInJpql, User.class)
+        .getResultList();
 
     // then
     log.info(String.format("Found %d Users (using JPQL):", users.size()));
@@ -485,7 +496,8 @@ public final class AllModelsPersistenceTest {
 
     // when
     log.info("Selecting (using JPQL)...");
-    final List<Shop> shops = em.createQuery(fetchingAllShopsInJpql, Shop.class).getResultList();
+    final List<Shop> shops = entityManager.createQuery(fetchingAllShopsInJpql, Shop.class)
+        .getResultList();
 
     // then
     log.info(String.format("Found %d Shops (using JPQL):", shops.size()));

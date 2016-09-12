@@ -37,12 +37,12 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<jpa:repositories base-package="com.raaldi.banker.dao"
+	<jpa:repositories base-package="com.raaldi.banker.repository"
 		transaction-manager-ref="transactionManager" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<context:component-scan base-package="com.raaldi.banker.controller" />
+	<context:component-scan base-package="com.raaldi.banker.controller.api" />
 	<context:component-scan base-package="com.raaldi.banker.service" />
 	<!-- context:component-scan base-package="com.raaldi.banker.dao" / -->
 

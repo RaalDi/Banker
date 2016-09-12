@@ -92,7 +92,7 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.1.7'
   	
   	// Java Agent
-  	providedCompile 'org.projectlombok:lombok:1.16.8'
+  	compileOnly "org.projectlombok:lombok:1.16.10"
     
     // Testing
     testCompile 'junit:junit:4.+'

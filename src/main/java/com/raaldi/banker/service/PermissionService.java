@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.PermissionDAO;
 import com.raaldi.banker.model.Permission;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.PermissionRepository;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,43 +18,50 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/** Permission service provides access to the permission repository. */
+@NoArgsConstructor
 @Service("permissionService")
 @Transactional
 public final class PermissionService implements ModelService<Permission> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<Permission, Long> entityDAO;
+  /** The permission repository. */
+  private AbstractModelRepository<Permission, Long> repository;
 
+  /** Initializes the permission repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new PermissionDAO(Permission.class, em);
+    repository = new PermissionRepository(Permission.class, entityManager);
   }
 
   @Override
-  public void save(Permission model) {
-    entityDAO.save(model);
+  public void save(final Permission model) {
+    repository.save(model);
   }
 
   @Override
-  public Permission findOne(Long id) {
-    return entityDAO.findOne(id);
+  public Permission findOne(final Long id) {
+    return repository.findOne(id);
   }
 
   @Override
   public List<Permission> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
-  public boolean exists(Permission model) {
+  public boolean exists(final Permission model) {
     return this.exists(model.getId());
   }
 
   @Override
-  public boolean exists(Long id) {
-    return entityDAO.exists(id);
+  public boolean exists(final Long id) {
+    return repository.exists(id);
   }
 
 }

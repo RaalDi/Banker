@@ -1,8 +1,13 @@
 package com.raaldi.banker.service;
 
-import com.raaldi.banker.dao.AbstractModelDao;
-import com.raaldi.banker.dao.PlayOrderDAO;
 import com.raaldi.banker.model.PlayOrder;
+import com.raaldi.banker.repository.AbstractModelRepository;
+import com.raaldi.banker.repository.PlayOrderDAO;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,43 +18,50 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/** Play order service provides access to the play order repository. */
+@NoArgsConstructor
 @Service("playOrderService")
 @Transactional
 public final class PlayOrderService implements ModelService<PlayOrder> {
 
+  /** The entity manager. */
   @PersistenceContext
-  private EntityManager em;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private EntityManager entityManager;
 
-  private AbstractModelDao<PlayOrder, Long> entityDAO;
+  /** The play order repository. */
+  private AbstractModelRepository<PlayOrder, Long> repository;
 
+  /** Initializes the play order repository. */
   @PostConstruct
   public void postConstruct() {
-    entityDAO = new PlayOrderDAO(PlayOrder.class, em);
+    repository = new PlayOrderDAO(PlayOrder.class, entityManager);
   }
 
   @Override
-  public void save(PlayOrder model) {
-    entityDAO.save(model);
+  public void save(final PlayOrder model) {
+    repository.save(model);
   }
 
   @Override
-  public PlayOrder findOne(Long id) {
-    return entityDAO.findOne(id);
+  public PlayOrder findOne(final Long id) {
+    return repository.findOne(id);
   }
 
   @Override
   public List<PlayOrder> findAll() {
-    return entityDAO.findAll();
+    return repository.findAll();
   }
 
   @Override
-  public boolean exists(PlayOrder model) {
+  public boolean exists(final PlayOrder model) {
     return this.exists(model.getId());
   }
 
   @Override
-  public boolean exists(Long id) {
-    return entityDAO.exists(id);
+  public boolean exists(final Long id) {
+    return repository.exists(id);
   }
 
 }
