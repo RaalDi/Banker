@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Company;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.CompanyRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Company service provides access to the company repository. */
 @NoArgsConstructor
 @Service("companyService")
 @Transactional
-public final class CompanyService implements ModelService<Company> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class CompanyService implements ModelService<Company> {
 
   /** The company repository. */
-  private AbstractModelRepository<Company, Long> repository;
+  private CompanyRepository repository;
 
-  /** Initializes the company repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new CompanyRepository(Company.class, entityManager);
+  @Autowired
+  public void setRepository(final CompanyRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class CompanyService implements ModelService<Company> {
   }
 
   @Override
-  public List<Company> findAll() {
+  public Iterable<Company> findAll() {
     return repository.findAll();
   }
 

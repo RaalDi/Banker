@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Member;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "members")
-public final class MemberRestController {
+public class MemberRestController {
 
   @Autowired
   ModelService<Member> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Member>> getAll() {
-    List<Member> members = service.findAll();
-    if (members.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Member>> getAll() {
+    Iterable<Member> members = service.findAll();
+    if (members.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Member>>(members, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Member>>(members, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Member>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +50,7 @@ public final class MemberRestController {
   }
 
   @RequestMapping(value = "/member", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Member member,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Member member, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Member %s", member.toString()));
 
     if (service.exists(member)) {
@@ -69,8 +66,7 @@ public final class MemberRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Member> update(@PathVariable("id") final long id,
-      @RequestBody final Member member) {
+  public ResponseEntity<Member> update(@PathVariable("id") final long id, @RequestBody final Member member) {
     log.info(String.format("Updating Member %s", id));
 
     Member currentMember = service.findOne(id);

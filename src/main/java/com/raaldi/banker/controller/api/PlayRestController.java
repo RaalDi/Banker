@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Play;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "plays")
-public final class PlayRestController {
+public class PlayRestController {
 
   @Autowired
   ModelService<Play> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Play>> getAll() {
-    List<Play> plaies = service.findAll();
-    if (plaies.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Play>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Play>> getAll() {
+    Iterable<Play> plays = service.findAll();
+    if (plays.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Play>>(plays, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Play>>(plaies, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Play>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +50,7 @@ public final class PlayRestController {
   }
 
   @RequestMapping(value = "/play", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Play play,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Play play, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Play %s", play.toString()));
 
     if (service.exists(play)) {
@@ -69,8 +66,7 @@ public final class PlayRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Play> update(@PathVariable("id") final long id,
-      @RequestBody final Play play) {
+  public ResponseEntity<Play> update(@PathVariable("id") final long id, @RequestBody final Play play) {
     log.info(String.format("Updating Play %s", id));
 
     Play currentPlay = service.findOne(id);

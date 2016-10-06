@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Permission;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "permissions")
-public final class PermissionRestController {
+public class PermissionRestController {
 
   @Autowired
   ModelService<Permission> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Permission>> getAll() {
-    List<Permission> permissions = service.findAll();
-    if (permissions.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Permission>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Permission>> getAll() {
+    Iterable<Permission> permissions = service.findAll();
+    if (permissions.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Permission>>(permissions, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Permission>>(permissions, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Permission>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +50,7 @@ public final class PermissionRestController {
   }
 
   @RequestMapping(value = "/permission", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Permission permission,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Permission permission, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Permission %s", permission.toString()));
 
     if (service.exists(permission)) {

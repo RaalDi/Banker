@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Currency;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.CurrencyRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Currency service provides access to the currency repository. */
 @NoArgsConstructor
 @Service("currencyService")
 @Transactional
-public final class CurrencyService implements ModelService<Currency> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class CurrencyService implements ModelService<Currency> {
 
   /** The currency repository. */
-  private AbstractModelRepository<Currency, Long> repository;
+  private CurrencyRepository repository;
 
-  /** Initializes the currency repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new CurrencyRepository(Currency.class, entityManager);
+  @Autowired
+  public void setRepository(final CurrencyRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class CurrencyService implements ModelService<Currency> {
   }
 
   @Override
-  public List<Currency> findAll() {
+  public Iterable<Currency> findAll() {
     return repository.findAll();
   }
 

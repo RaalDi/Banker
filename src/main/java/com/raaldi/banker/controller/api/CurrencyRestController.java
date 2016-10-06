@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Currency;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "currencies")
-public final class CurrencyRestController {
+public class CurrencyRestController {
 
   @Autowired
   ModelService<Currency> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Currency>> getAll() {
-    List<Currency> currencies = service.findAll();
-    if (currencies.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Currency>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Currency>> getAll() {
+    Iterable<Currency> currencies = service.findAll();
+    if (currencies.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Currency>>(currencies, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Currency>>(currencies, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Currency>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +50,7 @@ public final class CurrencyRestController {
   }
 
   @RequestMapping(value = "/currency", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Currency currency,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Currency currency, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Currency %s", currency.toString()));
 
     if (service.exists(currency)) {
@@ -69,8 +66,7 @@ public final class CurrencyRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Currency> update(@PathVariable("id") final long id,
-      @RequestBody final Currency currency) {
+  public ResponseEntity<Currency> update(@PathVariable("id") final long id, @RequestBody final Currency currency) {
     log.info(String.format("Updating Currency %s", id));
 
     Currency currentCurrency = service.findOne(id);

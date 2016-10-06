@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Lottery;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.LotteryRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Lottery service provides access to the lottery repository. */
 @NoArgsConstructor
 @Service("lotteryService")
 @Transactional
-public final class LotteryService implements ModelService<Lottery> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class LotteryService implements ModelService<Lottery> {
 
   /** The lottery repository. */
-  private AbstractModelRepository<Lottery, Long> repository;
+  private LotteryRepository repository;
 
-  /** Initializes the lottery repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new LotteryRepository(Lottery.class, entityManager);
+  @Autowired
+  public void setRepository(final LotteryRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class LotteryService implements ModelService<Lottery> {
   }
 
   @Override
-  public List<Lottery> findAll() {
+  public Iterable<Lottery> findAll() {
     return repository.findAll();
   }
 

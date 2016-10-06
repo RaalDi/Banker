@@ -1,5 +1,7 @@
 package com.raaldi.banker.model;
 
+import com.raaldi.banker.util.model.AbstractModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -15,17 +17,19 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
+@Table(name = "address")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Address")
-@NamedQueries({@NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c")})
+@NamedQueries({ @NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c") })
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class Address extends AbstractModel {
+public class Address extends AbstractModel {
 
   private static final long serialVersionUID = -6530779330443333541L;
 

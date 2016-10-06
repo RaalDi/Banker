@@ -1,5 +1,8 @@
 package com.raaldi.banker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.raaldi.banker.util.model.AbstractModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -34,10 +37,11 @@ import javax.validation.constraints.Size;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "User")
 @Table(name = "person")
-@NamedQueries({@NamedQuery(name = "User.findAll", query = "SELECT c FROM User c")})
+@NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT c FROM User c WHERE c.username = :username") })
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class User extends AbstractModel {
+public class User extends AbstractModel {
 
   private static final long serialVersionUID = -8491559884264082143L;
 
@@ -64,7 +68,7 @@ public final class User extends AbstractModel {
   @NotNull
   @Size(min = 8, max = 16, message = "8-16 letters and spaces")
   @Column(name = "user_name", unique = true)
-  private String userName;
+  private String username;
 
   @NonNull
   @NotNull
@@ -75,6 +79,7 @@ public final class User extends AbstractModel {
 
   @NonNull
   @NotNull
+  @JsonIgnore
   @Column(name = "password")
   private String password;
 

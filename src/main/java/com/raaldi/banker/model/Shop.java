@@ -1,5 +1,7 @@
 package com.raaldi.banker.model;
 
+import com.raaldi.banker.util.model.AbstractModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -7,7 +9,8 @@ import lombok.NonNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,14 +25,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "shop")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Shop")
-@NamedQueries({@NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c")})
+@NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c") })
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class Shop extends AbstractModel {
+public class Shop extends AbstractModel {
 
   private static final long serialVersionUID = -6096997265649544980L;
 
@@ -58,8 +63,8 @@ public final class Shop extends AbstractModel {
   private Company company;
 
   @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-  private List<User> users;
+  private Set<User> users = Collections.emptySet();
 
-  @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-  private List<PlayOrder> playOrders;
+  // @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+  // private Iterable<PlayOrder> playOrders;
 }

@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.User;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "users")
-public final class UserRestController {
+public class UserRestController {
 
   @Autowired
   ModelService<User> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<User>> getAll() {
-    List<User> users = service.findAll();
-    if (users.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<User>> getAll() {
+    Iterable<User> users = service.findAll();
+    if (users.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<User>>(users, HttpStatus.OK);
     }
-    return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<User>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,12 +50,11 @@ public final class UserRestController {
   }
 
   @RequestMapping(value = "/user", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final User user,
-      final UriComponentsBuilder uriBuilder) {
-    log.info(String.format("Creating User %s", user.getUserName()));
+  public ResponseEntity<Void> create(@RequestBody final User user, final UriComponentsBuilder uriBuilder) {
+    log.info(String.format("Creating User %s", user.getUsername()));
 
     if (service.exists(user)) {
-      log.info(String.format("A User with name %s already exist", user.getUserName()));
+      log.info(String.format("A User with name %s already exist", user.getUsername()));
       return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 
@@ -69,8 +66,7 @@ public final class UserRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<User> update(@PathVariable("id") final long id,
-      @RequestBody final User user) {
+  public ResponseEntity<User> update(@PathVariable("id") final long id, @RequestBody final User user) {
     log.info(String.format("Updating User %s", id));
 
     User currentUser = service.findOne(id);

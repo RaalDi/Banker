@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Role;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.RoleRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Role service provides access to the role repository. */
 @NoArgsConstructor
 @Service("roleService")
 @Transactional
-public final class RoleService implements ModelService<Role> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class RoleService implements ModelService<Role> {
 
   /** The role repository. */
-  private AbstractModelRepository<Role, Long> repository;
+  private RoleRepository repository;
 
-  /** Initializes the role repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new RoleRepository(Role.class, entityManager);
+  @Autowired
+  public void setRepository(final RoleRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class RoleService implements ModelService<Role> {
   }
 
   @Override
-  public List<Role> findAll() {
+  public Iterable<Role> findAll() {
     return repository.findAll();
   }
 

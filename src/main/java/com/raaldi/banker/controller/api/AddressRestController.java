@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Address;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
-/** Address service provides access to the address repository. */
+/** Address rest controller provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping("addresses")
-public final class AddressRestController {
+public class AddressRestController {
 
   @Autowired
   ModelService<Address> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Address>> getAll() {
-    List<Address> addresses = service.findAll();
-    if (addresses.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Address>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Address>> getAll() {
+    Iterable<Address> addresses = service.findAll();
+    if (addresses.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Address>>(addresses, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Address>>(addresses, HttpStatus.OK);
+
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Address>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +51,7 @@ public final class AddressRestController {
   }
 
   @RequestMapping(value = "/address", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Address address,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Address address, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Address %s", address.getStreet()));
 
     if (service.exists(address)) {
@@ -69,8 +67,7 @@ public final class AddressRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Address> update(@PathVariable("id") final long id,
-      @RequestBody final Address address) {
+  public ResponseEntity<Address> update(@PathVariable("id") final long id, @RequestBody final Address address) {
     log.info(String.format("Updating Address %s", id));
 
     Address currentAddress = service.findOne(id);

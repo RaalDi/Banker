@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Lottery;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "lotteries")
-public final class LotteryRestController {
+public class LotteryRestController {
 
   @Autowired
   ModelService<Lottery> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Lottery>> getAll() {
-    List<Lottery> lotteries = service.findAll();
-    if (lotteries.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Lottery>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Lottery>> getAll() {
+    Iterable<Lottery> lotteries = service.findAll();
+    if (lotteries.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Lottery>>(lotteries, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Lottery>>(lotteries, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Lottery>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +50,7 @@ public final class LotteryRestController {
   }
 
   @RequestMapping(value = "/lottery", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Lottery lottery,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Lottery lottery, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Lottery %s", lottery.toString()));
 
     if (service.exists(lottery)) {
@@ -69,8 +66,7 @@ public final class LotteryRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Lottery> update(@PathVariable("id") final long id,
-      @RequestBody final Lottery lottery) {
+  public ResponseEntity<Lottery> update(@PathVariable("id") final long id, @RequestBody final Lottery lottery) {
     log.info(String.format("Updating Lottery %s", id));
 
     Lottery currentLottery = service.findOne(id);
@@ -82,10 +78,10 @@ public final class LotteryRestController {
 
     currentLottery.setActive(lottery.isActive());
     currentLottery.setName(lottery.getName());
-    currentLottery.setShortName(lottery.getShortName());
-    /**
-     * TODO: Update entity model service
-     */
+    currentLottery.setShortName(
+        lottery.getShortName());/**
+                                 * TODO: Update entity model service
+                                 */
     // userService.updateLottery(currentLottery);
     return new ResponseEntity<Lottery>(currentLottery, HttpStatus.OK);
   }
@@ -98,10 +94,9 @@ public final class LotteryRestController {
     if (lottery == null) {
       log.info(String.format("Unable to delete. Lottery with id %s not found", id));
       return new ResponseEntity<Lottery>(HttpStatus.NOT_FOUND);
-    }
-    /**
-     * TODO: Addres delete method to service
-     */
+    } /**
+       * TODO: Addres delete method to service
+       */
     // userService.deleteLotteryById(id);
     return new ResponseEntity<Lottery>(HttpStatus.NO_CONTENT);
   }

@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Address;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.AddressRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @Service("addressService")
 @Transactional
-public final class AddressService implements ModelService<Address> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class AddressService implements ModelService<Address> {
 
   /** The address repository. */
-  private AbstractModelRepository<Address, Long> repository;
+  private AddressRepository repository;
 
-  /** Initializes the address repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new AddressRepository(Address.class, entityManager);
+  @Autowired
+  public void setRepository(final AddressRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class AddressService implements ModelService<Address> {
   }
 
   @Override
-  public List<Address> findAll() {
+  public Iterable<Address> findAll() {
     return repository.findAll();
   }
 

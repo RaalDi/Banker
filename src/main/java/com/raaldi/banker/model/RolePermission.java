@@ -1,5 +1,7 @@
 package com.raaldi.banker.model;
 
+import com.raaldi.banker.util.model.AbstractModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -22,13 +24,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "RolePermission")
-@Table(name = "role_permission", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id",
-    "role_id", "permission_id"}))
-@NamedQueries({
-    @NamedQuery(name = "RolePermission.findAll", query = "SELECT c FROM RolePermission c")})
+@Table(name = "role_permission", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id",
+    "permission_id" }))
+@NamedQueries({ @NamedQuery(name = "RolePermission.findAll", query = "SELECT c FROM RolePermission c") })
 @Data
 @EqualsAndHashCode(callSuper = true)
-public final class RolePermission extends AbstractModel {
+public class RolePermission extends AbstractModel {
 
   private static final long serialVersionUID = -91786390688045690L;
 

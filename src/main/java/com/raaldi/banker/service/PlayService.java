@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Play;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.PlayRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Play service provides access to the play repository. */
 @NoArgsConstructor
 @Service("playService")
 @Transactional
-public final class PlayService implements ModelService<Play> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class PlayService implements ModelService<Play> {
 
   /** The play repository. */
-  private AbstractModelRepository<Play, Long> repository;
+  private PlayRepository repository;
 
-  /** Initializes the play repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new PlayRepository(Play.class, entityManager);
+  @Autowired
+  public void setRepository(final PlayRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class PlayService implements ModelService<Play> {
   }
 
   @Override
-  public List<Play> findAll() {
+  public Iterable<Play> findAll() {
     return repository.findAll();
   }
 

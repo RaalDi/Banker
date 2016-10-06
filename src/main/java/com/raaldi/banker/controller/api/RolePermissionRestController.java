@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.RolePermission;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "role-permissions")
-public final class RolePermissionRestController {
+public class RolePermissionRestController {
 
   @Autowired
   ModelService<RolePermission> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<RolePermission>> getAll() {
-    List<RolePermission> rolePermissions = service.findAll();
-    if (rolePermissions.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<RolePermission>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<RolePermission>> getAll() {
+    Iterable<RolePermission> rolePermissions = service.findAll();
+    if (rolePermissions.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<RolePermission>>(rolePermissions, HttpStatus.OK);
     }
-    return new ResponseEntity<List<RolePermission>>(rolePermissions, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<RolePermission>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,8 +55,7 @@ public final class RolePermissionRestController {
     log.info(String.format("Creating RolePermission %s", rolePermission.toString()));
 
     if (service.exists(rolePermission)) {
-      log.info(
-          String.format("A RolePermission with name %s already exist", rolePermission.toString()));
+      log.info(String.format("A RolePermission with name %s already exist", rolePermission.toString()));
       return new ResponseEntity<Void>(HttpStatus.CONFLICT);
     }
 

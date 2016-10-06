@@ -110,10 +110,6 @@
             <ruleset>Basic</ruleset>
         </rule>
         <rule>
-            <name>AssignmentInOperand</name>
-            <ruleset>Basic Ecmascript</ruleset>
-        </rule>
-        <rule>
             <name>AvoidTrailingComma</name>
             <ruleset>Basic Ecmascript</ruleset>
         </rule>
@@ -202,6 +198,10 @@
             <ruleset>Basic POM</ruleset>
         </rule>
         <rule>
+            <name>AvoidReassigningParameters</name>
+            <ruleset>Basic Velocity</ruleset>
+        </rule>
+        <rule>
             <name>CollapsibleIfStatements</name>
             <ruleset>Basic Velocity</ruleset>
         </rule>
@@ -270,10 +270,6 @@
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>ExcessiveClassLength</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>ExcessiveMethodLength</name>
             <ruleset>Code Size</ruleset>
         </rule>
@@ -290,14 +286,6 @@
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>ExcessiveParameterList</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>ExcessivePublicCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>ExcessiveTypeLength</name>
             <ruleset>Code Size</ruleset>
         </rule>
@@ -306,31 +294,11 @@
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>NcssConstructorCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>NcssMethodCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>NcssObjectCount</name>
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
-            <name>NcssTypeCount</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
             <name>NPathComplexity</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>StdCyclomaticComplexity</name>
-            <ruleset>Code Size</ruleset>
-        </rule>
-        <rule>
-            <name>TooManyFields</name>
             <ruleset>Code Size</ruleset>
         </rule>
         <rule>
@@ -352,6 +320,46 @@
         <rule>
             <name>CommentSize</name>
             <ruleset>Comments</ruleset>
+        </rule>
+        <rule>
+            <name>AvoidDeeplyNestedIfStmts</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveClassLength</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessiveParameterList</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>ExcessivePublicCount</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>NcssConstructorCount</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>NcssMethodCount</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>NcssTypeCount</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>StdCyclomaticComplexity</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>TooManyFields</name>
+            <ruleset>Complexity</ruleset>
+        </rule>
+        <rule>
+            <name>AssignmentInOperand</name>
+            <ruleset>Controversial</ruleset>
         </rule>
         <rule>
             <name>AtLeastOneConstructor</name>
@@ -426,6 +434,10 @@
             <ruleset>Controversial</ruleset>
         </rule>
         <rule>
+            <name>UnnecessaryParentheses</name>
+            <ruleset>Controversial</ruleset>
+        </rule>
+        <rule>
             <name>UseConcurrentHashMap</name>
             <ruleset>Controversial</ruleset>
         </rule>
@@ -474,10 +486,6 @@
             <ruleset>Design</ruleset>
         </rule>
         <rule>
-            <name>AvoidDeeplyNestedIfStmts</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
             <name>AvoidInstanceofChecksInCatchClause</name>
             <ruleset>Design</ruleset>
         </rule>
@@ -487,10 +495,6 @@
         </rule>
         <rule>
             <name>AvoidProtectedMethodInFinalClassNotExtending</name>
-            <ruleset>Design</ruleset>
-        </rule>
-        <rule>
-            <name>AvoidReassigningParameters</name>
             <ruleset>Design</ruleset>
         </rule>
         <rule>
@@ -1255,10 +1259,6 @@
         </rule>
         <rule>
             <name>UnnecessaryFinalModifier</name>
-            <ruleset>Unnecessary</ruleset>
-        </rule>
-        <rule>
-            <name>UnnecessaryParentheses</name>
             <ruleset>Unnecessary</ruleset>
         </rule>
         <rule>

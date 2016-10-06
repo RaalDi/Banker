@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Permission;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.PermissionRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Permission service provides access to the permission repository. */
 @NoArgsConstructor
 @Service("permissionService")
 @Transactional
-public final class PermissionService implements ModelService<Permission> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class PermissionService implements ModelService<Permission> {
 
   /** The permission repository. */
-  private AbstractModelRepository<Permission, Long> repository;
+  private PermissionRepository repository;
 
-  /** Initializes the permission repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new PermissionRepository(Permission.class, entityManager);
+  @Autowired
+  public void setRepository(final PermissionRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class PermissionService implements ModelService<Permission> {
   }
 
   @Override
-  public List<Permission> findAll() {
+  public Iterable<Permission> findAll() {
     return repository.findAll();
   }
 

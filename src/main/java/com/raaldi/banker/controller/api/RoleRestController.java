@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Role;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "roles")
-public final class RoleRestController {
+public class RoleRestController {
 
   @Autowired
   ModelService<Role> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Role>> getAll() {
-    List<Role> roles = service.findAll();
-    if (roles.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Role>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Role>> getAll() {
+    Iterable<Role> roles = service.findAll();
+    if (roles.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Role>>(roles, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Role>>(roles, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Role>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +50,7 @@ public final class RoleRestController {
   }
 
   @RequestMapping(value = "/role", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Role role,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Role role, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Role %s", role.toString()));
 
     if (service.exists(role)) {
@@ -69,8 +66,7 @@ public final class RoleRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Role> update(@PathVariable("id") final long id,
-      @RequestBody final Role role) {
+  public ResponseEntity<Role> update(@PathVariable("id") final long id, @RequestBody final Role role) {
     log.info(String.format("Updating Role %s", id));
 
     Role currentRole = service.findOne(id);

@@ -1,42 +1,27 @@
 package com.raaldi.banker.service;
 
 import com.raaldi.banker.model.Member;
-import com.raaldi.banker.repository.AbstractModelRepository;
 import com.raaldi.banker.repository.MemberRepository;
+import com.raaldi.banker.util.service.ModelService;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /** Member service provides access to the member repository. */
 @NoArgsConstructor
 @Service("memberService")
 @Transactional
-public final class MemberService implements ModelService<Member> {
-
-  /** The entity manager. */
-  @PersistenceContext
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  private EntityManager entityManager;
+public class MemberService implements ModelService<Member> {
 
   /** The member repository. */
-  private AbstractModelRepository<Member, Long> repository;
+  private MemberRepository repository;
 
-  /** Initializes the member repository. */
-  @PostConstruct
-  public void postConstruct() {
-    repository = new MemberRepository(Member.class, entityManager);
+  @Autowired
+  public void setRepository(final MemberRepository repository) {
+    this.repository = repository;
   }
 
   @Override
@@ -50,7 +35,7 @@ public final class MemberService implements ModelService<Member> {
   }
 
   @Override
-  public List<Member> findAll() {
+  public Iterable<Member> findAll() {
     return repository.findAll();
   }
 

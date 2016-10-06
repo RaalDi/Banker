@@ -2,14 +2,17 @@ package com.raaldi.banker.repository;
 
 import com.raaldi.banker.model.User;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
+import java.util.Optional;
 
-@Repository("userDAO")
-public final class UserRepository extends AbstractModelRepository<User, Long> {
-
-  public UserRepository(final Class<User> domainClass, final EntityManager entityManager) {
-    super(domainClass, entityManager);
-  }
+@Repository("userRepository")
+public interface UserRepository extends CrudRepository<User, Long> {
+  // @Query("select u from User u left join fetch u.roles r where
+  // u.username=:username")
+  @Query("select u from User u where u.username=:username")
+  public Optional<User> findByUsername(@Param("username") String username);
 }

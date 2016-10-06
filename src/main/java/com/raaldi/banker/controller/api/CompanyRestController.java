@@ -1,7 +1,7 @@
 package com.raaldi.banker.controller.api;
 
 import com.raaldi.banker.model.Company;
-import com.raaldi.banker.service.ModelService;
+import com.raaldi.banker.util.service.ModelService;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,26 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
 @Slf4j
 /** Address service provides access to the address repository. */
 @NoArgsConstructor
 @RestController
 @RequestMapping(value = "companies")
-public final class CompanyRestController {
+public class CompanyRestController {
 
   @Autowired
   ModelService<Company> service;
 
   @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<List<Company>> getAll() {
-    List<Company> companies = service.findAll();
-    if (companies.isEmpty()) {
-      // You many decide to return HttpStatus.NOT_FOUND
-      return new ResponseEntity<List<Company>>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<Iterable<Company>> getAll() {
+    Iterable<Company> companies = service.findAll();
+    if (companies.iterator().hasNext()) {
+      return new ResponseEntity<Iterable<Company>>(companies, HttpStatus.OK);
     }
-    return new ResponseEntity<List<Company>>(companies, HttpStatus.OK);
+    // You many decide to return HttpStatus.NOT_FOUND
+    return new ResponseEntity<Iterable<Company>>(HttpStatus.NO_CONTENT);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +50,7 @@ public final class CompanyRestController {
   }
 
   @RequestMapping(value = "/company", method = RequestMethod.POST)
-  public ResponseEntity<Void> create(@RequestBody final Company company,
-      final UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<Void> create(@RequestBody final Company company, final UriComponentsBuilder uriBuilder) {
     log.info(String.format("Creating Company %s", company.toString()));
 
     if (service.exists(company)) {
@@ -69,8 +66,7 @@ public final class CompanyRestController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<Company> update(@PathVariable("id") final long id,
-      @RequestBody final Company company) {
+  public ResponseEntity<Company> update(@PathVariable("id") final long id, @RequestBody final Company company) {
     log.info(String.format("Updating Company %s", id));
 
     Company currentCompany = service.findOne(id);

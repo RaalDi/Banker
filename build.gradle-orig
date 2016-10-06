@@ -1,0 +1,180 @@
+//Add for Liquibase plugin to work
+buildscript {
+  dependencies {
+    classpath 'org.postgresql:postgresql:9.4.1208.jre7'
+  }
+}
+
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.akhikhl.gretty' version '1.4.0'
+    id 'eclipse-wtp'
+    id 'pmd'
+    id 'checkstyle'
+    id 'findbugs'
+    id 'org.liquibase.gradle' version '1.2.1'
+}
+
+// buildDir = 'target/gradle-build'
+
+sourceCompatibility = 1.8
+version = '1.0.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+    // and optionally...
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.spring.io/libs-release-remote" }
+}
+
+ext.libraryVersions = [
+    spring_webmvc: '4.2.4.RELEASE',
+    spring_tx: '4.2.4.RELEASE',
+    jackson_databind: '2.6.4',
+    hibernate_entitymanager: '5.0.6.Final',
+    hibernate_validator: '5.2.2.Final',
+    spring_data_jpa: '1.9.2.RELEASE',
+    jta: '1.1',
+    postgresql: '9.4.1207.jre7',
+    log4j_api: '2.5',
+    log4j_core: '2.5',
+    junit: '4.+',
+    arquillian_junit_container: '1.1.10.Final',
+    arquillian_tomcat_embedded: '1.0.0.CR7',
+    arquillian_transaction_spring: '1.1.0.Alpha1',
+    arquillian_transaction_api: '1.0.3.Final'
+]
+
+dependencies {
+
+	// Servlet
+	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+	
+	// MVC/Rest
+	compile 'org.springframework:spring-webmvc:4.2.5.RELEASE'
+	compile 'org.springframework:spring-tx:4.2.5.RELEASE'
+	
+	// Rest
+	// compile 'org.glassfish.jersey.ext:jersey-spring3:2.22.2' jboos and glassfish logger problems
+	compile 'org.springframework.data:spring-data-rest-webmvc:2.5.1.RELEASE'
+	
+	//JSON
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
+	//compile 'com.fasterxml.jackson.core:jackson-core:2.7.3' //Included in databind
+	//compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.3' //Included in databind
+	
+	// JPA
+	compile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
+	compile 'org.hibernate:hibernate-validator:5.2.4.Final'
+	compile 'org.springframework.data:spring-data-jpa:1.10.1.RELEASE'
+	compile 'org.liquibase:liquibase-core:3.5.0'
+	//compile 'org.liquibase.ext:liquibase-hibernate4:3.5' // Uses JPA 2.0 and Hibernate uses JPA 2.1
+	
+	// Cache
+	compile 'net.sf.ehcache:ehcache-core:2.6.11'
+	compile 'org.hibernate:hibernate-ehcache:5.1.0.Final' //Match Hibernate version
+	
+	//JTA
+	compile 'javax.transaction:jta:1.1'
+	
+	// Databade JDBC Driver
+	runtime 'org.postgresql:postgresql:9.4.1208.jre7' //provided in Tomcat
+    
+    // Logger
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+  	
+  	// Java Agent
+  	compileOnly "org.projectlombok:lombok:1.16.10"
+  	
+  	compile project('banker-util')
+    
+    // Testing
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.11.Final'
+    
+    // Tomcat 8
+    testCompile 'org.jboss.arquillian.container:arquillian-tomcat-embedded-8:1.0.0.CR7'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-core:8.0.30'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.30'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-jasper:8.0.30'
+    testCompile 'org.apache.tomcat.embed:tomcat-embed-logging-log4j:8.0.30'
+    testCompile 'org.apache.tomcat:tomcat-dbcp:8.0.30'
+    
+    testCompile 'org.jboss.arquillian.extension:arquillian-transaction-spring:1.1.0.Alpha1'
+	testCompile 'org.jboss.arquillian.extension:arquillian-transaction-api:1.0.3.Final'
+	testCompile 'org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.10.Final'
+	testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api:2.2.0'
+	testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-gradle-depchain:2.2.0'
+	testCompile 'org.gradle:gradle-tooling-api:2.9'
+	testCompile 'org.slf4j:slf4j-api:1.7.13'
+}
+
+ext.checkstyleConfigDir = "$rootDir/config/checkstyle"
+
+checkstyle {
+    configProperties.checkstyleConfigDir = checkstyleConfigDir
+}
+
+findbugs{
+    findbugsTest.enabled=false
+}
+
+pmd {
+    pmdTest.enabled=false
+}
+
+liquibase {
+  activities { 
+    main {
+      changeLogFile "$rootDir/src/main/resources/db/changelog-master.xml"
+      //diffChangeLogFile "$rootDir/src/main/resources/db/changelog-${version}.xml"
+      url 'jdbc:postgresql://127.0.0.1:5432/banker'
+      username 'admin'
+      password 'M0nt1lla'
+      //changeLogParameters([ myToken: 'myvalue',
+      //                      second: 'secondValue'])
+      referenceUrl 'persistence:persistenceUnit'
+      //verbose 'true'
+      //logging 'info'
+    }
+  } 
+  //runList = 'main,'
+}
+
+/*
+configurations {
+   //compileOnly
+   driver
+}
+
+sourceSets {
+   main {
+      compileClasspath = configurations.compile + configurations.compileOnly
+   }
+   test {
+      compileClasspath = compileClasspath + configurations.compileOnly
+      resources {
+         srcDir 'src/test/resources'
+      }
+   }
+}
+*/
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
