@@ -30,7 +30,7 @@ public class AddressService implements ModelService<Address> {
   }
 
   @Override
-  public Address findOne(final Long id) {
+  public Address findOne(final long id) {
     return repository.findOne(id);
   }
 
@@ -41,11 +41,11 @@ public class AddressService implements ModelService<Address> {
 
   @Override
   public boolean exists(final Address model) {
-    return this.exists(model.getId());
+    return this.exists(model.getAddressId());
   }
 
   @Override
-  public boolean exists(final Long id) {
+  public boolean exists(final long id) {
     return repository.exists(id);
   }
 }

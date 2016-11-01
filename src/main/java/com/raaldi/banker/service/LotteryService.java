@@ -30,7 +30,7 @@ public class LotteryService implements ModelService<Lottery> {
   }
 
   @Override
-  public Lottery findOne(final Long id) {
+  public Lottery findOne(final long id) {
     return repository.findOne(id);
   }
 
@@ -45,7 +45,7 @@ public class LotteryService implements ModelService<Lottery> {
   }
 
   @Override
-  public boolean exists(final Long id) {
+  public boolean exists(final long id) {
     return repository.exists(id);
   }
 

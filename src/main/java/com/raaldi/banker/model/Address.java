@@ -4,7 +4,7 @@ import com.raaldi.banker.util.model.AbstractModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -28,6 +28,7 @@ import javax.validation.constraints.Size;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Address")
 @NamedQueries({ @NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c") })
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Address extends AbstractModel {
 
@@ -36,32 +37,28 @@ public class Address extends AbstractModel {
   @Id
   @SequenceGenerator(name = "address-seq-gen", sequenceName = "address_seq_id", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address-seq-gen")
-  private long id;
+  @Column(name = "address_id")
+  private long addressId;
 
-  @NonNull
   @NotNull
   @Size(min = 1, max = 50, message = "1-50 letters and spaces")
   @Column(name = "street")
   private String street;
 
-  @NonNull
   @NotNull
   @Size(min = 1, max = 25, message = "1-25 letters and spaces")
   @Column(name = "city")
   private String city;
 
-  @NonNull
   @NotNull
   @Size(min = 1, max = 25, message = "1-25 letters and spaces")
   @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
   @Column(name = "state")
   private String state;
 
-  @NonNull
   @NotNull
   @Size(min = 5, max = 5, message = "5 Numbers")
   @Digits(fraction = 0, integer = 5, message = "Not valid")
   @Column(name = "zipcode")
   private String zipcode;
-
 }

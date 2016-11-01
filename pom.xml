@@ -46,6 +46,10 @@
           <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-java8</artifactId>
+        </dependency>
+        <dependency>
           <groupId>javax.el</groupId>
           <artifactId>javax.el-api</artifactId>
           <version>3.0.0</version>
@@ -57,6 +61,10 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -107,18 +115,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mobile</artifactId>
-        </dependency>
+        </dependency>  
         <dependency>
           <groupId>org.springframework.security.oauth</groupId>
           <artifactId>spring-security-oauth2</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-core</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-jwt</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.session</groupId>
@@ -169,20 +169,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                  <addResources>true</addResources>
-               </configuration>
             </plugin>
         </plugins>
-        <resources>
-          <resource>
-            <directory>src/main/resources</directory>
-            <filtering>true</filtering>
-            <excludes>
-                <exclude>*.jks</exclude>
-            </excludes>
-        </resource>
-      </resources>
     </build>
 
 </project>

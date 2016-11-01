@@ -1,0 +1,41 @@
+# Spring Boot
+server:
+  port: 8080
+  context-path: /api
+  
+spring:
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/banker
+    username: admin
+    password: M0nt1lla
+
+# JPA
+spring.jpa:
+  hibernate.ddl-auto: create-drop
+  show-sql: true
+spring.jpa.properties:
+  hibernate.format_sql: true
+  # Cache configuration
+  hibernate.cache.use_second_level_cache: true
+  hibernate.cache.use_query_cache: true
+  hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+  hibernate.cache.provider_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+
+# EhCache extra config.
+#spring.cache.ehcache.config=classpath:config/ehcache.xml
+
+#Liquidbase
+liquibase:
+  changeLog: classpath:db/changelog-master.xml
+
+# Spring Session
+spring.session:
+  store-type: none
+  
+# Banker
+banker.security.jwt:
+  expiration: 15 # Number of minutes
+  refresh: 60 # Minutes
+  issuer: http://banker.raaldi.com
+  key: xm8EV6Hy5RMFK4EEACIDAwQus

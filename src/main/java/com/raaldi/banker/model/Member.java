@@ -4,6 +4,7 @@ import com.raaldi.banker.util.model.AbstractModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import org.hibernate.annotations.Cache;
@@ -28,6 +29,7 @@ import javax.validation.constraints.Size;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Member")
 @NamedQueries({ @NamedQuery(name = "Member.findAll", query = "SELECT c FROM Member c") })
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Member extends AbstractModel {
 

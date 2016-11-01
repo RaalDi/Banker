@@ -10,6 +10,7 @@
   <logger name="org.springframework.web" level="INFO"/>     
   <logger name="org.springframework" level="ERROR"/>
   <logger name="com.raaldi.banker" level="ALL"/>
+  <logger name="io.jsonwebtoken" level="ALL"/>
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

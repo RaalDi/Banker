@@ -4,7 +4,7 @@ import com.raaldi.banker.util.model.AbstractModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -33,6 +33,7 @@ import javax.validation.constraints.NotNull;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Shop")
 @NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c") })
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Shop extends AbstractModel {
 
@@ -43,26 +44,24 @@ public class Shop extends AbstractModel {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
   private long id;
 
-  @NonNull
   @NotNull
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
   @NotNull
-  @Column(name = "active")
+  @Column(name = "active", nullable = false, columnDefinition = "boolean default false")
   private boolean active;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id")
   private Address address;
 
-  @NonNull
   @NotNull
   @ManyToOne(optional = false)
   @JoinColumn(name = "company_id", nullable = false)
   private Company company;
 
-  @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "shopId", cascade = CascadeType.ALL)
   private Set<User> users = Collections.emptySet();
 
   // @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)

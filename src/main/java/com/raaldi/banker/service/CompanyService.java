@@ -30,7 +30,7 @@ public class CompanyService implements ModelService<Company> {
   }
 
   @Override
-  public Company findOne(final Long id) {
+  public Company findOne(final long id) {
     return repository.findOne(id);
   }
 
@@ -41,11 +41,11 @@ public class CompanyService implements ModelService<Company> {
 
   @Override
   public boolean exists(final Company model) {
-    return this.exists(model.getId());
+    return this.exists(model.getCompanyId());
   }
 
   @Override
-  public boolean exists(final Long id) {
+  public boolean exists(final long id) {
     return repository.exists(id);
   }
 

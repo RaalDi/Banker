@@ -30,7 +30,7 @@ public class MemberService implements ModelService<Member> {
   }
 
   @Override
-  public Member findOne(final Long id) {
+  public Member findOne(final long id) {
     return repository.findOne(id);
   }
 
@@ -45,7 +45,7 @@ public class MemberService implements ModelService<Member> {
   }
 
   @Override
-  public boolean exists(final Long id) {
+  public boolean exists(final long id) {
     return repository.exists(id);
   }
 

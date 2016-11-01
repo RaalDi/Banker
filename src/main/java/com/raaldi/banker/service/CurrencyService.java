@@ -30,7 +30,7 @@ public class CurrencyService implements ModelService<Currency> {
   }
 
   @Override
-  public Currency findOne(final Long id) {
+  public Currency findOne(final long id) {
     return repository.findOne(id);
   }
 
@@ -45,7 +45,7 @@ public class CurrencyService implements ModelService<Currency> {
   }
 
   @Override
-  public boolean exists(final Long id) {
+  public boolean exists(final long id) {
     return repository.exists(id);
   }
 

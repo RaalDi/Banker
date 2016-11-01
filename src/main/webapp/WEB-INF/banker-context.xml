@@ -42,7 +42,7 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<context:component-scan base-package="com.raaldi.banker.controller.api" />
+	<context:component-scan base-package="com.raaldi.banker.controller" />
 	<context:component-scan base-package="com.raaldi.banker.util.service" />
 	<!-- context:component-scan base-package="com.raaldi.banker.dao" / -->
 

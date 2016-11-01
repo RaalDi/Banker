@@ -4,7 +4,7 @@ import com.raaldi.banker.util.model.AbstractModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Lottery")
 @NamedQueries({ @NamedQuery(name = "Lottery.findAll", query = "SELECT c FROM Lottery c") })
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Lottery extends AbstractModel {
 
@@ -35,17 +36,15 @@ public class Lottery extends AbstractModel {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lottery-seq-gen")
   private long id;
 
-  @NonNull
   @NotNull
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
-  @NonNull
   @NotNull
   @Column(name = "short_name", nullable = false, unique = true)
   private String shortName;
 
   @NotNull
-  @Column(name = "active", nullable = false)
+  @Column(name = "active", nullable = false, columnDefinition = "boolean default false")
   private boolean active;
 }
