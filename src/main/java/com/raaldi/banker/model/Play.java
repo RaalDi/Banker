@@ -37,7 +37,7 @@ public class Play extends AbstractModel {
   @SequenceGenerator(name = "play-seq-gen", sequenceName = "play_seq_id", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-seq-gen")
   @Column(name = "play_id")
-  private long id;
+  private long playId;
 
   @NotNull
   @Column(name = "name", nullable = false, unique = true)

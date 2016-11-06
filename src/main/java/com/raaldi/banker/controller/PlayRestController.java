@@ -61,7 +61,7 @@ public class PlayRestController {
     service.save(play);
 
     HttpHeaders headers = new HttpHeaders();
-    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(play.getId()).toUri());
+    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(play.getPlayId()).toUri());
     return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
   }
 

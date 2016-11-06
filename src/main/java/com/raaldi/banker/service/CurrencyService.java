@@ -41,7 +41,7 @@ public class CurrencyService implements ModelService<Currency> {
 
   @Override
   public boolean exists(final Currency model) {
-    return this.exists(model.getId());
+    return this.exists(model.getCurrencyId());
   }
 
   @Override

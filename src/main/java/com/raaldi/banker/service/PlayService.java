@@ -41,7 +41,7 @@ public class PlayService implements ModelService<Play> {
 
   @Override
   public boolean exists(final Play model) {
-    return this.exists(model.getId());
+    return this.exists(model.getPlayId());
   }
 
   @Override

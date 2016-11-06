@@ -61,7 +61,7 @@ public class LotteryRestController {
     service.save(lottery);
 
     HttpHeaders headers = new HttpHeaders();
-    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(lottery.getId()).toUri());
+    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(lottery.getLotteryId()).toUri());
     return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
   }
 

@@ -61,7 +61,7 @@ public class CurrencyRestController {
     service.save(currency);
 
     HttpHeaders headers = new HttpHeaders();
-    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(currency.getId()).toUri());
+    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(currency.getCurrencyId()).toUri());
     return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
   }
 

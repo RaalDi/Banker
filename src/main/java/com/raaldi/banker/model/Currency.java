@@ -37,7 +37,7 @@ public class Currency extends AbstractModel {
   @SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency-seq-gen")
   @Column(name = "currency_id")
-  private long id;
+  private long currencyId;
 
   @NotNull
   @Column(name = "prefix")

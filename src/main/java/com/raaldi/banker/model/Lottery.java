@@ -37,7 +37,7 @@ public class Lottery extends AbstractModel {
   @SequenceGenerator(name = "lottery-seq-gen", sequenceName = "lottery_seq_id", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lottery-seq-gen")
   @Column(name = "lottery_id")
-  private long id;
+  private long lotteryId;
 
   @NotNull
   @Column(name = "name", nullable = false, unique = true)

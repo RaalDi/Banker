@@ -41,7 +41,7 @@ public class LotteryService implements ModelService<Lottery> {
 
   @Override
   public boolean exists(final Lottery model) {
-    return this.exists(model.getId());
+    return this.exists(model.getLotteryId());
   }
 
   @Override

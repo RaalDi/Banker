@@ -41,7 +41,7 @@ public class ShopService implements ModelService<Shop> {
 
   @Override
   public boolean exists(final Shop model) {
-    return this.exists(model.getId());
+    return this.exists(model.getShopId());
   }
 
   @Override

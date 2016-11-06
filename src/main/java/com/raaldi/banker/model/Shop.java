@@ -45,7 +45,7 @@ public class Shop extends AbstractModel {
   @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
   @Column(name = "shop_id")
-  private long id;
+  private long shopId;
 
   @NotNull
   @Column(name = "name", nullable = false, unique = true)

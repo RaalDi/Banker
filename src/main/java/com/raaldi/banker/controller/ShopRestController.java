@@ -61,7 +61,7 @@ public class ShopRestController {
     service.save(shop);
 
     HttpHeaders headers = new HttpHeaders();
-    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(shop.getId()).toUri());
+    headers.setLocation(uriBuilder.path("/{id}").buildAndExpand(shop.getShopId()).toUri());
     return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
   }
 
