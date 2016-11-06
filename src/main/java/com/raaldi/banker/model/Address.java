@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "address")
-@Cacheable(value = true)
+@Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Address")
 @NamedQueries({ @NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c") })
 @Data

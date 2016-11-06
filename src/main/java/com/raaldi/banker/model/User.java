@@ -34,7 +34,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "person")
-@Cacheable(value = true)
+@Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "User")
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT c FROM User c WHERE c.username = :username") })

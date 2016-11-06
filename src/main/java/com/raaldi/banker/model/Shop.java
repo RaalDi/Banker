@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "shop")
-@Cacheable(value = true)
+@Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Shop")
 @NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c") })
 @Data
