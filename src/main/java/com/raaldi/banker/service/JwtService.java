@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.raaldi.banker.model.User;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Optional;
 
@@ -42,24 +42,31 @@ public class JwtService {
   }
 
   /** Builds the Token. */
-  public String token(final User user) throws URISyntaxException, IOException {
+  public String token(@NonNull final User user) throws URISyntaxException, IOException, IllegalArgumentException {
 
-    final Instant now = Instant.now();
-    final Date expiration = Date.from(now.plus(EXPIRATION_HOURS, ChronoUnit.HOURS));
+    if (user.isSignedIn()) {
+      throw new IllegalArgumentException("Unable to Create Token");
+    }
+
+    final LocalDateTime now = LocalDateTime.now();
+    final LocalDateTime expiration = now.plusHours(EXPIRATION_HOURS);
+    user.setSignedInDate(now);
+    user.setTokeExpirationDate(expiration);
+    user.setSignedIn(true);
     final String jsonUser = getObjectMapper().writeValueAsString(user);
 
     log.trace("Building TOKEN for USER: {}", user.getUsername());
-    final JwtBuilder builder = Jwts.builder().claim(USER_KEY, jsonUser).setId(String.valueOf(user.getUserId()))
-        .setIssuedAt(Date.from(now)).setSubject(user.getUsername()).setExpiration(expiration).setIssuer(ISSUER)
-        .signWith(SignatureAlgorithm.HS512, getKey());
-    log.trace("Token Build");
-    return builder.compact();
+    return Jwts.builder().claim(USER_KEY, jsonUser).setId(String.valueOf(user.getUserId()))
+        .setIssuedAt(Date.from(now.toInstant(ZoneOffset.UTC))).setSubject(user.getUsername())
+        .setExpiration(Date.from(expiration.toInstant(ZoneOffset.UTC))).setIssuer(ISSUER)
+        .signWith(SignatureAlgorithm.HS512, getKey()).compact();
   }
 
   /** Verifies the Token. */
   public Optional<User> verify(String token) throws IOException, URISyntaxException {
     final Claims claims = Jwts.parser().setSigningKey(getKey()).parseClaimsJws(token).getBody();
     final String jsonUser = (String) claims.get(USER_KEY);
+
     return Optional.ofNullable(getObjectMapper().readValue(jsonUser, User.class));
   }
 

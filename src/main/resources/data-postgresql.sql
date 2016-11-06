@@ -1,2 +1,0 @@
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-INSERT INTO person (user_id, first_name, last_name, username, gov_id, phone_number, password, active, company_id, created_by, created_date, version, role) VALUES (nextval('person_seq_id'), 'Admin', 'Banker', 'admin', '0123-4560-7890', '3058096232', CRYPT('P@55word', GEN_SALT('bf')), true, 0, 'SQL', NOW(), 0, 'ADMIN');

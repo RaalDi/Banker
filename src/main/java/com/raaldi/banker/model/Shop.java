@@ -12,6 +12,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import java.util.Collections;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +31,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "shop")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Shop")
+@Cacheable(value = true)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Shop")
 @NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c") })
 @Data
 @NoArgsConstructor
@@ -42,6 +44,7 @@ public class Shop extends AbstractModel {
   @Id
   @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
+  @Column(name = "shop_id")
   private long id;
 
   @NotNull

@@ -52,5 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .hasAuthority(Role.SUPERVISOR.name()).anyRequest().fullyAuthenticated().and()
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).exceptionHandling()
         .authenticationEntryPoint(jwtAuthEndPoint);
+
+    // HTTP Session
+    // http.sessionManagement().sessionFixation().none().maximumSessions(1).maxSessionsPreventsLogin(true);
   }
 }

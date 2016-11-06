@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,11 +22,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "company")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Company")
+@Cacheable(value = true)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Company")
 @NamedQueries({ @NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
     @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name") })
 @Data
@@ -44,6 +48,12 @@ public class Company extends AbstractModel {
   @NotNull
   @Column(name = "name", nullable = false, unique = true)
   private String name;
+
+  @NotNull
+  @Size(min = 10, max = 12, message = "10-12 Numbers")
+  @Digits(fraction = 0, integer = 12, message = "Not valid")
+  @Column(name = "phone_number", nullable = false)
+  private String phoneNumber;
 
   @Column(name = "gov_id")
   private String govId;

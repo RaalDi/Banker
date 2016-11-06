@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "address")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Address")
+@Cacheable(value = true)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Address")
 @NamedQueries({ @NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c") })
 @Data
 @NoArgsConstructor

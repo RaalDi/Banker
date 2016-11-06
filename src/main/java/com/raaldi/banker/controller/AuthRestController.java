@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("auth")
 public class AuthRestController {
 
-  private static final String TOKEN_HEADER = "x-security-token";
+  public static final String TOKEN_HEADER = "X-Security-Token";
 
   /** The User Service. */
   @Getter(AccessLevel.PRIVATE)
@@ -55,12 +55,13 @@ public class AuthRestController {
       throws UserSignedInException {
     final String username = signInRequest.getUsername();
 
+    log.info("Authenticating Usernanme {}", username);
     return userService.signIn(username, signInRequest.getPassword()).map(user -> {
       try {
         response.setHeader(TOKEN_HEADER, jwtService.token(user));
 
-      } catch (final URISyntaxException | IOException exception) {
-        log.error("Unable to build token for user: {}", username, exception);
+      } catch (final URISyntaxException | IOException | IllegalArgumentException exception) {
+        log.error("Unable to build token for Username: {}", username, exception);
         throw new JwtAuthenticationException(username, exception);
       }
       return new ResponseEntity<>(HttpStatus.OK);

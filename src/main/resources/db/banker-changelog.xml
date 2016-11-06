@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+  <changeSet author="rafael.diaz" id="address-v1" context="production">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="address" />
+      </not>
+    </preConditions>
+    <createTable tableName="address">
+      <column name="address_id" type="BIGINT">
+        <constraints primaryKey="true" primaryKeyName="address_pk"
+          nullable="false" />
+      </column>
+      <column name="city" type="VARCHAR(25)">
+        <constraints nullable="false" />
+      </column>
+      <column name="state" type="VARCHAR(25)">
+        <constraints nullable="false" />
+      </column>
+      <column name="street" type="VARCHAR(50)">
+        <constraints nullable="false" />
+      </column>
+      <column name="zipcode" type="VARCHAR(5)">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_by" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="modified_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="modified_by" type="VARCHAR(16)" />
+      <column name="version" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <createSequence sequenceName="address_seq_id" />
+  </changeSet>
+
+  <changeSet author="rafael.diaz" id="company-v1" context="production">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="company" />
+      </not>
+    </preConditions>
+    <createTable tableName="company">
+      <column name="company_id" type="BIGINT">
+        <constraints primaryKey="true" primaryKeyName="company_pk"
+          nullable="false" />
+      </column>
+      <column name="name" type="VARCHAR(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="phone_number" type="VARCHAR(12)">
+        <constraints nullable="false" />
+      </column>
+      <column name="gov_id" type="VARCHAR(25)" />
+      <column name="address_id" type="BIGINT" />
+      <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_by" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="modified_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="modified_by" type="VARCHAR(16)" />
+      <column name="version" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <createSequence sequenceName="company_seq_id"
+      startValue="100" incrementBy="1" />
+    <addUniqueConstraint columnNames="gov_id"
+      constraintName="company_uk_gov_id" tableName="company" />
+    <addForeignKeyConstraint baseColumnNames="address_id"
+      baseTableName="company" constraintName="company_fk_address_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+      onUpdate="NO ACTION" referencedColumnNames="address_id"
+      referencedTableName="address" />
+  </changeSet>
+
+  <changeSet author="rafael.diaz" id="shop-v1" context="production">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="shop" />
+      </not>
+    </preConditions>
+    <createTable tableName="shop">
+      <column name="shop_id" type="BIGINT">
+        <constraints primaryKey="true" primaryKeyName="shop_pk"
+          nullable="false" />
+      </column>
+      <column name="active" type="BOOL" defaultValueBoolean="false">
+        <constraints nullable="false" />
+      </column>
+      <column name="name" type="VARCHAR(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="address_id" type="BIGINT" />
+      <column name="company_id" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_by" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="modified_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="modified_by" type="VARCHAR(16)" />
+      <column name="version" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <createSequence sequenceName="shop_seq_id" />
+    <addUniqueConstraint columnNames="name"
+      constraintName="shop_uk_name" tableName="shop" />
+    <addForeignKeyConstraint baseColumnNames="address_id"
+      baseTableName="shop" constraintName="shop_fk_address_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+      onUpdate="NO ACTION" referencedColumnNames="address_id"
+      referencedTableName="address" />
+    <addForeignKeyConstraint baseColumnNames="company_id"
+      baseTableName="shop" constraintName="shop_fk_company_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+      onUpdate="NO ACTION" referencedColumnNames="company_id"
+      referencedTableName="company" />
+  </changeSet>
+
+  <changeSet author="rafael.diaz" id="person-v1" context="production">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="person" />
+      </not>
+    </preConditions>
+    <createTable tableName="person">
+      <column name="user_id" type="BIGINT">
+        <constraints primaryKey="true" primaryKeyName="user_pk"
+          nullable="false" />
+      </column>
+      <column name="first_name" type="VARCHAR(25)">
+        <constraints nullable="false" />
+      </column>
+      <column name="last_name" type="VARCHAR(25)">
+        <constraints nullable="false" />
+      </column>
+      <column name="username" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="gov_id" type="VARCHAR(25)" />
+      <column name="phone_number" type="VARCHAR(12)">
+        <constraints nullable="false" />
+      </column>
+      <column name="password" type="VARCHAR(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="signed_in_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="token_expiration_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="active" type="BOOL" defaultValueBoolean="false">
+        <constraints nullable="false" />
+      </column>
+      <column name="signed_in" type="BOOL" defaultValueBoolean="false">
+        <constraints nullable="false" />
+      </column>
+      <column name="company_id" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+      <column name="address_id" type="BIGINT" />
+      <column name="role" type="VARCHAR(25)" defaultValue="USER">
+        <constraints nullable="false" />
+      </column>
+      <column name="shop_id" type="BIGINT" />
+      <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_by" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="modified_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="modified_by" type="VARCHAR(16)" />
+      <column name="version" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <createSequence sequenceName="person_seq_id" />
+    <addUniqueConstraint columnNames="username"
+      constraintName="person_uk_username" tableName="person" />
+    <addUniqueConstraint columnNames="gov_id"
+      constraintName="person_uk_gov_id" tableName="person" />
+    <addForeignKeyConstraint baseColumnNames="company_id"
+      baseTableName="person" constraintName="person_fk_company_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+      onUpdate="NO ACTION" referencedColumnNames="company_id"
+      referencedTableName="company" />
+    <addForeignKeyConstraint baseColumnNames="address_id"
+      baseTableName="person" constraintName="person_fk_address_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+      onUpdate="NO ACTION" referencedColumnNames="address_id"
+      referencedTableName="address" />
+    <addForeignKeyConstraint baseColumnNames="shop_id"
+      baseTableName="person" constraintName="person_fk_shop_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+      onUpdate="NO ACTION" referencedColumnNames="shop_id"
+      referencedTableName="shop" />
+  </changeSet>
+
+  <changeSet author="rafael.diaz" id="currency-v1">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="currency" />
+      </not>
+    </preConditions>
+    <createTable tableName="currency">
+      <column name="currency_id" type="BIGINT">
+        <constraints primaryKey="true" primaryKeyName="currency_pk"
+          nullable="false" />
+      </column>
+      <column name="prefix" type="VARCHAR(4)">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_by" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="modified_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="modified_by" type="VARCHAR(16)" />
+      <column name="version" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <createSequence sequenceName="currency_seq_id" />
+    <addUniqueConstraint columnNames="prefix"
+      constraintName="currency_uk_prefix" tableName="currency" />
+  </changeSet>
+
+  <changeSet author="rafael.diaz" id="lottery-v1">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="lottery" />
+      </not>
+    </preConditions>
+    <createTable tableName="lottery">
+      <column name="lottery_id" type="BIGINT">
+        <constraints primaryKey="true" primaryKeyName="lottery_pk"
+          nullable="false" />
+      </column>
+      <column name="active" type="BOOL" defaultValueBoolean="false">
+        <constraints nullable="false" />
+      </column>
+      <column name="name" type="VARCHAR(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="short_name" type="VARCHAR(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_by" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="modified_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="modified_by" type="VARCHAR(16)" />
+      <column name="version" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <createSequence sequenceName="lottery_seq_id" />
+    <addUniqueConstraint columnNames="name"
+      constraintName="lottery_uk_name" tableName="lottery" />
+    <addUniqueConstraint columnNames="short_name" constraintName="lottery_uk_short_name" 
+      tableName="lottery" />
+  </changeSet>
+
+  <changeSet author="rafael.diaz" id="play-v1">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="play" />
+      </not>
+    </preConditions>
+    <createTable tableName="play">
+      <column name="play_id" type="BIGINT">
+        <constraints primaryKey="true" primaryKeyName="play_pk"
+          nullable="false" />
+      </column>
+      <column name="active" type="BOOL" defaultValueBoolean="false">
+        <constraints nullable="false" />
+      </column>
+      <column name="name" type="VARCHAR(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="short_name" type="VARCHAR(255)">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_date" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_by" type="VARCHAR(16)">
+        <constraints nullable="false" />
+      </column>
+      <column name="modified_date" type="TIMESTAMP(6) WITHOUT TIME ZONE" />
+      <column name="modified_by" type="VARCHAR(16)" />
+      <column name="version" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <createSequence sequenceName="play_seq_id" />
+    <addUniqueConstraint columnNames="name"
+      constraintName="play_uk_name_short_name" tableName="play" />
+    <addUniqueConstraint columnNames="short_name" constraintName="play_uk_short_name" 
+      tableName="play" />
+  </changeSet>
+
+</databaseChangeLog>

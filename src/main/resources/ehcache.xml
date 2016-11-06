@@ -17,11 +17,6 @@
         <persistence strategy="localTempSwap" />
     </cache>
     
-    <cache name="CashRegister" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
     <cache name="Company" maxEntriesLocalHeap="10000" eternal="false"
         timeToIdleSeconds="5" timeToLiveSeconds="10">
         <persistence strategy="localTempSwap" />
@@ -36,62 +31,12 @@
         timeToIdleSeconds="5" timeToLiveSeconds="10">
         <persistence strategy="localTempSwap" />
     </cache>
-    
-    <cache name="Member" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="Payment" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="Permission" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
+        
     <cache name="Play" maxEntriesLocalHeap="10000" eternal="false"
         timeToIdleSeconds="5" timeToLiveSeconds="10">
         <persistence strategy="localTempSwap" />
     </cache>
-    
-    <cache name="PlayOrder" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="PlayOrderLine" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="RestrictPlay" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="Role" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="RolePermission" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="Session" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
-    <cache name="SessionState" maxEntriesLocalHeap="10000" eternal="false"
-        timeToIdleSeconds="5" timeToLiveSeconds="10">
-        <persistence strategy="localTempSwap" />
-    </cache>
-    
+        
     <cache name="Shop" maxEntriesLocalHeap="10000" eternal="false"
         timeToIdleSeconds="5" timeToLiveSeconds="10">
         <persistence strategy="localTempSwap" />

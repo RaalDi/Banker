@@ -18,6 +18,7 @@ public class BankerConfiguration {
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
     config.addExposedHeader("X-Security-Token");
+    config.addExposedHeader("X-Auth-Token");
     source.registerCorsConfiguration("/**", config);
     final FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
     bean.setOrder(0);

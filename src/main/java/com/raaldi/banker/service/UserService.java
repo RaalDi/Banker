@@ -65,14 +65,13 @@ public class UserService {
       throw new SignInException(username);
     }
 
-    log.info("Authenticating Usernanme {}", username);
+    log.info("Finding Usernanme {}", username);
     return findByUsernameAndPassword(username, password).map(user -> {
       if (user.isSignedIn()) {
         log.info("Username {} is already signed in", username);
         throw new UserSignedInException(username);
       }
       log.info("Signed In Username {}.", username);
-      user.setSignedIn(true);
       return Optional.of(user);
     }).orElseThrow(() -> new SignInException(username));
 

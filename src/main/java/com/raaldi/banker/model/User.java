@@ -1,8 +1,11 @@
 package com.raaldi.banker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.raaldi.banker.util.model.AbstractModel;
 import com.raaldi.banker.util.model.Role;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,6 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,7 +34,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "person")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "User")
+@Cacheable(value = true)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "User")
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT c FROM User c WHERE c.username = :username") })
 // @SQLInsert(sql = "INSERT INTO person (first_name, last_name, username,
@@ -40,7 +45,9 @@ import javax.validation.constraints.Size;
 // ?, gov_id = ?, phone_number = ?, password = CRYPT(?, GEN_SALT('bf')), active
 // = ?, company_id = ?, shop_id = ? WHERE user_id = ?")
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class User extends AbstractModel {
 
@@ -78,12 +85,17 @@ public class User extends AbstractModel {
   @Column(name = "phone_number", nullable = false)
   private String phoneNumber;
 
+  @JsonIgnore
   @NotNull
   @Column(name = "password", nullable = false)
   private String password;
 
   @Column(name = "signed_in_date", columnDefinition = "timestamp")
   private LocalDateTime signedInDate;
+
+  @JsonIgnore
+  @Column(name = "token_expiration_date", columnDefinition = "timestamp")
+  private LocalDateTime tokeExpirationDate;
 
   @NotNull
   @Column(name = "active", nullable = false, columnDefinition = "boolean default false")
