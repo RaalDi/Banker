@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "play")
+@Table(name = "bk_play")
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Play")
 @NamedQueries({ @NamedQuery(name = "Play.findAll", query = "SELECT c FROM Play c") })
@@ -34,8 +34,8 @@ public class Play extends AbstractModel {
   private static final long serialVersionUID = -7420839110305072161L;
 
   @Id
-  @SequenceGenerator(name = "play-seq-gen", sequenceName = "play_seq_id", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "play-seq-gen")
+  @SequenceGenerator(name = "bk-play-seq-gen", sequenceName = "bk_play_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bk-play-seq-gen")
   @Column(name = "play_id")
   private long playId;
 

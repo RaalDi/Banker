@@ -9,13 +9,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collection;
 import java.util.Collections;
 
-public class JwtAuthenticatedUserProfile implements Authentication {
+public class JwtAuthenticatedUser implements Authentication {
 
   private static final long serialVersionUID = -1368494291417770461L;
   private final User user;
   private boolean authenticated;
 
-  public JwtAuthenticatedUserProfile(final User user, final boolean authenticated) {
+  public JwtAuthenticatedUser(final User user, final boolean authenticated) {
     this.user = user;
     this.authenticated = authenticated;
   }

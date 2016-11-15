@@ -25,7 +25,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "address")
+@Table(name = "bk_address")
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Address")
 @NamedQueries({ @NamedQuery(name = "Address.findAll", query = "SELECT c FROM Address c") })
@@ -37,8 +37,8 @@ public class Address extends AbstractModel {
   private static final long serialVersionUID = -6530779330443333541L;
 
   @Id
-  @SequenceGenerator(name = "address-seq-gen", sequenceName = "address_seq_id", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address-seq-gen")
+  @SequenceGenerator(name = "bk-address-seq-gen", sequenceName = "bk_address_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bk-address-seq-gen")
   @Column(name = "address_id")
   private long addressId;
 

@@ -33,15 +33,16 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "person")
+@Table(name = "bk_user")
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "User")
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT c FROM User c"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT c FROM User c WHERE c.username = :username") })
-// @SQLInsert(sql = "INSERT INTO person (first_name, last_name, username,
+// @SQLInsert(sql = "INSERT INTO bk_user (first_name, last_name, username,
 // gov_id, phone_number, password, active, company_id, shop_id) VALUES
 // (?,?,?,?,?,CRYPT(?, GEN_SALT('bf')),?,?,?)")
-// @SQLUpdate(sql = "UPDATE person SET first_name = ?, last_name = ?, username =
+// @SQLUpdate(sql = "UPDATE bk_user SET first_name = ?, last_name = ?, username
+// =
 // ?, gov_id = ?, phone_number = ?, password = CRYPT(?, GEN_SALT('bf')), active
 // = ?, company_id = ?, shop_id = ? WHERE user_id = ?")
 @Data
@@ -54,8 +55,8 @@ public class User extends AbstractModel {
   private static final long serialVersionUID = -8491559884264082143L;
 
   @Id
-  @SequenceGenerator(name = "person-seq-gen", sequenceName = "person_seq_id", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person-seq-gen")
+  @SequenceGenerator(name = "bk-user-seq-gen", sequenceName = "bk_user_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bk-user-seq-gen")
   @Column(name = "user_id")
   private long userId;
 

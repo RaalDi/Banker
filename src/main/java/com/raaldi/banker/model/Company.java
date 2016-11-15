@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "company")
+@Table(name = "bk_company")
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Company")
 @NamedQueries({ @NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
@@ -40,8 +40,8 @@ public class Company extends AbstractModel {
   private static final long serialVersionUID = 1090990028819708077L;
 
   @Id
-  @SequenceGenerator(name = "company-seq-gen", sequenceName = "company_seq_id", initialValue = 100, allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "company-seq-gen")
+  @SequenceGenerator(name = "bk-company-seq-gen", sequenceName = "bk_company_seq_id", initialValue = 100, allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bk-company-seq-gen")
   @Column(name = "company_id")
   private long companyId;
 

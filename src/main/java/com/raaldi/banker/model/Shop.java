@@ -30,7 +30,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "shop")
+@Table(name = "bk_shop")
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Shop")
 @NamedQueries({ @NamedQuery(name = "Shop.findAll", query = "SELECT c FROM Shop c") })
@@ -42,8 +42,8 @@ public class Shop extends AbstractModel {
   private static final long serialVersionUID = -6096997265649544980L;
 
   @Id
-  @SequenceGenerator(name = "shop-seq-gen", sequenceName = "shop_seq_id", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shop-seq-gen")
+  @SequenceGenerator(name = "bk-shop-seq-gen", sequenceName = "bk_shop_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bk-shop-seq-gen")
   @Column(name = "shop_id")
   private long shopId;
 

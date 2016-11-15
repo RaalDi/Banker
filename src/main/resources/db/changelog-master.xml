@@ -3,13 +3,13 @@
   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-  <changeSet author="rafael.diaz" id="address-v1" context="production">
+  <changeSet author="rafael.diaz" id="bk-address-v1" context="production">
     <preConditions onFail="MARK_RAN">
       <not>
-        <tableExists tableName="address" />
+        <tableExists tableName="bk_address" />
       </not>
     </preConditions>
-    <createTable tableName="address">
+    <createTable tableName="bk_address">
       <column name="address_id" type="BIGINT">
         <constraints primaryKey="true" primaryKeyName="address_pk"
           nullable="false" />
@@ -38,16 +38,16 @@
         <constraints nullable="false" />
       </column>
     </createTable>
-    <createSequence sequenceName="address_seq_id" />
+    <createSequence sequenceName="bk_address_seq_id" />
   </changeSet>
 
-  <changeSet author="rafael.diaz" id="company-v1" context="production">
+  <changeSet author="rafael.diaz" id="bk-company-v1" context="production">
     <preConditions onFail="MARK_RAN">
       <not>
-        <tableExists tableName="company" />
+        <tableExists tableName="bk_company" />
       </not>
     </preConditions>
-    <createTable tableName="company">
+    <createTable tableName="bk_company">
       <column name="company_id" type="BIGINT">
         <constraints primaryKey="true" primaryKeyName="company_pk"
           nullable="false" />
@@ -72,24 +72,24 @@
         <constraints nullable="false" />
       </column>
     </createTable>
-    <createSequence sequenceName="company_seq_id"
+    <createSequence sequenceName="bk_company_seq_id"
       startValue="100" incrementBy="1" />
     <addUniqueConstraint columnNames="gov_id"
-      constraintName="company_uk_gov_id" tableName="company" />
+      constraintName="company_uk_gov_id" tableName="bk_company" />
     <addForeignKeyConstraint baseColumnNames="address_id"
-      baseTableName="company" constraintName="company_fk_address_id"
+      baseTableName="bk_company" constraintName="company_fk_address_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="address_id"
-      referencedTableName="address" />
+      referencedTableName="bk_address" />
   </changeSet>
 
-  <changeSet author="rafael.diaz" id="shop-v1" context="production">
+  <changeSet author="rafael.diaz" id="bk-shop-v1" context="production">
     <preConditions onFail="MARK_RAN">
       <not>
-        <tableExists tableName="shop" />
+        <tableExists tableName="bk_shop" />
       </not>
     </preConditions>
-    <createTable tableName="shop">
+    <createTable tableName="bk_shop">
       <column name="shop_id" type="BIGINT">
         <constraints primaryKey="true" primaryKeyName="shop_pk"
           nullable="false" />
@@ -116,28 +116,28 @@
         <constraints nullable="false" />
       </column>
     </createTable>
-    <createSequence sequenceName="shop_seq_id" />
+    <createSequence sequenceName="bk_shop_seq_id" />
     <addUniqueConstraint columnNames="name"
-      constraintName="shop_uk_name" tableName="shop" />
+      constraintName="shop_uk_name" tableName="bk_shop" />
     <addForeignKeyConstraint baseColumnNames="address_id"
-      baseTableName="shop" constraintName="shop_fk_address_id"
+      baseTableName="bk_shop" constraintName="shop_fk_address_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="address_id"
-      referencedTableName="address" />
+      referencedTableName="bk_address" />
     <addForeignKeyConstraint baseColumnNames="company_id"
-      baseTableName="shop" constraintName="shop_fk_company_id"
+      baseTableName="bk_shop" constraintName="shop_fk_company_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="company_id"
-      referencedTableName="company" />
+      referencedTableName="bk_company" />
   </changeSet>
 
-  <changeSet author="rafael.diaz" id="person-v1" context="production">
+  <changeSet author="rafael.diaz" id="bk-user-v1" context="production">
     <preConditions onFail="MARK_RAN">
       <not>
-        <tableExists tableName="person" />
+        <tableExists tableName="bk_user" />
       </not>
     </preConditions>
-    <createTable tableName="person">
+    <createTable tableName="bk_user">
       <column name="user_id" type="BIGINT">
         <constraints primaryKey="true" primaryKeyName="user_pk"
           nullable="false" />
@@ -186,35 +186,35 @@
         <constraints nullable="false" />
       </column>
     </createTable>
-    <createSequence sequenceName="person_seq_id" />
+    <createSequence sequenceName="bk_user_seq_id" />
     <addUniqueConstraint columnNames="username"
-      constraintName="person_uk_username" tableName="person" />
+      constraintName="bk_user_uk_username" tableName="bk_user" />
     <addUniqueConstraint columnNames="gov_id"
-      constraintName="person_uk_gov_id" tableName="person" />
+      constraintName="bk_user_uk_gov_id" tableName="bk_user" />
     <addForeignKeyConstraint baseColumnNames="company_id"
-      baseTableName="person" constraintName="person_fk_company_id"
+      baseTableName="bk_user" constraintName="bk_user_fk_company_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="company_id"
-      referencedTableName="company" />
+      referencedTableName="bk_company" />
     <addForeignKeyConstraint baseColumnNames="address_id"
-      baseTableName="person" constraintName="person_fk_address_id"
+      baseTableName="bk_user" constraintName="bk_user_fk_address_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="address_id"
-      referencedTableName="address" />
+      referencedTableName="bk_address" />
     <addForeignKeyConstraint baseColumnNames="shop_id"
-      baseTableName="person" constraintName="person_fk_shop_id"
+      baseTableName="bk_user" constraintName="bk_user_fk_shop_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="shop_id"
-      referencedTableName="shop" />
+      referencedTableName="bk_shop" />
   </changeSet>
 
-  <changeSet author="rafael.diaz" id="currency-v1">
+  <changeSet author="rafael.diaz" id="bk-currency-v1" context="production">
     <preConditions onFail="MARK_RAN">
       <not>
-        <tableExists tableName="currency" />
+        <tableExists tableName="bk_currency" />
       </not>
     </preConditions>
-    <createTable tableName="currency">
+    <createTable tableName="bk_currency">
       <column name="currency_id" type="BIGINT">
         <constraints primaryKey="true" primaryKeyName="currency_pk"
           nullable="false" />
@@ -234,18 +234,18 @@
         <constraints nullable="false" />
       </column>
     </createTable>
-    <createSequence sequenceName="currency_seq_id" />
+    <createSequence sequenceName="bk_currency_seq_id" />
     <addUniqueConstraint columnNames="prefix"
-      constraintName="currency_uk_prefix" tableName="currency" />
+      constraintName="currency_uk_prefix" tableName="bk_currency" />
   </changeSet>
 
-  <changeSet author="rafael.diaz" id="lottery-v1">
+  <changeSet author="rafael.diaz" id="bk-lottery-v1" context="production">
     <preConditions onFail="MARK_RAN">
       <not>
-        <tableExists tableName="lottery" />
+        <tableExists tableName="bk_lottery" />
       </not>
     </preConditions>
-    <createTable tableName="lottery">
+    <createTable tableName="bk_lottery">
       <column name="lottery_id" type="BIGINT">
         <constraints primaryKey="true" primaryKeyName="lottery_pk"
           nullable="false" />
@@ -271,20 +271,20 @@
         <constraints nullable="false" />
       </column>
     </createTable>
-    <createSequence sequenceName="lottery_seq_id" />
+    <createSequence sequenceName="bk_lottery_seq_id" />
     <addUniqueConstraint columnNames="name"
-      constraintName="lottery_uk_name" tableName="lottery" />
+      constraintName="lottery_uk_name" tableName="bk_lottery" />
     <addUniqueConstraint columnNames="short_name"
-      constraintName="lottery_uk_short_name" tableName="lottery" />
+      constraintName="lottery_uk_short_name" tableName="bk_lottery" />
   </changeSet>
 
-  <changeSet author="rafael.diaz" id="play-v1">
+  <changeSet author="rafael.diaz" id="bk-play-v1" context="production">
     <preConditions onFail="MARK_RAN">
       <not>
-        <tableExists tableName="play" />
+        <tableExists tableName="bk_play" />
       </not>
     </preConditions>
-    <createTable tableName="play">
+    <createTable tableName="bk_play">
       <column name="play_id" type="BIGINT">
         <constraints primaryKey="true" primaryKeyName="play_pk"
           nullable="false" />
@@ -310,11 +310,11 @@
         <constraints nullable="false" />
       </column>
     </createTable>
-    <createSequence sequenceName="play_seq_id" />
+    <createSequence sequenceName="bk_play_seq_id" />
     <addUniqueConstraint columnNames="name"
-      constraintName="play_uk_name_short_name" tableName="play" />
+      constraintName="play_uk_name_short_name" tableName="bk_play" />
     <addUniqueConstraint columnNames="short_name"
-      constraintName="play_uk_short_name" tableName="play" />
+      constraintName="play_uk_short_name" tableName="bk_play" />
   </changeSet>
 
   <include file="db/data.sql" />

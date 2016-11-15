@@ -19,7 +19,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
   @Query("select u from User u where u.username=:username")
   public Optional<User> findByUsername(@Param("username") String username);
 
-  // @Query(value = "SELECT * FROM person WHERE username=?1 AND password =
+  // @Query(value = "SELECT * FROM bk_user WHERE username=?1 AND password =
   // crypt(?2, password)", nativeQuery = true)
   @Cacheable
   @Query("select u from User u where u.username=?1 and u.password = crypt(?2, u.password)")

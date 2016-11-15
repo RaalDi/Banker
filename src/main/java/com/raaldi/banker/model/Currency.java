@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "currency")
+@Table(name = "bk_currency")
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Currency")
 @NamedQueries({ @NamedQuery(name = "Currency.findAll", query = "SELECT c FROM Currency c") })
@@ -34,8 +34,8 @@ public class Currency extends AbstractModel {
   private static final long serialVersionUID = 7121744068113817683L;
 
   @Id
-  @SequenceGenerator(name = "currency-seq-gen", sequenceName = "currency_seq_id", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency-seq-gen")
+  @SequenceGenerator(name = "bk-currency-seq-gen", sequenceName = "bk_currency_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bk-currency-seq-gen")
   @Column(name = "currency_id")
   private long currencyId;
 

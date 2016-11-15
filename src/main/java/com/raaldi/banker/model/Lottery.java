@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "lottery")
+@Table(name = "bk_lottery")
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Lottery")
 @NamedQueries({ @NamedQuery(name = "Lottery.findAll", query = "SELECT c FROM Lottery c") })
@@ -34,8 +34,8 @@ public class Lottery extends AbstractModel {
   private static final long serialVersionUID = -749127867337161764L;
 
   @Id
-  @SequenceGenerator(name = "lottery-seq-gen", sequenceName = "lottery_seq_id", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lottery-seq-gen")
+  @SequenceGenerator(name = "bk-lottery-seq-gen", sequenceName = "bk_lottery_seq_id", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bk-lottery-seq-gen")
   @Column(name = "lottery_id")
   private long lotteryId;
 
