@@ -11,7 +11,7 @@
     </preConditions>
     <createTable tableName="bk_address">
       <column name="address_id" type="BIGINT">
-        <constraints primaryKey="true" primaryKeyName="address_pk"
+        <constraints primaryKey="true" primaryKeyName="bk_address_pk"
           nullable="false" />
       </column>
       <column name="city" type="VARCHAR(25)">
@@ -49,7 +49,7 @@
     </preConditions>
     <createTable tableName="bk_company">
       <column name="company_id" type="BIGINT">
-        <constraints primaryKey="true" primaryKeyName="company_pk"
+        <constraints primaryKey="true" primaryKeyName="bk_company_pk"
           nullable="false" />
       </column>
       <column name="name" type="VARCHAR(255)">
@@ -75,9 +75,9 @@
     <createSequence sequenceName="bk_company_seq_id"
       startValue="100" incrementBy="1" />
     <addUniqueConstraint columnNames="gov_id"
-      constraintName="company_uk_gov_id" tableName="bk_company" />
+      constraintName="bk_company_uk_gov_id" tableName="bk_company" />
     <addForeignKeyConstraint baseColumnNames="address_id"
-      baseTableName="bk_company" constraintName="company_fk_address_id"
+      baseTableName="bk_company" constraintName="bk_company_fk_address_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="address_id"
       referencedTableName="bk_address" />
@@ -91,7 +91,7 @@
     </preConditions>
     <createTable tableName="bk_shop">
       <column name="shop_id" type="BIGINT">
-        <constraints primaryKey="true" primaryKeyName="shop_pk"
+        <constraints primaryKey="true" primaryKeyName="bk_shop_pk"
           nullable="false" />
       </column>
       <column name="active" type="BOOL" defaultValueBoolean="false">
@@ -118,14 +118,14 @@
     </createTable>
     <createSequence sequenceName="bk_shop_seq_id" />
     <addUniqueConstraint columnNames="name"
-      constraintName="shop_uk_name" tableName="bk_shop" />
+      constraintName="bk_shop_uk_name" tableName="bk_shop" />
     <addForeignKeyConstraint baseColumnNames="address_id"
-      baseTableName="bk_shop" constraintName="shop_fk_address_id"
+      baseTableName="bk_shop" constraintName="bk_shop_fk_address_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="address_id"
       referencedTableName="bk_address" />
     <addForeignKeyConstraint baseColumnNames="company_id"
-      baseTableName="bk_shop" constraintName="shop_fk_company_id"
+      baseTableName="bk_shop" constraintName="bk_shop_fk_company_id"
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
       onUpdate="NO ACTION" referencedColumnNames="company_id"
       referencedTableName="bk_company" />
@@ -139,7 +139,7 @@
     </preConditions>
     <createTable tableName="bk_user">
       <column name="user_id" type="BIGINT">
-        <constraints primaryKey="true" primaryKeyName="user_pk"
+        <constraints primaryKey="true" primaryKeyName="bk_user_pk"
           nullable="false" />
       </column>
       <column name="first_name" type="VARCHAR(25)">
@@ -216,7 +216,7 @@
     </preConditions>
     <createTable tableName="bk_currency">
       <column name="currency_id" type="BIGINT">
-        <constraints primaryKey="true" primaryKeyName="currency_pk"
+        <constraints primaryKey="true" primaryKeyName="bk_currency_pk"
           nullable="false" />
       </column>
       <column name="prefix" type="VARCHAR(4)">
@@ -236,7 +236,7 @@
     </createTable>
     <createSequence sequenceName="bk_currency_seq_id" />
     <addUniqueConstraint columnNames="prefix"
-      constraintName="currency_uk_prefix" tableName="bk_currency" />
+      constraintName="bk_currency_uk_prefix" tableName="bk_currency" />
   </changeSet>
 
   <changeSet author="rafael.diaz" id="bk-lottery-v1" context="production">
@@ -247,7 +247,7 @@
     </preConditions>
     <createTable tableName="bk_lottery">
       <column name="lottery_id" type="BIGINT">
-        <constraints primaryKey="true" primaryKeyName="lottery_pk"
+        <constraints primaryKey="true" primaryKeyName="bk_lottery_pk"
           nullable="false" />
       </column>
       <column name="active" type="BOOL" defaultValueBoolean="false">
@@ -273,9 +273,9 @@
     </createTable>
     <createSequence sequenceName="bk_lottery_seq_id" />
     <addUniqueConstraint columnNames="name"
-      constraintName="lottery_uk_name" tableName="bk_lottery" />
+      constraintName="bk_lottery_uk_name" tableName="bk_lottery" />
     <addUniqueConstraint columnNames="short_name"
-      constraintName="lottery_uk_short_name" tableName="bk_lottery" />
+      constraintName="bk_lottery_uk_short_name" tableName="bk_lottery" />
   </changeSet>
 
   <changeSet author="rafael.diaz" id="bk-play-v1" context="production">
@@ -286,7 +286,7 @@
     </preConditions>
     <createTable tableName="bk_play">
       <column name="play_id" type="BIGINT">
-        <constraints primaryKey="true" primaryKeyName="play_pk"
+        <constraints primaryKey="true" primaryKeyName="bk_play_pk"
           nullable="false" />
       </column>
       <column name="active" type="BOOL" defaultValueBoolean="false">
@@ -312,9 +312,9 @@
     </createTable>
     <createSequence sequenceName="bk_play_seq_id" />
     <addUniqueConstraint columnNames="name"
-      constraintName="play_uk_name_short_name" tableName="bk_play" />
+      constraintName="bk_play_uk_name_short_name" tableName="bk_play" />
     <addUniqueConstraint columnNames="short_name"
-      constraintName="play_uk_short_name" tableName="bk_play" />
+      constraintName="bk_play_uk_short_name" tableName="bk_play" />
   </changeSet>
 
   <include file="db/data.sql" />
