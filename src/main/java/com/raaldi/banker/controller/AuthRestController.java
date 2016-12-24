@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.Principal;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,6 +49,19 @@ public class AuthRestController {
   public AuthRestController(final UserService service, final JwtService jwtService) {
     this.userService = service;
     this.jwtService = jwtService;
+  }
+
+  @RequestMapping("/user")
+  public String user(Principal user) {
+    return user.getName();
+  }
+
+  @RequestMapping(value = "/login5", method = RequestMethod.GET)
+  public ResponseEntity<String> login(@RequestParam(value = "error", required = false) String error,
+      @RequestParam(value = "logout", required = false) String logout) {
+
+    return new ResponseEntity<String>("Mierda", HttpStatus.OK);
+
   }
 
   /** Authenticate users. **/

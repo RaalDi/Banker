@@ -2,7 +2,6 @@ package com.raaldi.banker.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.raaldi.banker.util.model.AbstractModel;
-import com.raaldi.banker.util.model.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +11,12 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -50,7 +53,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class User extends AbstractModel {
+public class User extends AbstractModel implements UserDetails {
 
   private static final long serialVersionUID = -8491559884264082143L;
 
@@ -116,8 +119,46 @@ public class User extends AbstractModel {
   @NotNull
   @Column(name = "role", nullable = false, columnDefinition = "varchar(25) default 'USER'")
   @Enumerated(EnumType.STRING)
-  private Role role;
+  private AuthRole role;
 
   @Column(name = "shop_id")
   private Long shopId;
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Collections.singletonList(getRole());
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
+  }
+
+  @Override
+  public String getUsername() {
+    return username;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return active;
+  }
 }

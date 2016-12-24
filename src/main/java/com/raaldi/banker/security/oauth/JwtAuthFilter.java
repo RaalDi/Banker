@@ -1,7 +1,6 @@
 package com.raaldi.banker.security.oauth;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -11,7 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Component
+// This filter should not be enabled when using Spring Boot JWT Token.
+//@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
   @Override
